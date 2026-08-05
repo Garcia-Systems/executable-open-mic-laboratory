@@ -47,7 +47,11 @@ open-mic-lab songs explain lantern-piano --scenario first-performance
 Transpose and simplify in Python:
 
 ```python
-from open_mic_lab.sample_data import build_sample_repertoire, sample_selection_scenarios, sample_selection_venue
+from open_mic_lab.sample_data import (
+    build_sample_repertoire,
+    sample_selection_scenarios,
+    sample_selection_venue,
+)
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
 from open_mic_lab.services.suitability_service import SongSuitabilityService
 
