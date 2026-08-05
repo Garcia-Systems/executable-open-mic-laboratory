@@ -2,16 +2,25 @@
 
 from open_mic_lab.domain.enums import (
     Difficulty,
+    EnergyLevel,
     Genre,
     Instrument,
     Mood,
+    PerformanceRole,
     PerformanceStatus,
     VenueType,
 )
-from open_mic_lab.domain.performance import Performance, PerformanceVersion, SetList
+from open_mic_lab.domain.performance import (
+    ArrangementFlexibility,
+    Performance,
+    PerformanceVersion,
+    SetList,
+)
+from open_mic_lab.domain.pitch import VocalNote, VocalRange
 from open_mic_lab.domain.practice import PracticeSession
 from open_mic_lab.domain.reflection import Reflection
 from open_mic_lab.domain.repertoire import Repertoire
+from open_mic_lab.domain.selection import SongSelectionProfile
 from open_mic_lab.domain.song import Song
 from open_mic_lab.domain.venue import Venue
 
@@ -20,14 +29,20 @@ __all__ = [
     "Genre",
     "Instrument",
     "Mood",
+    "ArrangementFlexibility",
+    "EnergyLevel",
     "Performance",
+    "PerformanceRole",
     "PerformanceStatus",
     "PerformanceVersion",
     "PracticeSession",
+    "VocalNote",
+    "VocalRange",
     "Reflection",
     "Repertoire",
     "SetList",
     "Song",
+    "SongSelectionProfile",
     "Venue",
     "VenueType",
 ]

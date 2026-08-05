@@ -67,3 +67,26 @@ Later chapters may add persistence, analytics, MIDI/audio integrations, notebook
 ## Contributing
 
 Keep the core deterministic, typed, dependency-light, and learner-friendly. Prefer small domain objects and isolated services over hidden global state.
+
+## Chapter 1: Song Suitability Laboratory
+
+Chapter 1, **Choosing Songs**, is implemented in `docs/chapters/chapter-01-choosing-songs.md`. It adds a deterministic laboratory for comparing candidate performance versions for a specific performer, venue, audience, and moment. The score is a transparent educational fit score, not a ranking of artistic quality.
+
+New examples:
+
+```bash
+open-mic-lab songs scenarios
+open-mic-lab songs evaluate harbor-guitar --scenario coffeehouse
+open-mic-lab songs compare --scenario coffeehouse
+open-mic-lab songs compare --scenario listening-room
+open-mic-lab songs explain window-guitar-original-feature --scenario first-performance
+open-mic-lab chapter-one-demo
+```
+
+The laboratory includes transposition and simplification experiments. These create copied `PerformanceVersion` objects rather than mutating repertoire data. Lowering a key shifts the modeled vocal range by the same semitone interval; simplification lowers arrangement difficulty and applies a bounded projected accompaniment-stability change. Both are educational assumptions, not measured musical facts.
+
+Song rankings have explicit limitations: vocal range is not vocal health, familiarity is contextual, personal connection is subjective, and a lower-scoring choice may still be the right artistic decision for a particular night.
+
+## Roadmap status
+
+Implemented: Chapter 0 foundations and Chapter 1 song choice experiments. Deferred to Chapter 2 or later: full repertoire database, persistence, graphical dashboards, audio analysis, AI recommendations, and advanced set-list optimization.
