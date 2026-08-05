@@ -275,3 +275,8 @@ flowchart LR
 ```
 
 Chapter 13 prepares Chapter 14 by making original artistic identity explicit before the complete Open Mic Simulator combines every subsystem.
+
+
+## Chapter 14 orchestration layer
+
+`OpenMicEventService` is an orchestration service. It composes repertoire, set building, arrangement, readiness, coordination, communication, equipment, sound-check, audience, recovery, improvisation, and original-music services. It intentionally avoids duplicating those engines; the event report references their outputs and keeps event experiments immutable.

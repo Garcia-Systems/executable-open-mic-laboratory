@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from open_mic_lab.domain import (
     Arrangement,
     CoordinationExperiment,
+    EventScenario,
     ImprovisationDecision,
     PracticeGoal,
     RecoveryStrategy,
@@ -44,6 +45,7 @@ from open_mic_lab.services.coordination_service import (
     TempoLadderService,
 )
 from open_mic_lab.services.equipment_service import EquipmentExperimentService, SignalFlowService
+from open_mic_lab.services.event_service import OpenMicEventService
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
 from open_mic_lab.services.improvisation_service import (
     ImprovisationAnalysisService,
@@ -275,6 +277,13 @@ def build_parser() -> argparse.ArgumentParser:
     for name in ("placement", "story"):
         originals_exp_sub.add_parser(name, help=f"Original music experiment {name}")
     sub.add_parser("chapter-thirteen-demo", help="Run the Chapter 13 original-music demo")
+    event = sub.add_parser("event", help="Run Chapter 14 open mic event simulations")
+    event_sub = event.add_subparsers(dest="event_command", required=True)
+    for name in ("simulate", "timeline", "compare", "report"):
+        event_sub.add_parser(name, help=f"Event {name}")
+    event_exp = event_sub.add_parser("experiment", help="Run immutable event experiments")
+    event_exp.add_argument("name", nargs="?", default="unexpected-recovery-event")
+    sub.add_parser("chapter-fourteen-demo", help="Run the Chapter 14 open mic simulator demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -357,6 +366,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_originals(args, rep)
     elif args.command == "chapter-thirteen-demo":
         _run_chapter_thirteen_demo(rep)
+    elif args.command == "event":
+        _run_event(args, rep)
+    elif args.command == "chapter-fourteen-demo":
+        _run_chapter_fourteen_demo(rep)
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -1424,6 +1437,65 @@ def _run_chapter_thirteen_demo(rep: Repertoire) -> None:
     for prompt in comparison.reflection_prompts:
         print(f"Reflection: {prompt}")
     print("Deferred to Chapter 14: the complete Open Mic Simulator integrates every subsystem.")
+
+
+def _run_event(args, rep: Repertoire) -> None:  # type: ignore[no-untyped-def]
+    service = OpenMicEventService()
+    event = service.simulate(rep)
+    if args.event_command == "simulate":
+        print(f"Open mic simulation: {event.scenario.value} at {event.venue_template}")
+        print(service.mermaid(event))
+    elif args.event_command == "timeline":
+        print(service.timeline_text(event))
+    elif args.event_command == "compare":
+        changed = service.simulate(rep, EventScenario.SONGWRITER_SHOWCASE, "church")
+        for line in service.compare(event, changed):
+            print(line)
+    elif args.event_command == "experiment":
+        changed = service.experiment(event, args.name)
+        print(f"Original history: {event.experiment_history}")
+        print(f"Experiment history: {changed.experiment_history}")
+        print(f"Original unchanged: {event is not changed and event.experiment_history == ()}")
+    elif args.event_command == "report":
+        _print_event_report(service.report(rep, event))
+
+
+def _print_event_report(report) -> None:  # type: ignore[no-untyped-def]
+    print(f"Event report: {report.event.scenario.value}")
+    sections = (
+        ("Preparation", report.preparation),
+        ("Repertoire", report.repertoire_used),
+        ("Arrangements", report.arrangement_choices),
+        ("Communication", report.communication_plan),
+        ("Equipment", report.equipment_setup),
+        ("Sound check", report.soundcheck_observations),
+        ("Audience", report.audience_observations),
+        ("Recovery", report.recovery_events),
+        ("Improvisation", report.improvisation_opportunities),
+        ("Original music", report.original_music_notes),
+        ("Reflection", report.reflection_prompts),
+    )
+    for title, lines in sections:
+        print(f"\n{title}:")
+        for line in lines:
+            print(f"- {line}")
+
+
+def _run_chapter_fourteen_demo(rep: Repertoire) -> None:
+    service = OpenMicEventService()
+    event = service.simulate(rep)
+    print("Chapter 14 — Open Mic Simulator")
+    print("1. create a performer: learner-performer")
+    print(
+        "2. select a repertoire and 3. generate a set:", ", ".join(event.slot.version_identifiers)
+    )
+    print("4–7. evaluate readiness, setup, sound check, and simulate the event")
+    print(service.timeline_text(event))
+    print("8. recovery event:", event.execution.recovery_event)
+    print("9. improvisation:", event.execution.improvisation_choice)
+    print("10. final event report")
+    _print_event_report(service.report(rep, event))
+    print("11. reflection questions: What changed because you prepared? What comes next?")
 
 
 if __name__ == "__main__":
