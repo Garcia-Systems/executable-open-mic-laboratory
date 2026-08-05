@@ -154,3 +154,24 @@ flowchart LR
 ```
 
 Chapter 6 prepares Chapter 7 by ensuring the learner has a transparent practice plan before studying stage presence.
+
+
+## Chapter 7 stage-presence architecture
+
+Chapter 7 adds a separate communication model: `StageMoment`, `AudienceInteraction`, `SpokenIntroduction`, `StorySegment`, `PerformerBehavior`, `CommunicationPlan`, and `PerformanceFlow`. These objects intentionally remain outside repertoire, arrangements, coordination, and practice so musical preparation does not absorb audience-facing communication choices.
+
+`CommunicationAnalysisService` evaluates introduction timing, amount of interaction, silence between songs, transition smoothness, eye-contact opportunities, storytelling opportunities, participation, confidence continuity, and pacing. Results contain summaries, observations, strengths, opportunities, and suggested experiments rather than a stage-presence score.
+
+`CommunicationExperimentService` follows the immutable experiment pattern: shorten or remove introductions, add a personal story, invite participation, reduce silence, extend transitions, increase interaction, or simplify spoken segments. Each experiment returns a copied `CommunicationPlan` for comparison.
+
+```mermaid
+flowchart LR
+    SetList --> CommunicationPlan
+    SpokenIntroduction --> CommunicationAnalysisService
+    AudienceInteraction --> CommunicationAnalysisService
+    PerformanceFlow --> CommunicationAnalysisService
+    CommunicationExperimentService --> CopiedPlan
+    CopiedPlan --> CommunicationComparison
+```
+
+Chapter 7 prepares Chapter 8 by making the audience-facing communication layer explicit before introducing microphones, monitors, cables, and other technical performance constraints.

@@ -12,6 +12,7 @@ from open_mic_lab.domain import (
 )
 from open_mic_lab.sample_data import (
     build_sample_repertoire,
+    sample_communication_plan,
     sample_coordination_profile,
     sample_practice_sessions,
     sample_selection_scenarios,
@@ -43,6 +44,10 @@ from open_mic_lab.services.repertoire_service import (
 )
 from open_mic_lab.services.set_builder_service import SetBuilderService
 from open_mic_lab.services.setlist_service import analyze_setlist
+from open_mic_lab.services.stage_service import (
+    CommunicationAnalysisService,
+    CommunicationExperimentService,
+)
 from open_mic_lab.services.suitability_service import SongSuitabilityService
 
 
@@ -141,7 +146,16 @@ def build_parser() -> argparse.ArgumentParser:
         "exploration",
     ):
         practice_exp_sub.add_parser(name, help=f"Practice experiment {name}")
+    stage = sub.add_parser("stage", help="Run Chapter 7 stage-presence labs")
+    stage_sub = stage.add_subparsers(dest="stage_command", required=True)
+    for name in ("analyze", "flow", "introductions", "compare"):
+        stage_sub.add_parser(name, help=f"Stage {name}")
+    stage_exp = stage_sub.add_parser("experiment", help="Run immutable stage experiments")
+    stage_exp_sub = stage_exp.add_subparsers(dest="stage_experiment_command", required=True)
+    for name in ("story", "shorten"):
+        stage_exp_sub.add_parser(name, help=f"Stage experiment {name}")
     sub.add_parser("chapter-six-demo", help="Run the Chapter 6 deliberate practice demo")
+    sub.add_parser("chapter-seven-demo", help="Run the Chapter 7 stage presence demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -196,6 +210,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             _print_analysis(set_list, rep)
     elif args.command == "chapter-six-demo":
         _run_chapter_six_demo(rep)
+    elif args.command == "stage":
+        _run_stage(args)
+    elif args.command == "chapter-seven-demo":
+        _run_chapter_seven_demo()
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -740,6 +758,69 @@ def _run_chapter_six_demo(rep: Repertoire) -> None:
         print(f"Observation: {observation}")
     print("Reflection: Which block produces the greatest improvement per minute?")
     print("Reflection: What should be maintained, and what deserves focused change?")
+
+
+def _print_stage_analysis(analysis) -> None:  # type: ignore[no-untyped-def]
+    print(analysis.summary)
+    for observation in analysis.observations:
+        print(f"Observation: {observation}")
+    for strength in analysis.strengths:
+        print(f"Strength: {strength}")
+    for opportunity in analysis.opportunities:
+        print(f"Opportunity: {opportunity}")
+    for experiment in analysis.suggested_experiments:
+        print(f"Suggested experiment: {experiment}")
+
+
+def _run_stage(args) -> None:  # type: ignore[no-untyped-def]
+    plan = sample_communication_plan()
+    analysis = CommunicationAnalysisService()
+    experiments = CommunicationExperimentService()
+    if args.stage_command == "analyze":
+        _print_stage_analysis(analysis.analyze(plan))
+    elif args.stage_command == "flow":
+        for observation in analysis.analyze_flow(plan):
+            print(f"Flow: {observation}")
+    elif args.stage_command == "introductions":
+        for observation in analysis.analyze_introductions(plan):
+            print(f"Introduction: {observation}")
+    elif args.stage_command == "compare":
+        changed = experiments.shorten_introduction(plan, "intro-window")
+        comparison = analysis.compare(plan, changed)
+        print(comparison.original_summary)
+        print(comparison.changed_summary)
+        for difference in comparison.differences:
+            print(f"Difference: {difference}")
+    elif args.stage_command == "experiment":
+        if args.stage_experiment_command == "story":
+            changed = experiments.add_personal_story(plan, "intro-river")
+        else:
+            changed = experiments.shorten_introduction(plan, "intro-window")
+        print(f"Original: {plan.identifier} {plan.planned_spoken_seconds}s")
+        print(f"Experiment: {changed.identifier} {changed.planned_spoken_seconds}s")
+        print(f"Original object unchanged: {plan.identifier != changed.identifier}")
+
+
+def _run_chapter_seven_demo() -> None:
+    print("Chapter 7 — Stage Presence")
+    plan = sample_communication_plan()
+    analysis = CommunicationAnalysisService()
+    experiments = CommunicationExperimentService()
+    print("\n1. Baseline communication flow")
+    _print_stage_analysis(analysis.analyze(plan))
+    print("\n2. Spoken introduction analysis")
+    for observation in analysis.analyze_introductions(plan):
+        print(f"- {observation}")
+    shortened = experiments.shorten_introduction(plan, "intro-window")
+    print("\n3. Shorten one introduction")
+    comparison = analysis.compare(plan, shortened)
+    for difference in comparison.differences:
+        print(f"- {difference}")
+    participation = experiments.invite_audience_participation(shortened)
+    print("\n4. Add audience participation")
+    _print_stage_analysis(analysis.analyze(participation))
+    print("\nReflection: What changed in what the audience receives?")
+    print("Reflection: Which communication choice supports the songs without crowding them?")
 
 
 if __name__ == "__main__":

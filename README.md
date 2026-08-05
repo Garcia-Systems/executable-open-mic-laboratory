@@ -166,3 +166,23 @@ Chapter 5 builds on arrangement choices from Chapter 4 and prepares Chapter 6 by
 Chapter 6 turns practice into a deterministic planning system. Use `open-mic-lab practice plan`, `analyze`, `priorities`, `blocks`, `practice experiment maintenance`, `practice experiment performance`, and `chapter-six-demo` to compare maintenance, improvement, coordination, memorization, exploration, and performance-preparation strategies. The engine builds on readiness, repertoire health, arrangements, and coordination bottlenecks while leaving artistic decisions to the learner.
 
 Deferred to Chapter 7: stage presence, audience connection, between-song delivery under pressure, and live-room recovery behavior.
+
+
+## Chapter 7 — Stage Presence
+
+Chapter 7 expands the executable textbook from internal preparation to external communication. It models stage presence as intentional audience communication through `CommunicationPlan`, `SpokenIntroduction`, `AudienceInteraction`, and `PerformanceFlow` objects. The communication engine reports summaries, observations, strengths, opportunities, and experiments instead of assigning a charisma or stage-presence score.
+
+Try:
+
+```bash
+open-mic-lab stage analyze
+open-mic-lab stage flow
+open-mic-lab stage introductions
+open-mic-lab stage experiment story
+open-mic-lab stage experiment shorten
+open-mic-lab stage compare
+open-mic-lab chapter-seven-demo
+python -m open_mic_lab.debug_labs.chapter_07_stage_presence
+```
+
+This prepares Chapter 8 by connecting prepared songs to the human signals an audience receives before adding the technical performance environment.

@@ -78,6 +78,7 @@ def test_vscode_debug_configurations_reference_valid_modules() -> None:
         "Debug Chapter 6 Practice Engineering Lab": (
             "open_mic_lab.debug_labs.chapter_06_practice_engineering"
         ),
+        "Debug Chapter 7 Stage Presence Lab": ("open_mic_lab.debug_labs.chapter_07_stage_presence"),
     }
     for module in modules.values():
         assert import_module(module)
