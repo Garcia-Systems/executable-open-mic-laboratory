@@ -146,3 +146,8 @@ Open **Debug Chapter 12 Improvisation Lab** in VS Code. Suggested breakpoints ar
 ## Chapter 13 — Performing Original Music
 
 Run `python -m open_mic_lab.debug_labs.chapter_13_original_music` or launch **Debug Chapter 13 Original Music Lab** in VS Code. Breakpoint markers expose `plan`, `baseline_analysis`, `original_positions`, `moved_earlier`, `shortened_story`, `participation_plan`, `comparison`, and `identity_observations`. Step into `OriginalMusicAnalysisService.analyze`, `compare`, and `OriginalPresentationExperimentService` methods to inspect deterministic original-song placement without mutating the baseline plan.
+
+
+## Chapter 14 Open Mic Simulator debug lab
+
+Use the VS Code launch configuration **Debug Chapter 14 Open Mic Simulator Lab** or run `python -m open_mic_lab.debug_labs.chapter_14_open_mic`. Breakpoints are documented for event creation, orchestration, subsystem-derived report generation, and immutable event experiments.

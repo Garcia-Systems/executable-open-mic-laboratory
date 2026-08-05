@@ -246,3 +246,8 @@ Chapter 12 builds on Chapter 11 recovery strategies by turning surprise into str
 ## Chapter 13 — Performing Original Music
 
 Chapter 13 adds an original-music presentation laboratory. It models `OriginalWork`, `OriginalPresentationPlan`, `FamiliarityStrategy`, and `ArtisticIdentity` as educational tools for introducing unfamiliar songs while maintaining audience connection. Run `open-mic-lab originals analyze`, `open-mic-lab originals compare`, `open-mic-lab originals experiment placement`, `open-mic-lab originals experiment story`, `open-mic-lab originals identity`, and `open-mic-lab chapter-thirteen-demo`. This chapter prepares Chapter 14, the complete Open Mic Simulator, where every subsystem works together.
+
+
+## Chapter 14 — Open Mic Simulator
+
+The lab now includes a deterministic Volume I capstone that simulates a full open mic evening from arrival to reflection. Use `open-mic-lab event simulate`, `event timeline`, `event compare`, `event experiment`, `event report`, or `chapter-fourteen-demo` to inspect how the earlier subsystem engines contribute to one event.

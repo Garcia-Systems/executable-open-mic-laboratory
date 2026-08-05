@@ -52,6 +52,20 @@ from open_mic_lab.domain.equipment import (
     SignalType,
     SpeakerSystem,
 )
+from open_mic_lab.domain.event import (
+    EventReport,
+    EventScenario,
+    EventTimeline,
+    EventTimelineEntry,
+    NetworkingOpportunity,
+    OpenMicEvent,
+    PerformanceExecution,
+    PerformanceSlot,
+    PerformerArrival,
+    PostPerformanceReflection,
+    SignUpOrder,
+    WaitingPeriod,
+)
 from open_mic_lab.domain.improvisation import (
     AdaptivePerformancePlan,
     EndingVariation,
@@ -124,6 +138,18 @@ from open_mic_lab.domain.stage import (
 from open_mic_lab.domain.venue import Venue
 
 __all__ = [
+    "EventReport",
+    "EventScenario",
+    "EventTimeline",
+    "EventTimelineEntry",
+    "NetworkingOpportunity",
+    "OpenMicEvent",
+    "PerformanceExecution",
+    "PerformanceSlot",
+    "PerformerArrival",
+    "PostPerformanceReflection",
+    "SignUpOrder",
+    "WaitingPeriod",
     "AudienceExpectation",
     "AudienceFeedbackSummary",
     "AudiencePerformance",
