@@ -121,3 +121,24 @@ python -m open_mic_lab.debug_labs.chapter_03_building_a_set
 ```
 
 Set construction builds on Chapter 2 repertoire engineering by sequencing prepared songs for a venue, and prepares Chapter 4 by making arrangement tradeoffs easier to hear in context.
+
+## Chapter 4 — Making Songs Your Own
+
+Chapter 4 introduces dedicated `Arrangement` objects so learners can change key, tempo, instrument, groove, form, simplification, dynamics, and audience cues without rewriting the underlying `Song` or erasing the prepared `PerformanceVersion`. Arrangement experiments are immutable and carry history records.
+
+Useful commands:
+
+```bash
+open-mic-lab arrangement list
+open-mic-lab arrangement compare
+open-mic-lab arrangement analyze
+open-mic-lab arrangement experiment transpose window-piano-arrangement G -2
+open-mic-lab arrangement experiment simplify window-piano-arrangement
+open-mic-lab arrangement experiment tempo window-piano-arrangement 64
+open-mic-lab arrangement experiment groove window-piano-arrangement coffeehouse
+open-mic-lab arrangement history
+open-mic-lab chapter-four-demo
+python -m open_mic_lab.debug_labs.chapter_04_arrangements
+```
+
+Chapter 4 prepares Chapter 5 by making intentional arrangement choices observable before the learner studies how those choices land with an audience.

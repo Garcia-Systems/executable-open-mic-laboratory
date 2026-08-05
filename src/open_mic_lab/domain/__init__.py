@@ -1,5 +1,6 @@
 """Domain model exports."""
 
+from open_mic_lab.domain.arrangement import Arrangement, ArrangementExperimentRecord
 from open_mic_lab.domain.enums import (
     Difficulty,
     EnergyLevel,
@@ -32,6 +33,8 @@ __all__ = [
     "Genre",
     "Instrument",
     "Mood",
+    "Arrangement",
+    "ArrangementExperimentRecord",
     "ArrangementFlexibility",
     "EnergyLevel",
     "Performance",

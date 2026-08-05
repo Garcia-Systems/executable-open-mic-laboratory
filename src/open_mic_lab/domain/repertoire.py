@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass, field
 
+from open_mic_lab.domain.arrangement import Arrangement
 from open_mic_lab.domain.enums import Genre, Instrument, Mood, PerformanceStatus
 from open_mic_lab.domain.performance import PerformanceVersion
 from open_mic_lab.domain.song import Song
@@ -13,12 +14,24 @@ class Repertoire:
 
     songs: dict[str, Song] = field(default_factory=dict)
     versions: dict[str, PerformanceVersion] = field(default_factory=dict)
+    arrangements: dict[str, Arrangement] = field(default_factory=dict)
 
     def add_song(self, song: Song) -> None:
         """Add a song, rejecting duplicate identifiers."""
         if song.identifier in self.songs:
             raise ValueError(f"Song identifier '{song.identifier}' already exists.")
         self.songs[song.identifier] = song
+
+    def add_arrangement(self, arrangement: Arrangement) -> None:
+        """Add an arrangement, rejecting duplicates and unknown version references."""
+        if arrangement.identifier in self.arrangements:
+            raise ValueError(f"Arrangement identifier '{arrangement.identifier}' already exists.")
+        if arrangement.source_performance_version_identifier not in self.versions:
+            raise ValueError(
+                f"Arrangement '{arrangement.identifier}' references unknown performance version "
+                f"'{arrangement.source_performance_version_identifier}'."
+            )
+        self.arrangements[arrangement.identifier] = arrangement
 
     def add_performance_version(self, version: PerformanceVersion) -> None:
         """Add a version, rejecting duplicates and unknown song references."""
@@ -32,6 +45,13 @@ class Repertoire:
                 f"'{version.song_identifier}'."
             )
         self.versions[version.identifier] = version
+
+    def get_arrangement(self, identifier: str) -> Arrangement:
+        """Return an arrangement by identifier."""
+        try:
+            return self.arrangements[identifier]
+        except KeyError as exc:
+            raise KeyError(f"No arrangement found for identifier '{identifier}'.") from exc
 
     def get_song(self, identifier: str) -> Song:
         """Return a song by identifier."""

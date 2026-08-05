@@ -3,7 +3,7 @@
 import argparse
 from collections.abc import Sequence
 
-from open_mic_lab.domain import Repertoire, SetList
+from open_mic_lab.domain import Arrangement, Repertoire, SetList
 from open_mic_lab.sample_data import (
     build_sample_repertoire,
     sample_practice_sessions,
@@ -12,6 +12,11 @@ from open_mic_lab.sample_data import (
     sample_set_scenarios,
     sample_setlist,
     sample_venue,
+)
+from open_mic_lab.services.arrangement_service import (
+    ArrangementAnalysisService,
+    ArrangementExperimentService,
+    ArrangementTimelineService,
 )
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
 from open_mic_lab.services.readiness_service import calculate_readiness
@@ -71,7 +76,26 @@ def build_parser() -> argparse.ArgumentParser:
     songs_sub.add_parser("scenarios", help="List deterministic Chapter 1 scenarios")
     sub.add_parser("chapter-one-demo", help="Run the Chapter 1 song suitability demo")
     sub.add_parser("chapter-two-demo", help="Run the Chapter 2 repertoire engineering demo")
+    arrangement = sub.add_parser("arrangement", help="Run Chapter 4 arrangement experiments")
+    arr_sub = arrangement.add_subparsers(dest="arrangement_command", required=True)
+    for name in ("list", "compare", "analyze", "history"):
+        arr_sub.add_parser(name, help=f"Arrangement {name}")
+    arr_exp = arr_sub.add_parser("experiment", help="Run immutable arrangement experiments")
+    arr_exp_sub = arr_exp.add_subparsers(dest="arrangement_experiment_command", required=True)
+    tr = arr_exp_sub.add_parser("transpose", help="Transpose an arrangement")
+    tr.add_argument("arrangement_id")
+    tr.add_argument("destination_key")
+    tr.add_argument("semitones", type=int)
+    simp = arr_exp_sub.add_parser("simplify", help="Simplify accompaniment")
+    simp.add_argument("arrangement_id")
+    tempo = arr_exp_sub.add_parser("tempo", help="Alter tempo")
+    tempo.add_argument("arrangement_id")
+    tempo.add_argument("bpm", type=int)
+    groove = arr_exp_sub.add_parser("groove", help="Change groove")
+    groove.add_argument("arrangement_id")
+    groove.add_argument("groove_style")
     sub.add_parser("chapter-three-demo", help="Run the Chapter 3 set-building demo")
+    sub.add_parser("chapter-four-demo", help="Run the Chapter 4 arrangement demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -103,6 +127,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_chapter_two_demo(rep)
     elif args.command == "chapter-three-demo":
         _run_chapter_three_demo(rep)
+    elif args.command == "chapter-four-demo":
+        _run_chapter_four_demo(rep)
+    elif args.command == "arrangement":
+        _run_arrangement(args, rep)
     elif args.command == "set":
         _run_set_builder(args, rep)
     elif args.command == "setlist":
@@ -390,6 +418,99 @@ def _run_chapter_two_demo(rep: Repertoire) -> None:
         print(f"- {item.version_id}: {item.reasons[0]}")
     health = service.health(rep)
     print(f"\nHealth formula result: {health.score}/100")
+
+
+def _run_arrangement(args, rep: Repertoire) -> None:  # type: ignore[no-untyped-def]
+    experiment_service = ArrangementExperimentService()
+    analysis_service = ArrangementAnalysisService()
+    timeline_service = ArrangementTimelineService()
+    original = rep.get_arrangement("window-piano-arrangement")
+    alternate = rep.get_arrangement("window-guitar-original-feature-arrangement")
+    if args.arrangement_command == "list":
+        for arrangement in rep.arrangements.values():
+            print(
+                f"{arrangement.identifier}: {arrangement.name} | "
+                f"{arrangement.primary_instrument.value} | "
+                f"key {arrangement.performance_key} | {arrangement.target_tempo_bpm} bpm"
+            )
+    elif args.arrangement_command == "compare":
+        _print_arrangement_comparison(analysis_service.compare(original, alternate))
+    elif args.arrangement_command == "analyze":
+        for entry in timeline_service.timeline(original):
+            print(
+                f"{entry.start_time}  {entry.section} ({entry.duration_seconds}s) — {entry.notes}"
+            )
+    elif args.arrangement_command == "history":
+        changed = _chapter_four_chain(original)
+        for record in changed.history:
+            print(
+                f"{record.experiment_name}: {record.summary} "
+                f"from {record.source_arrangement_identifier}"
+            )
+    elif args.arrangement_command == "experiment":
+        arrangement = rep.get_arrangement(args.arrangement_id)
+        cmd = args.arrangement_experiment_command
+        if cmd == "transpose":
+            changed = experiment_service.transpose(
+                arrangement, args.destination_key, args.semitones
+            )
+        elif cmd == "simplify":
+            changed = experiment_service.simplify_accompaniment(arrangement)
+        elif cmd == "tempo":
+            changed = experiment_service.alter_tempo(arrangement, args.bpm)
+        else:
+            changed = experiment_service.change_groove(arrangement, args.groove_style)
+        print(
+            f"Original: {arrangement.identifier} | key {arrangement.performance_key} | "
+            f"{arrangement.target_tempo_bpm} bpm | {arrangement.groove_style}"
+        )
+        print(
+            f"Experiment: {changed.identifier} | key {changed.performance_key} | "
+            f"{changed.target_tempo_bpm} bpm | {changed.groove_style}"
+        )
+        unchanged = arrangement != changed and arrangement.identifier in rep.arrangements
+        print(f"Original object unchanged: {unchanged}")
+
+
+def _chapter_four_chain(original: Arrangement) -> Arrangement:
+    service = ArrangementExperimentService()
+    transposed = service.transpose(original, "G", -2)
+    simplified = service.simplify_accompaniment(transposed)
+    short_intro = service.shorten_introduction(simplified)
+    return service.alter_tempo(short_intro, 64)
+
+
+def _print_arrangement_comparison(comparison) -> None:  # type: ignore[no-untyped-def]
+    print(f"Comparing {comparison.left_identifier} vs {comparison.right_identifier}")
+    for difference in comparison.differences:
+        print(f"Difference: {difference}")
+    for tradeoff in comparison.left_tradeoffs:
+        print(f"Left tradeoff: {tradeoff}")
+    for tradeoff in comparison.right_tradeoffs:
+        print(f"Right tradeoff: {tradeoff}")
+    print(f"Reflection: {comparison.reflection}")
+
+
+def _run_chapter_four_demo(rep: Repertoire) -> None:
+    print("Chapter 4 — Making Songs Your Own")
+    original = rep.get_arrangement("window-piano-arrangement")
+    service = ArrangementExperimentService()
+    analysis = ArrangementAnalysisService()
+    timeline = ArrangementTimelineService()
+    stages = [original]
+    stages.append(service.transpose(stages[-1], "G", -2))
+    stages.append(service.simplify_accompaniment(stages[-1]))
+    stages.append(service.alter_tempo(stages[-1], 64))
+    for before, after in zip(stages, stages[1:], strict=False):
+        _print_arrangement_comparison(analysis.compare(before, after))
+    print("\nExperiment history")
+    for record in stages[-1].history:
+        print(f"- {record.experiment_name}: {record.summary}")
+    print("\nStructural timeline")
+    for entry in timeline.timeline(stages[-1]):
+        print(f"{entry.start_time}  {entry.section} ({entry.duration_seconds}s)")
+    print("\nReflection: What did this arrangement make easier, and what did it cost?")
+    print("Reflection: Does this version serve tonight's room better than the baseline?")
 
 
 if __name__ == "__main__":
