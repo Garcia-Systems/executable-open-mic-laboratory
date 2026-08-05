@@ -1,5 +1,9 @@
 # Chapter 14 — Open Mic Simulator
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on simulation-based learning, experiential learning, performance preparation, and scenario rehearsal. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 Chapter 14 is the Volume I capstone. It asks: **what happens during an entire open mic from arrival to reflection?** The simulator is an educational example, not a predictive model of venues, audiences, or success.
 
 ## Learning objectives
@@ -91,3 +95,7 @@ Breakpoint markers show event creation, orchestration, subsystem interaction, im
 ## Chapter summary
 
 The Open Mic Simulator completes Volume I by turning isolated laboratories into one deterministic educational evening. It preserves each subsystem and adds an orchestration layer that lets learners inspect how preparation influences performance.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Kolb (1984), Cook et al. (2012), Schön (1987), and Williamon (2004). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

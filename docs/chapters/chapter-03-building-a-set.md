@@ -1,5 +1,9 @@
 # Chapter 3 — Building a Set
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on sequencing, programming, attention, contrast, and audience experience. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 - Explain why a performance is an intentional sequence, not a random collection of songs.
@@ -99,3 +103,7 @@ Breakpoint markers expose candidate-set loading, transition generation, cumulati
 ## Chapter summary
 
 Set construction builds on repertoire engineering by turning individual prepared songs into a planned audience journey. Chapter 4 can now explore arrangement experiments because Chapter 3 has made sequence, timing, and flow visible.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Clarke (2005), Small (1998), Juslin and Sloboda (2010), and Kahneman (1973). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

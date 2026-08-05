@@ -1,5 +1,9 @@
 # Chapter 4 — Making Songs Your Own
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on interpretation, arrangement, adaptation, and performer fit. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 - Explain why performers play **their version** of a song rather than reproduce a recording.
@@ -132,3 +136,7 @@ Breakpoint markers expose arrangement creation, source version relationship, imm
 ## Chapter summary
 
 A song is fixed. A performance version evolves. An arrangement is how that evolution becomes intentional. Chapter 5 can build on this by connecting arrangement choices to live audience interaction and post-performance reflection.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Lehmann et al. (2007), Clarke (2005), and Williamon (2004). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

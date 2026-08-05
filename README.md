@@ -64,6 +64,15 @@ src/open_mic_lab/     Package, CLI, domain objects, services, sample data.
 tests/                Behavior-focused pytest suite.
 ```
 
+
+## Research Foundations
+
+This repository is informed by music education research, performance psychology, self-regulated learning, cognitive-load theory, audience research, simulation-based learning, and recognized live-sound/audio-engineering references. The research motivates the educational concepts; it does not prove the exact scores.
+
+The simulations are deterministic educational models. They are designed so learners can inspect formulas, rerun experiments, compare scenarios, and debug assumptions. The software is not a scientific measurement instrument, clinical assessment, vocal-health tool, audience-prediction system, or replacement for qualified audio judgment.
+
+For the repository bibliography and evidence vocabulary, see `docs/references.md`, `docs/research-foundations.md`, `docs/source-map.md`, and `docs/research-guidelines.md`.
+
 ## Educational disclaimer
 
 This project does not evaluate artistic worth. Readiness scores are educational comparisons, not predictions. Audience-response measures are subjective, and this software does not guarantee a successful performance.

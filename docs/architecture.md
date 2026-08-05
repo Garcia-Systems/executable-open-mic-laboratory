@@ -309,3 +309,14 @@ flowchart LR
 ```
 
 The analytics service summarizes patterns and recommended next actions. It does not grade performers or evaluate artistic worth.
+
+## Evidence-informed architecture
+
+The architecture separates research motivation from deterministic implementation. Research and professional practice inform the domain questions asked by each laboratory, while services encode transparent educational heuristics that can be inspected, tested, and revised.
+
+- **Research Finding:** concepts such as deliberate practice, feedback, reflection, cognitive load, and audience perception motivate chapter framing.
+- **Professional Practice:** repertoire planning, set sequencing, soundcheck workflow, and recovery routines are modeled as practical conventions.
+- **Engineering Principle:** deterministic services, typed inputs, pure comparisons, and repeatable CLI demonstrations make assumptions visible.
+- **Educational Heuristic:** numerical scores and thresholds are original repository models and should not be treated as validated predictions.
+
+This design intentionally favors educational simplification over realism. A learner can change one input and observe a stable output, but real performances remain contextual, embodied, cultural, acoustic, and subjective.

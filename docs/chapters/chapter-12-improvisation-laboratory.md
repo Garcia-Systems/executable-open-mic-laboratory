@@ -1,5 +1,9 @@
 # Chapter 12 — Improvisation Laboratory
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on improvisation, constraints, adaptive expertise, and musical flexibility. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 By the end of this chapter, learners can identify improvisation opportunities, compare adaptive musical decisions, explain how constraints influence choices, inspect an adaptive timeline, and describe improvisation as structured decision-making rather than unrestricted freedom.
@@ -95,3 +99,7 @@ Use the VS Code launch configuration **Debug Chapter 12 Improvisation Lab**. Bre
 ## Chapter summary
 
 Chapter 12 turns surprise into adaptive musicianship. It builds on recovery strategies from Chapter 11 by showing that unexpected events can become structured musical decisions. It prepares Chapter 13 by preserving artistic freedom while helping learners make transparent choices that begin to reveal their own musical identity.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Barrett (1998), Sawyer (2000), Schwartz et al. (2005), and Lehmann et al. (2007). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.
