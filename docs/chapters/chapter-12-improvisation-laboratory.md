@@ -1,5 +1,6 @@
 # Chapter 12 — Improvisation Laboratory
 
+![Chapter illustration showing improvisation as musical decision-making within timing, structure, and audience constraints.](../../images/chapters/chapter-12-improvisation-laboratory.png)
 
 ## Research Foundations
 

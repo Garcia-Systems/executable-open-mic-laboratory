@@ -1,5 +1,6 @@
 # Chapter 11 — Recovering From Mistakes
 
+![Chapter illustration showing a performer responding to a live mistake with calm recovery and musical continuity.](../../images/chapters/chapter-11-recovering-from-mistakes.png)
 
 ## Research Foundations
 

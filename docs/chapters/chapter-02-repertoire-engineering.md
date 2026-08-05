@@ -1,5 +1,6 @@
 # Chapter 2 — Repertoire Engineering
 
+![Chapter illustration showing how repertoire engineering organizes songs into a balanced performance system.](../../images/chapters/chapter-02-repertoire-engineering.png)
 
 ## Research Foundations
 

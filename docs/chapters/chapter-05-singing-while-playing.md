@@ -1,5 +1,6 @@
 # Chapter 5 — Singing While Playing
 
+![Chapter illustration showing a musician coordinating voice, accompaniment, rhythm, and attention while performing.](../../images/chapters/chapter-05-singing-while-playing.png)
 
 ## Research Foundations
 

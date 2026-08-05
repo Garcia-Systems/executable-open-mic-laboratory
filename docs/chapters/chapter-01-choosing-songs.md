@@ -1,5 +1,6 @@
 # Chapter 1 — Choosing Songs
 
+![Chapter illustration showing how a performer evaluates songs for musical, personal, venue, and audience fit.](../../images/chapters/chapter-01-choosing-songs.png)
 
 ## Research Foundations
 

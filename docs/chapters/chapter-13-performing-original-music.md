@@ -1,5 +1,6 @@
 # Chapter 13 — Performing Original Music
 
+![Chapter illustration showing an artist introducing original music through context, identity, and audience connection.](../../images/chapters/chapter-13-performing-original-music.png)
 
 ## Research Foundations
 

@@ -1,5 +1,6 @@
 # Chapter 4 — Making Songs Your Own
 
+![Chapter illustration showing a performer reshaping a song through arrangement, interpretation, and musical identity.](../../images/chapters/chapter-04-making-songs-your-own.png)
 
 ## Research Foundations
 
