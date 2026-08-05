@@ -238,3 +238,22 @@ Chapter 10 prepares Chapter 11 by establishing the planned audience-facing model
 Chapter 11 introduces `open_mic_lab.domain.recovery` and `open_mic_lab.services.recovery_service`. Incidents are independent of repertoire and arrangements so forgotten lyrics, wrong chords, missed entrances, tempo drift, skipped verses, microphone failure, cable disconnection, broken strings, monitor problems, page-turn issues, and audience interruptions can be reused across contexts. `RecoveryAnalysisService` returns observations, strengths, timelines, actions, reflection prompts, and non-scored outcomes. `RecoveryExperimentService` uses immutable copies to compare strategies without mutating the original scenario.
 
 The recovery lab depends conceptually on Chapter 7 communication, Chapter 9 sound check, and Chapter 10 audience experience, while remaining deterministic and non-predictive. It prepares Chapter 12 by making adaptive decisions inspectable.
+
+## Chapter 12 improvisation architecture
+
+Chapter 12 adds `ImprovisationContext`, `ImprovisationOpportunity`, `ImprovisationDecision`, `ImprovisationConstraint`, `TransitionExtension`, `EndingVariation`, `IntroVariation`, and `AdaptivePerformancePlan`. These concepts remain separate from arrangements and recovery strategies: arrangements describe prepared structure, recovery describes incidents, and improvisation describes adaptive choices when the performance cannot follow the original plan.
+
+`ImprovisationAnalysisService` analyzes current context, arrangement, audience profile, recovery context, and available time. It returns observations, options, educational tradeoffs, suggestions, and explanations without recommending one best improvisation or judging originality. `ImprovisationExperimentService` creates immutable adaptive plans for repeat chorus, extend ending, shorten intro, remove verse, add audience participation, insert instrumental break, extend transition, and finish immediately.
+
+```mermaid
+flowchart LR
+    Arrangement --> PlannedTimeline
+    AudienceProfile --> ImprovisationAnalysisService
+    RecoveryContext --> ImprovisationAnalysisService
+    ImprovisationContext --> ImprovisationAnalysisService
+    PlannedTimeline --> ImprovisationExperimentService
+    ImprovisationExperimentService --> AdaptivePerformancePlan
+    AdaptivePerformancePlan --> TimelineComparison
+```
+
+This prepares Chapter 13 by showing how transparent constraints can support, rather than replace, a performer's original musical identity.

@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from open_mic_lab.domain import (
     Arrangement,
     CoordinationExperiment,
+    ImprovisationDecision,
     PracticeGoal,
     RecoveryStrategy,
     Repertoire,
@@ -18,6 +19,7 @@ from open_mic_lab.sample_data import (
     sample_audience_profiles,
     sample_communication_plan,
     sample_coordination_profile,
+    sample_improvisation_context,
     sample_practice_sessions,
     sample_recovery_scenario,
     sample_selection_scenarios,
@@ -42,6 +44,10 @@ from open_mic_lab.services.coordination_service import (
 )
 from open_mic_lab.services.equipment_service import EquipmentExperimentService, SignalFlowService
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
+from open_mic_lab.services.improvisation_service import (
+    ImprovisationAnalysisService,
+    ImprovisationExperimentService,
+)
 from open_mic_lab.services.practice_service import (
     PracticeAnalyticsService,
     PracticePlanningInput,
@@ -233,6 +239,24 @@ def build_parser() -> argparse.ArgumentParser:
     ):
         recovery_exp_sub.add_parser(name, help=f"Recovery experiment {name}")
     sub.add_parser("chapter-eleven-demo", help="Run the Chapter 11 recovery demo")
+    improv = sub.add_parser("improv", help="Run Chapter 12 improvisation labs")
+    improv_sub = improv.add_subparsers(dest="improv_command", required=True)
+    for name in ("analyze", "opportunities", "compare"):
+        improv_sub.add_parser(name, help=f"Improvisation {name}")
+    improv_exp = improv_sub.add_parser("experiment", help="Run immutable improvisation experiments")
+    improv_exp_sub = improv_exp.add_subparsers(dest="improv_experiment_command", required=True)
+    for name in (
+        "chorus",
+        "ending",
+        "intro",
+        "remove-verse",
+        "participation",
+        "instrumental",
+        "transition",
+        "finish",
+    ):
+        improv_exp_sub.add_parser(name, help=f"Improvisation experiment {name}")
+    sub.add_parser("chapter-twelve-demo", help="Run the Chapter 12 improvisation laboratory demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -307,6 +331,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_recovery(args)
     elif args.command == "chapter-eleven-demo":
         _run_chapter_eleven_demo()
+    elif args.command == "improv":
+        _run_improv(args, rep)
+    elif args.command == "chapter-twelve-demo":
+        _run_chapter_twelve_demo(rep)
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -1197,6 +1225,100 @@ def _run_chapter_eleven_demo() -> None:
     _print_recovery_timeline(analyzer.timeline(scenario))
     print("Reflection: What happens after something goes wrong?")
     print("Reflection: Which recovery choice helps the performance continue?")
+
+
+def _improv_services(rep: Repertoire):  # type: ignore[no-untyped-def]
+    analysis = ImprovisationAnalysisService()
+    experiment = ImprovisationExperimentService()
+    context = sample_improvisation_context()
+    arrangement = rep.get_arrangement(context.arrangement_identifier)
+    audience = sample_audience_profiles()[context.audience_profile_identifier]
+    planned = analysis.planned_timeline(arrangement)
+    return analysis, experiment, context, arrangement, audience, planned
+
+
+def _decision_from_cli(name: str) -> ImprovisationDecision:
+    table = {
+        "chorus": ImprovisationDecision.REPEAT_CHORUS,
+        "ending": ImprovisationDecision.EXTEND_ENDING,
+        "intro": ImprovisationDecision.SHORTEN_INTRO,
+        "remove-verse": ImprovisationDecision.REMOVE_VERSE,
+        "participation": ImprovisationDecision.ADD_AUDIENCE_PARTICIPATION,
+        "instrumental": ImprovisationDecision.INSERT_INSTRUMENTAL_BREAK,
+        "transition": ImprovisationDecision.EXTEND_TRANSITION,
+        "finish": ImprovisationDecision.FINISH_IMMEDIATELY,
+    }
+    return table[name]
+
+
+def _run_improv(args, rep: Repertoire) -> None:  # type: ignore[no-untyped-def]
+    analysis, experiment, context, arrangement, audience, planned = _improv_services(rep)
+    report = analysis.analyze(context, arrangement, audience)
+    if args.improv_command == "analyze":
+        for observation in report.observations:
+            print(f"Observation: {observation}")
+        for option in report.options:
+            print(f"Option: {option.opportunity.value} -> {option.decision.value}")
+            print(f"Why: {option.explanation}")
+    elif args.improv_command == "opportunities":
+        for option in report.options:
+            constraints = ", ".join(c.value for c in option.constraints)
+            print(f"{option.opportunity.value}: {constraints}")
+    elif args.improv_command == "experiment":
+        changed = experiment.experiment(planned, _decision_from_cli(args.improv_experiment_command))
+        print("Planned:", " -> ".join(section.label for section in planned.sections))
+        print("Adapted:", " -> ".join(section.label for section in changed.sections))
+        print(f"Original object unchanged: {planned.identifier != changed.identifier}")
+    elif args.improv_command == "compare":
+        changed = experiment.experiment(planned, ImprovisationDecision.REPEAT_CHORUS)
+        changed = experiment.experiment(changed, ImprovisationDecision.ADD_AUDIENCE_PARTICIPATION)
+        changed = experiment.experiment(changed, ImprovisationDecision.EXTEND_ENDING)
+        comparison = analysis.compare(planned, changed)
+        print("Planned")
+        for section in planned.sections:
+            print(f"- {section.label}")
+        print("Adapted")
+        for section in changed.sections:
+            print(f"- {section.label}")
+        for difference in comparison.differences:
+            print(f"Difference: {difference}")
+
+
+def _run_chapter_twelve_demo(rep: Repertoire) -> None:
+    print("Chapter 12 — Improvisation Laboratory")
+    analysis, experiment, context, arrangement, audience, planned = _improv_services(rep)
+    print("\n1. Planned performance")
+    print(" -> ".join(section.label for section in planned.sections))
+    print("\n2. Improvisation opportunities")
+    report = analysis.analyze(context, arrangement, audience)
+    for option in report.options:
+        print(f"- {option.opportunity.value}: {option.explanation}")
+    print("\n3. Evaluate adaptation choices")
+    for decision in (
+        ImprovisationDecision.REPEAT_CHORUS,
+        ImprovisationDecision.ADD_AUDIENCE_PARTICIPATION,
+        ImprovisationDecision.EXTEND_ENDING,
+    ):
+        changed = experiment.experiment(planned, decision)
+        print(f"- {decision.value}: {changed.total_duration_seconds}s")
+    print("\n4. Compare timelines")
+    adapted = experiment.experiment(planned, ImprovisationDecision.REPEAT_CHORUS)
+    adapted = experiment.experiment(adapted, ImprovisationDecision.ADD_AUDIENCE_PARTICIPATION)
+    adapted = experiment.experiment(adapted, ImprovisationDecision.EXTEND_ENDING)
+    comparison = analysis.compare(planned, adapted)
+    print("Planned")
+    for section in planned.sections:
+        print(f"- {section.label}")
+    print("Adapted")
+    for section in adapted.sections:
+        print(f"- {section.label}")
+    print("\n5. Immutable experiments")
+    print(f"Original remains: {planned.identifier}; adapted is: {adapted.identifier}")
+    print("\n6. Educational observations")
+    for observation in comparison.educational_observations:
+        print(f"Observation: {observation}")
+    print("\nReflection: What happens when the performance cannot follow the original plan?")
+    print("Reflection: Which constraint influenced your decision without deciding it for you?")
 
 
 if __name__ == "__main__":
