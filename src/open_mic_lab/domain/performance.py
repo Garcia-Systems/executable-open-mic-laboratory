@@ -10,6 +10,8 @@ from open_mic_lab.domain.enums import (
     Instrument,
     PerformanceRole,
     PerformanceStatus,
+    TransitionEnergyEffect,
+    TransitionKind,
     VenueType,
 )
 from open_mic_lab.domain.pitch import VocalRange
@@ -102,6 +104,32 @@ class PerformanceVersion:
 
 
 @dataclass(frozen=True, slots=True)
+class SetTransition:
+    """A first-class planned transition in a set sequence.
+
+    ``after_version_identifier`` is ``None`` for opening remarks, otherwise it
+    points at the song that immediately precedes this transition.
+    """
+
+    identifier: str
+    transition_type: TransitionKind
+    estimated_duration_seconds: int
+    energy_effect: TransitionEnergyEffect
+    notes: str
+    after_version_identifier: str | None = None
+    setup_requirements: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        require_text(self.identifier, "Transition identifier")
+        require_non_negative_int(self.estimated_duration_seconds, "Transition duration")
+        require_text(self.notes, "Transition notes")
+        if self.after_version_identifier is not None:
+            require_text(self.after_version_identifier, "Transition after-version identifier")
+        for requirement in self.setup_requirements:
+            require_text(requirement, "Transition setup requirement")
+
+
+@dataclass(frozen=True, slots=True)
 class SetList:
     """An ordered group of performance versions for a venue."""
 
@@ -110,6 +138,7 @@ class SetList:
     ordered_version_identifiers: tuple[str, ...]
     target_duration_minutes: int
     venue_identifier: str
+    transitions: tuple[SetTransition, ...] = ()
     notes: str = ""
 
     def __post_init__(self) -> None:
@@ -121,6 +150,17 @@ class SetList:
             raise ValueError("Set lists cannot repeat a performance version in this milestone.")
         for version_id in self.ordered_version_identifiers:
             require_text(version_id, "Set-list performance version identifier")
+        valid_after_ids = set(self.ordered_version_identifiers)
+        transition_ids: set[str] = set()
+        for transition in self.transitions:
+            if transition.identifier in transition_ids:
+                raise ValueError("Set-list transitions need unique identifiers.")
+            transition_ids.add(transition.identifier)
+            if (
+                transition.after_version_identifier is not None
+                and transition.after_version_identifier not in valid_after_ids
+            ):
+                raise ValueError("Transition references a version not present in the set list.")
 
 
 @dataclass(frozen=True, slots=True)

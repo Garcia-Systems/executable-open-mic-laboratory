@@ -58,3 +58,8 @@ Name future debug helpers with chapter number plus concept, for example `chapter
 ## Chapter 2 Repertoire Engineering Debug Lab
 
 Use VS Code launch configuration **Debug Chapter 2 Repertoire Engineering Lab** or run `python -m open_mic_lab.debug_labs.chapter_02_repertoire_engineering`. Breakpoint markers expose `repertoire`, `analysis`, `genre_distribution`, `key_distribution`, `neglected_version_ids`, `gaps`, `priorities`, `top_priority`, and `health`. Step into `RepertoireEngineeringService.analyze`, `gaps`, `priorities`, and `health` to see why recommendations are produced.
+
+
+## Chapter 3 Building a Set Debug Lab
+
+Use VS Code launch configuration **Debug Chapter 3 Building a Set Lab** or run `python -m open_mic_lab.debug_labs.chapter_03_building_a_set`. Breakpoint markers expose `candidate_set`, `transitions`, `timeline`, `cumulative_running_time`, `analysis`, `energy_observation`, `comparison`, `swapped_set`, `immutable_original_order`, and `experiment_order`. Step into `SetBuilderService.timeline`, `analyze`, `compare`, and `swap_songs` to observe how complete-set decisions are derived without mutating the original set.

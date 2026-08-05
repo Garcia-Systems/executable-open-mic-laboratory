@@ -1,5 +1,6 @@
 """Deterministic sample repertoire for examples, tests, and CLI demos."""
 
+# ruff: noqa: E501
 from datetime import date
 from decimal import Decimal
 
@@ -16,8 +17,11 @@ from open_mic_lab.domain import (
     PracticeSession,
     Repertoire,
     SetList,
+    SetTransition,
     Song,
     SongSelectionProfile,
+    TransitionEnergyEffect,
+    TransitionKind,
     Venue,
     VenueType,
     VocalRange,
@@ -435,7 +439,143 @@ def sample_setlist() -> SetList:
         ("harbor-guitar", "window-piano", "train-guitar-closer"),
         15,
         "corner-cafe",
+        sample_set_transitions(),
     )
+
+
+def sample_set_transitions() -> tuple[SetTransition, ...]:
+    """Return deterministic transitions for Chapter 3."""
+    return (
+        SetTransition(
+            "opening-remarks",
+            TransitionKind.SPOKEN_INTRODUCTION,
+            30,
+            TransitionEnergyEffect.LIFT,
+            "Opening remarks",
+        ),
+        SetTransition(
+            "window-story",
+            TransitionKind.STORY,
+            40,
+            TransitionEnergyEffect.RESET,
+            "Story about changing light",
+            "harbor-guitar",
+        ),
+        SetTransition(
+            "closing-thanks",
+            TransitionKind.SPOKEN_INTRODUCTION,
+            20,
+            TransitionEnergyEffect.HOLD,
+            "Closing thanks",
+            "train-guitar-closer",
+        ),
+    )
+
+
+def sample_set_scenarios() -> dict[str, SetList]:
+    """Return deterministic Chapter 3 set-building scenarios."""
+    return {
+        "coffeehouse-15": sample_setlist(),
+        "listening-room": SetList(
+            "listening-room-set",
+            "Listening room story arc",
+            (
+                "river-guitar-lowered",
+                "window-piano",
+                "lantern-piano-simpler",
+                "train-guitar-closer",
+            ),
+            20,
+            "listening-room",
+            (
+                SetTransition(
+                    "opening-context",
+                    TransitionKind.STORY,
+                    45,
+                    TransitionEnergyEffect.HOLD,
+                    "Opening context",
+                ),
+                SetTransition(
+                    "piano-change",
+                    TransitionKind.INSTRUMENT_CHANGE,
+                    45,
+                    TransitionEnergyEffect.RESET,
+                    "Move to piano",
+                    "river-guitar-lowered",
+                    ("piano bench",),
+                ),
+                SetTransition(
+                    "final-setup",
+                    TransitionKind.QUICK_SEGUE,
+                    15,
+                    TransitionEnergyEffect.LIFT,
+                    "Quick lift into closer",
+                    "lantern-piano-simpler",
+                ),
+            ),
+        ),
+        "church-special": SetList(
+            "church-special",
+            "Church special music",
+            ("harbor-guitar", "river-guitar-lowered"),
+            10,
+            "corner-cafe",
+            (
+                SetTransition(
+                    "quiet-opening",
+                    TransitionKind.SILENCE,
+                    10,
+                    TransitionEnergyEffect.HOLD,
+                    "Quiet preparation",
+                ),
+            ),
+        ),
+        "first-open-mic": SetList(
+            "first-open-mic",
+            "First open mic",
+            ("paper-ukulele-opener", "harbor-guitar", "train-guitar-closer"),
+            12,
+            "corner-cafe",
+            sample_set_transitions()[:1],
+        ),
+        "experienced-performer": SetList(
+            "experienced-performer",
+            "Experienced performer contrast set",
+            (
+                "paper-ukulele-opener",
+                "blue-ticket-guitar",
+                "window-guitar-original-feature",
+                "train-guitar-closer",
+            ),
+            18,
+            "corner-cafe",
+            (
+                SetTransition(
+                    "experienced-opening",
+                    TransitionKind.AUDIENCE_PARTICIPATION,
+                    20,
+                    TransitionEnergyEffect.LIFT,
+                    "Invite the room in",
+                ),
+                SetTransition(
+                    "original-context",
+                    TransitionKind.STORY,
+                    35,
+                    TransitionEnergyEffect.RESET,
+                    "Introduce the original",
+                    "blue-ticket-guitar",
+                ),
+                SetTransition(
+                    "closer-segue",
+                    TransitionKind.QUICK_SEGUE,
+                    10,
+                    TransitionEnergyEffect.LIFT,
+                    "Lift into the closer",
+                    "window-guitar-original-feature",
+                ),
+            ),
+        ),
+    }
 
 
 # Chapter 1 deterministic song-selection scenarios and expanded repertoire.

@@ -8,6 +8,8 @@ from open_mic_lab.domain.enums import (
     Mood,
     PerformanceRole,
     PerformanceStatus,
+    TransitionEnergyEffect,
+    TransitionKind,
     VenueType,
 )
 from open_mic_lab.domain.performance import (
@@ -15,6 +17,7 @@ from open_mic_lab.domain.performance import (
     Performance,
     PerformanceVersion,
     SetList,
+    SetTransition,
 )
 from open_mic_lab.domain.pitch import VocalNote, VocalRange
 from open_mic_lab.domain.practice import PracticeSession
@@ -45,4 +48,7 @@ __all__ = [
     "SongSelectionProfile",
     "Venue",
     "VenueType",
+    "TransitionEnergyEffect",
+    "TransitionKind",
+    "SetTransition",
 ]
