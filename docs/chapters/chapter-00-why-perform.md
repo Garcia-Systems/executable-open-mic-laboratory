@@ -60,3 +60,43 @@ Compare the same song in original key and tempo with a lowered, slower version. 
 ## Chapter summary
 
 Performance is a system of repertoire choices, preparation, venue constraints, audience relationship, and reflection. This repository is educational and non-predictive: it helps compare experiments, not certify artistic value or guarantee outcomes.
+
+## Debug Laboratory
+
+The executable laboratory runs complete readiness commands. The debug laboratory is different: it lets you pause a small, learner-owned scenario and inspect how one changed performance version alters readiness.
+
+Use the VS Code launch configuration **Debug Chapter 0 Readiness Lab**, or run the same helper from the repository root:
+
+```bash
+python -m open_mic_lab.debug_labs.chapter_00_readiness
+```
+
+Recommended breakpoint markers are in `src/open_mic_lab/debug_labs/chapter_00_readiness.py`:
+
+1. `BREAKPOINT: Inspect the song, original version, adapted version, and practice evidence.`
+2. `BREAKPOINT: Step Into the real readiness calculation for the original version.`
+3. `BREAKPOINT: Step Into the real readiness calculation for the adapted version.`
+4. `BREAKPOINT: Inspect the two structured breakdowns before comparing scores.`
+
+Inspect these variables: `song`, `original_version`, `adapted_version`, `practice_sessions`, `readiness_inputs`, `original_result`, `adapted_result`, `original_breakdown`, `adapted_breakdown`, and `score_difference`.
+
+Suggested sequence:
+
+1. Start **Debug Chapter 0 Readiness Lab**.
+2. Stop at the first marker and Step Over the tuple assignment so the inputs are visible.
+3. Step Into `calculate_readiness` for the original version and watch the weighted skill values become a base score.
+4. Step Out, then Step Into the adapted version calculation.
+5. Step Over the breakdown assignments and compare the two structured results.
+6. Continue to the concise terminal summary.
+
+Questions to answer:
+
+- Which values enter the readiness calculation?
+- Which factor contributes most strongly?
+- Does changing the key directly alter every readiness factor?
+- Which values are measured practice evidence, and which are scenario assumptions on the version?
+- Why does the service return a structured breakdown instead of only a score?
+
+Reset by stopping the debugger and launching the same configuration again. The helper rebuilds deterministic sample data each time, so learner experiments can be repeated from a known baseline.
+
+Expected conceptual finding: the adapted version is not a magic prediction. It changes explicit version fields such as key, tempo, difficulty, vocal comfort, accompaniment stability, memory, and recovery assumptions; the readiness service then combines those values with matching practice evidence into a transparent result.
