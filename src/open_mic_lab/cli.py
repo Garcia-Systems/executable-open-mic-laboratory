@@ -3,7 +3,13 @@
 import argparse
 from collections.abc import Sequence
 
-from open_mic_lab.domain import Arrangement, CoordinationExperiment, Repertoire, SetList
+from open_mic_lab.domain import (
+    Arrangement,
+    CoordinationExperiment,
+    PracticeGoal,
+    Repertoire,
+    SetList,
+)
 from open_mic_lab.sample_data import (
     build_sample_repertoire,
     sample_coordination_profile,
@@ -25,6 +31,11 @@ from open_mic_lab.services.coordination_service import (
     TempoLadderService,
 )
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
+from open_mic_lab.services.practice_service import (
+    PracticeAnalyticsService,
+    PracticePlanningInput,
+    PracticePlanningService,
+)
 from open_mic_lab.services.readiness_service import calculate_readiness
 from open_mic_lab.services.repertoire_service import (
     RepertoireEngineeringService,
@@ -112,6 +123,25 @@ def build_parser() -> argparse.ArgumentParser:
     coord_tempo.add_argument("bpm", type=int)
     sub.add_parser("chapter-four-demo", help="Run the Chapter 4 arrangement demo")
     sub.add_parser("chapter-five-demo", help="Run the Chapter 5 singing while playing demo")
+    practice = sub.add_parser("practice", help="Run Chapter 6 deliberate practice labs")
+    practice_sub = practice.add_subparsers(dest="practice_command", required=True)
+    for name in ("plan", "analyze", "priorities", "blocks"):
+        practice_sub.add_parser(name, help=f"Practice {name}")
+    practice_exp = practice_sub.add_parser("experiment", help="Run immutable practice experiments")
+    practice_exp_sub = practice_exp.add_subparsers(
+        dest="practice_experiment_command", required=True
+    )
+    for name in (
+        "maintenance",
+        "performance",
+        "shorten",
+        "extend",
+        "coordination",
+        "memorization",
+        "exploration",
+    ):
+        practice_exp_sub.add_parser(name, help=f"Practice experiment {name}")
+    sub.add_parser("chapter-six-demo", help="Run the Chapter 6 deliberate practice demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -149,6 +179,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_chapter_five_demo(rep)
     elif args.command == "coordination":
         _run_coordination(args)
+    elif args.command == "practice":
+        _run_practice(args, rep)
     elif args.command == "arrangement":
         _run_arrangement(args, rep)
     elif args.command == "set":
@@ -162,6 +194,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"{index}. {version_id}: {song.title}")
         elif args.setlist_command == "analyze":
             _print_analysis(set_list, rep)
+    elif args.command == "chapter-six-demo":
+        _run_chapter_six_demo(rep)
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -600,6 +634,112 @@ def _run_chapter_five_demo(rep: Repertoire) -> None:
     )
     print("Reflection: Which task fails first when attention is crowded?")
     print("Reflection: What could become automatic before the next full-speed run?")
+
+
+def _sample_practice_plan(
+    minutes: int = 30, goal: PracticeGoal = PracticeGoal.BALANCED_IMPROVEMENT
+) -> object:
+    service = PracticePlanningService()
+    return service.generate_plan(
+        build_sample_repertoire(),
+        sample_practice_sessions(),
+        sample_coordination_profile(),
+        PracticePlanningInput(minutes, __import__("datetime").date(2026, 8, 5), goal),
+    )
+
+
+def _print_practice_plan(plan) -> None:  # type: ignore[no-untyped-def]
+    print(
+        f"Practice plan: {plan.identifier} "
+        f"({plan.estimated_duration_minutes}/{plan.available_minutes} minutes)"
+    )
+    print(f"Goal: {plan.goal.value}")
+    for index, block in enumerate(plan.blocks, start=1):
+        version = f" [{block.version_identifier}]" if block.version_identifier else ""
+        print(
+            f"{index}. {block.task.value} — {block.duration_minutes} min — "
+            f"{block.focus_area.value}{version}"
+        )
+        print(f"   Objective: {block.objective}")
+        print(f"   Success: {block.success_criteria}")
+        print(f"   Why: {block.notes}")
+    for reason in plan.rationale:
+        print(f"Sequencing: {reason}")
+
+
+def _run_practice(args, rep: Repertoire) -> None:  # type: ignore[no-untyped-def]
+    service = PracticePlanningService()
+    planning_input = PracticePlanningInput(30, __import__("datetime").date(2026, 8, 5))
+    plan = service.generate_plan(
+        rep, sample_practice_sessions(), sample_coordination_profile(), planning_input
+    )
+    if args.practice_command == "plan":
+        _print_practice_plan(plan)
+    elif args.practice_command == "priorities":
+        for item in service.priorities(
+            rep, sample_practice_sessions(), sample_coordination_profile(), planning_input
+        ):
+            print(
+                f"{item.version_identifier}: {item.skill_area.value} "
+                f"{item.score} ({item.priority.value})"
+            )
+            for reason in item.reasons:
+                print(f"- {reason}")
+    elif args.practice_command == "blocks":
+        for block in plan.blocks:
+            print(
+                f"{block.task.value}: {block.duration_minutes} minutes — {block.success_criteria}"
+            )
+    elif args.practice_command == "analyze":
+        analytics = PracticeAnalyticsService().analyze(plan, sample_practice_sessions())
+        for area, minutes in analytics.distribution:
+            print(f"{area.value}: {minutes} minutes")
+        for observation in analytics.observations:
+            print(f"Observation: {observation}")
+    elif args.practice_command == "experiment":
+        changed = service.experiment(plan, args.practice_experiment_command)
+        print(
+            f"Original: {plan.identifier} {plan.estimated_duration_minutes} minutes "
+            f"{plan.goal.value}"
+        )
+        print(
+            f"Experiment: {changed.identifier} {changed.estimated_duration_minutes} minutes "
+            f"{changed.goal.value}"
+        )
+        print(f"Original object unchanged: {plan.identifier != changed.identifier}")
+
+
+def _run_chapter_six_demo(rep: Repertoire) -> None:
+    print("Chapter 6 — Deliberate Practice Engineering")
+    service = PracticePlanningService()
+    sessions = sample_practice_sessions()
+    profile = sample_coordination_profile()
+    print("\nCurrent repertoire priorities")
+    base_input = PracticePlanningInput(30, __import__("datetime").date(2026, 8, 5))
+    for item in service.priorities(rep, sessions, profile, base_input)[:5]:
+        print(
+            f"- {item.version_identifier}: {item.skill_area.value} "
+            f"({item.priority.value}) because {item.reasons[0]}"
+        )
+    print("\n30-minute plan")
+    plan = service.generate_plan(rep, sessions, profile, base_input)
+    _print_practice_plan(plan)
+    print("\nRevised 45-minute plan")
+    revised = service.generate_plan(
+        rep,
+        sessions,
+        profile,
+        PracticePlanningInput(
+            45, __import__("datetime").date(2026, 8, 5), PracticeGoal.PERFORMANCE_PREPARATION
+        ),
+    )
+    _print_practice_plan(revised)
+    print("\nPractice analytics")
+    analytics = PracticeAnalyticsService().analyze(revised, sessions)
+    for observation in analytics.observations:
+        print(f"Observation: {observation}")
+    print("Reflection: Which block produces the greatest improvement per minute?")
+    print("Reflection: What should be maintained, and what deserves focused change?")
 
 
 if __name__ == "__main__":

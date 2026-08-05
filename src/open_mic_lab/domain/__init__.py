@@ -30,7 +30,16 @@ from open_mic_lab.domain.performance import (
     SetTransition,
 )
 from open_mic_lab.domain.pitch import VocalNote, VocalRange
-from open_mic_lab.domain.practice import PracticeSession
+from open_mic_lab.domain.practice import (
+    PracticeBlock,
+    PracticeGoal,
+    PracticeOutcome,
+    PracticePlan,
+    PracticePriority,
+    PracticeSession,
+    PracticeTask,
+    SkillArea,
+)
 from open_mic_lab.domain.reflection import Reflection
 from open_mic_lab.domain.repertoire import Repertoire
 from open_mic_lab.domain.selection import SongSelectionProfile
@@ -57,7 +66,14 @@ __all__ = [
     "PerformanceRole",
     "PerformanceStatus",
     "PerformanceVersion",
+    "PracticeBlock",
+    "PracticeGoal",
+    "PracticeOutcome",
+    "PracticePlan",
+    "PracticePriority",
     "PracticeSession",
+    "PracticeTask",
+    "SkillArea",
     "VocalNote",
     "VocalRange",
     "Reflection",

@@ -85,3 +85,20 @@ Suggested breakpoints:
 - `ladder` to inspect tempo ladder generation.
 
 The lab is intentionally deterministic so repeated debugger runs expose the same variables and scores.
+
+## Chapter 6 practice engineering debug lab
+
+Use VS Code launch configuration **Debug Chapter 6 Practice Engineering Lab** or run:
+
+```bash
+python -m open_mic_lab.debug_labs.chapter_06_practice_engineering
+```
+
+Suggested breakpoints:
+
+- `priorities` to inspect readiness, maintenance, learner-priority, and bottleneck scoring.
+- `practice_plan` to inspect ordered blocks, duration allocation, and sequencing rationale.
+- `maintenance_plan` to confirm adaptive experiments return new plans.
+- `analytics` to inspect practice balance observations.
+
+The lab connects Chapter 6 to Chapter 0 readiness, Chapter 2 repertoire maintenance, Chapter 4 arrangement decisions, and Chapter 5 coordination bottlenecks.
