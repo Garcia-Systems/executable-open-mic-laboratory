@@ -233,3 +233,11 @@ The laboratory builds on Chapter 7 stage presence and Chapter 9 sound check by c
 The Recovery Laboratory models unexpected performance incidents as educational scenarios rather than predictions. It adds an incident catalog, deterministic recovery analysis, immutable recovery experiments, strategy comparison, and timelines from mistake through reflection. It builds on performance planning, stage presence, audience experience, sound check, and technical signal thinking so learners can practice resilience before Chapter 12 adaptive musicianship.
 
 Try `open-mic-lab recovery incidents`, `open-mic-lab recovery analyze`, `open-mic-lab recovery timeline`, `open-mic-lab recovery experiment continue`, `open-mic-lab recovery compare`, and `open-mic-lab chapter-eleven-demo`.
+
+## Chapter 12 — Improvisation Laboratory
+
+The Improvisation Laboratory models adaptive musical decision-making when a performance cannot follow the original plan. It introduces opportunities, decisions, constraints, adaptive performance plans, immutable experiments, and planned/adapted timeline comparisons while avoiding any judgment of artistic originality.
+
+Try `open-mic-lab improv analyze`, `open-mic-lab improv opportunities`, `open-mic-lab improv experiment chorus`, `open-mic-lab improv experiment ending`, `open-mic-lab improv compare`, and `open-mic-lab chapter-twelve-demo`.
+
+Chapter 12 builds on Chapter 11 recovery strategies by turning surprise into structured musical choices. It prepares Chapter 13, where learners begin presenting their own original musical identity.

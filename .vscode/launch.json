@@ -108,6 +108,15 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Debug Chapter 12 Improvisation Lab",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "open_mic_lab.debug_labs.chapter_12_improvisation",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true
     }
   ]
 }

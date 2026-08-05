@@ -132,3 +132,13 @@ Useful variables: `profiles`, `performance`, `coffeehouse`, `church`, `coffeehou
 ## Chapter 11 Recovery Debug Lab
 
 Run `python -m open_mic_lab.debug_labs.chapter_11_recovery` or use **Debug Chapter 11 Recovery Lab** in VS Code. Suggested breakpoints inspect incident creation, recovery analysis, immutable strategy experiments, comparison tradeoffs, and deterministic timeline generation. The helper is designed to show that the report contains educational observations rather than a mistake score.
+
+## Chapter 12 improvisation debug lab
+
+Run:
+
+```bash
+python -m open_mic_lab.debug_labs.chapter_12_improvisation
+```
+
+Open **Debug Chapter 12 Improvisation Lab** in VS Code. Suggested breakpoints are marked in `src/open_mic_lab/debug_labs/chapter_12_improvisation.py` for opportunity detection, planned timeline generation, immutable experiments, and planned/adapted comparison.

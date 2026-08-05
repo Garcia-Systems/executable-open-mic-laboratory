@@ -26,6 +26,7 @@ from open_mic_lab.domain import (
     EmotionalTone,
     EnergyLevel,
     Genre,
+    ImprovisationContext,
     Instrument,
     IntroductionPurpose,
     Mood,
@@ -1163,4 +1164,19 @@ def sample_recovery_scenario() -> "RecoveryScenario":
         "The performer practiced lyric cue points and one instrumental safety loop.",
         "Thank the room briefly if a reset is needed; keep transitions calm.",
         RecoveryStrategy.CONTINUE_IMMEDIATELY,
+    )
+
+
+def sample_improvisation_context() -> ImprovisationContext:
+    """Return deterministic Chapter 12 improvisation context."""
+    return ImprovisationContext(
+        "chapter-12-open-mic-plan",
+        "window-piano-arrangement",
+        "supportive-coffeehouse",
+        "stable",
+        75,
+        7,
+        6,
+        "supportive open mic with flexible pacing",
+        True,
     )
