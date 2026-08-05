@@ -1,5 +1,9 @@
 # Chapter 11 — Recovering From Mistakes
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on resilience, coping, interruption recovery, feedback, and reflection. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 By the end of this chapter, learners can identify common live-performance incidents, describe recovery as a decision rather than a verdict, compare recovery strategies, inspect a deterministic recovery timeline, and explain why resilience is a critical performance skill.
@@ -95,3 +99,7 @@ Use the VS Code launch configuration **Debug Chapter 11 Recovery Lab**. Breakpoi
 ## Chapter summary
 
 Mistakes are inevitable, but performances remain recoverable. Chapter 11 completes the life cycle of an unexpected event: incident detection, recognition, recovery decision, audience perception, continuation, and reflection. Chapter 12 can now build toward adaptive musicianship: changing plans in real time while preserving artistic intention.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Schön (1983), Hattie and Timperley (2007), Williamon (2004), and Zimmerman (2002). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

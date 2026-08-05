@@ -1,5 +1,9 @@
 # Chapter 0: Why Perform?
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on live performance, audience relationship, preparation, and reflective music learning. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 - Explain why live performance differs from private practice.
@@ -100,3 +104,7 @@ Questions to answer:
 Reset by stopping the debugger and launching the same configuration again. The helper rebuilds deterministic sample data each time, so learner experiments can be repeated from a known baseline.
 
 Expected conceptual finding: the adapted version is not a magic prediction. It changes explicit version fields such as key, tempo, difficulty, vocal comfort, accompaniment stability, memory, and recovery assumptions; the readiness service then combines those values with matching practice evidence into a transparent result.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Williamon (2004), Small (1998), Lehmann et al. (2007), and Hattie and Timperley (2007). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

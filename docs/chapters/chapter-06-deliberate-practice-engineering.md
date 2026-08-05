@@ -1,5 +1,9 @@
 # Chapter 6 — Deliberate Practice Engineering
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on deliberate practice, feedback, metacognition, goal setting, and self-regulated learning. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 By the end of this chapter, the learner can generate a structured practice session, explain why each block was chosen, compare practice strategies, and distinguish deliberate practice from repeatedly playing songs.
@@ -86,3 +90,7 @@ Set breakpoints at markers for priority calculation, plan generation, block sequ
 ## Chapter summary
 
 Chapter 6 turns practice into a transparent planning system. Readiness, repertoire, arrangements, and coordination now feed deliberate practice recommendations. Chapter 7 can build on this by asking how prepared material becomes stage presence in front of people.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Ericsson et al. (1993), Macnamara et al. (2014), Zimmerman (2002), McPherson and Zimmerman (2002), and Hattie and Timperley (2007). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

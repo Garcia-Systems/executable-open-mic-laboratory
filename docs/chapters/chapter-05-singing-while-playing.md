@@ -1,5 +1,9 @@
 # Chapter 5 — Singing While Playing
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on cognitive load, divided attention, multiple resources, and automaticity. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 - Explain why lyrics, melody, rhythm, accompaniment, tempo, dynamics, listening, movement, and audience awareness compete for limited attention.
@@ -90,3 +94,7 @@ Set breakpoints around coordination-score calculation, tempo ladder generation, 
 ## Chapter summary
 
 Performance skill emerges from systematic reduction of cognitive load. Singing while playing improves when the learner turns vague difficulty into visible tasks, chooses a bottleneck, runs a small experiment, and lets automaticity grow deliberately.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Kahneman (1973), Sweller (1988), Wickens (2002), and Lehmann et al. (2007). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

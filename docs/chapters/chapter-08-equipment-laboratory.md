@@ -1,5 +1,9 @@
 # Chapter 8 — Equipment Laboratory
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on signal flow, microphones, mixers, monitoring, and live-sound engineering practice. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 Every live performance is also a signal-processing system. This chapter does not catalog products; it models relationships between sources, connections, processors, mixers, monitors, and speakers so the learner can ask: **What happens if I change the signal path?**
 
 ## Learning objectives
@@ -88,3 +92,7 @@ Use the VS Code configuration **Debug Chapter 8 Signal Flow Lab**. Breakpoints a
 ## Chapter summary
 
 Chapter 8 adds the technical performance environment to the musical and communication systems developed in Chapters 0–7. The learner can now model how sound moves, test changes safely, and prepare for Chapter 9 live sound optimization, where routing choices can become deliberate listening and adjustment strategies.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Ballou (2015), Davis and Patronis (2014), Eargle (2012), and Huber and Runstein (2018). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

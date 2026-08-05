@@ -1,5 +1,9 @@
 # Chapter 13 — Performing Original Music
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on artistic identity, audience familiarity, framing unfamiliar work, and subjective judgment. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 By the end of this chapter, learners can analyze placement of original songs, compare presentation strategies, explain unfamiliar-material tradeoffs, inspect immutable experiments, and describe how communication supports audience connection when the audience has never heard the song before.
@@ -73,3 +77,7 @@ Use VS Code launch configuration **Debug Chapter 13 Original Music Lab**. Breakp
 ## Chapter summary
 
 Chapter 13 helps learners present original work thoughtfully without predicting success or evaluating creativity. It prepares Chapter 14, the complete Open Mic Simulator, by connecting repertoire, set building, arrangement, communication, audience experience, recovery, and improvisation around a learner's own artistic identity.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Small (1998), Clarke (2005), Juslin and Sloboda (2010), and Williamon (2004). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

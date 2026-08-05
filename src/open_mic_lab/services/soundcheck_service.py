@@ -1,5 +1,22 @@
 """Deterministic Chapter 9 sound-check services."""
 
+# Evidence basis for scoring and recommendation services.
+#
+# Purpose: provide deterministic educational comparisons for repertoire,
+# practice, stagecraft, audio workflow, audience scenarios, recovery,
+# improvisation, and reflection.
+# Inputs: typed domain objects and bounded scenario data in the repository.
+# Outputs: scores, categories, warnings, recommendations, and explanation text.
+# Evidence Basis: music education, performance psychology, feedback research,
+# self-regulated learning, cognitive-load theory, live-sound practice, and
+# simulation-based learning motivate the concepts represented here.
+# Repository Contribution: exact weights, thresholds, and formula structures are
+# original educational heuristics designed for transparent experimentation.
+# Limitations: outputs are non-predictive learning aids. They are not validated
+# measurements of artistic worth, audience response, technical safety, or future
+# performance success.
+
+
 # ruff: noqa: D101, D102, E501
 
 from collections.abc import Callable

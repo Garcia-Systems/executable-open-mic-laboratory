@@ -1,5 +1,9 @@
 # Chapter 10 — Audience Experience Laboratory
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on audience perception, participation, music cognition, and concert experience. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 By the end of this chapter, learners can compare audience profiles, analyze transparent audience-experience factors, evaluate immutable adaptation experiments, and explain why different audiences may benefit from different performance approaches without predicting emotions or optimizing away artistic authenticity.
@@ -81,3 +85,7 @@ Use the VS Code launch configuration **Debug Chapter 10 Audience Experience Lab*
 ## Chapter summary
 
 Chapter 10 connects the performer, venue, technical sound, stage communication, and audience context into one educational model. It prepares Chapter 11 by making the planned audience experience visible before unexpected events, interruptions, and mistakes disrupt the plan.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Small (1998), Clarke (2005), and Juslin and Sloboda (2010). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

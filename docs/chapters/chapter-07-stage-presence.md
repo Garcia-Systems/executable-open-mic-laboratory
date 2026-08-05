@@ -1,5 +1,9 @@
 # Chapter 7 — Stage Presence
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on communication, performer movement, visual perception, and audience engagement. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 Stage presence is not acting, charisma, or a personality contest. In this laboratory, stage presence is treated as a deterministic communication system: the audience receives signals before, during, and after every song.
 
 ## Learning objectives
@@ -92,3 +96,7 @@ Use the VS Code configuration **Debug Chapter 7 Stage Presence Lab**. Breakpoint
 ## Chapter summary
 
 Chapter 7 expands the laboratory from internal preparation to external communication. Chapters 0–6 helped you choose, arrange, coordinate, and practice material. Chapter 7 asks how those prepared songs meet the room through signals the audience can perceive. Chapter 8 can now introduce the technical performance environment because the learner has modeled both the musical and human sides of live performance.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Davidson (1993), Clarke (2005), Small (1998), and Juslin and Sloboda (2010). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

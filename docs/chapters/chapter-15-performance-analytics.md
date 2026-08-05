@@ -1,5 +1,9 @@
 # Chapter 15 — Performance Analytics & Continuous Improvement
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on reflection, feedback, continuous improvement, and self-regulated learning. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 - Aggregate multiple performances into a `PerformanceHistory`.
@@ -112,3 +116,7 @@ Chapter 15 completes Volume I by converting individual performances into long-te
 ## Volume I summary
 
 Volume I is a complete deterministic executable textbook for open mic preparation and reflection. It preserves an educational philosophy: models support observation, comparison, debugging, and planning; they never judge artistic worth. Future volumes may extend persistence, richer interfaces, or media analysis, but those extensions are not implemented here.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Schön (1983), Hattie and Timperley (2007), Zimmerman (2002), and McPherson and Zimmerman (2002). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

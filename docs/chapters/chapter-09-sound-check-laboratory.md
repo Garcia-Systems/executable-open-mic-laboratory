@@ -1,5 +1,9 @@
 # Chapter 9 — Sound Check Laboratory
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on gain structure, monitoring, feedback control, and sound-reinforcement workflow. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 By the end of this chapter, you can perform a structured sound check, explain why a technically correct signal path is only the beginning, compare alternate mixer settings, and describe why different venues require different choices.
@@ -97,3 +101,7 @@ Run `python -m open_mic_lab.debug_labs.chapter_09_sound_check` or use **Debug Ch
 ## Chapter summary
 
 Sound check completes the technical preparation process begun in Chapter 8. Routing proves the system can work. Sound check teaches how the performer adapts that working system to the room. Chapter 10 can now turn from performer preparation to audience perception.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Davis and Patronis (2014), Ballou (2015), Eargle (2012), and Huber and Runstein (2018). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

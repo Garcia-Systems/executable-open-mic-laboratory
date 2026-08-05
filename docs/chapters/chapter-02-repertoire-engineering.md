@@ -1,5 +1,9 @@
 # Chapter 2 — Repertoire Engineering
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on repertoire management, practice planning, expertise development, and self-regulated learning. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 - Treat repertoire as a living system, not a list.
@@ -94,3 +98,7 @@ Break at the documented markers to inspect repertoire loading, analysis, gap det
 ## Chapter summary
 
 Repertoire engineering turns song collection into a feedback system for better choices, healthier maintenance, and more intentional performances.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Hallam (1997), McPherson and Zimmerman (2002), Zimmerman (2002), and Ericsson et al. (1993). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.

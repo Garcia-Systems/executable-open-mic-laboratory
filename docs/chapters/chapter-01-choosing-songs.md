@@ -1,5 +1,9 @@
 # Chapter 1 — Choosing Songs
 
+
+## Research Foundations
+
+**Research Finding:** This chapter is informed by work on repertoire selection, expertise, performer-task fit, and deliberate artistic choice. **Professional Practice:** It translates those traditions into open-mic decisions that performers and facilitators commonly make. **Educational Heuristic:** Any score, warning, category, or recommendation produced by the laboratory is a repository-designed simplification for comparison and reflection, not a validated predictive model. **Subjective Artistic Judgment:** Learners may reasonably override the model when identity, taste, occasion, or audience relationship matters more than numerical fit.
 ## Learning objectives
 
 By the end of the chapter, the learner should be able to explain why personal taste alone does not determine performance suitability; distinguish a song from a performer-specific version; identify hard constraints and soft preferences; evaluate vocal, technical, emotional, audience, and venue fit; interpret a transparent suitability score; compare songs without treating the ranking as artistic truth; test adaptations such as transposition and simplification; and select a song deliberately for a specific performance opportunity.
@@ -140,3 +144,7 @@ Questions to answer:
 Reset by stopping the debugger and launching the same configuration again. The helper rebuilds the repertoire, profile, venue, services, comparison, and adapted copy from deterministic sample data.
 
 Expected conceptual finding: suitability is contextual rather than universal. Hard constraints can cap or exclude a candidate, soft preferences change weighted criteria, missing optional information lowers completeness, and the service explains its reasoning through a structured result rather than a bare score.
+
+## References and Further Reading
+
+For the full APA bibliography, see [References](../references.md). Suggested starting points for this chapter: Ericsson et al. (1993), Lehmann et al. (2007), Williamon (2004), and Macnamara et al. (2014). These sources motivate the educational concepts; they do not validate the exact deterministic scores used here.
