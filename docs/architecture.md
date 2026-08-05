@@ -98,3 +98,23 @@ flowchart LR
 ```
 
 Chapter 3 prepares for Chapter 4 arrangement experiments by making the whole performance flow visible before changing the internal arrangement of individual songs.
+
+## Chapter 4 arrangement architecture
+
+Chapter 4 adds `Arrangement` as a dedicated domain object. `Song` remains the fixed work; `PerformanceVersion` remains the learner's prepared version and readiness state; `Arrangement` describes the intentional musical design for that version. The split prevents arrangement fields from overwhelming `PerformanceVersion` and lets one song support original piano, simplified piano, guitar, lower-key, coffeehouse, and audience-participation arrangements.
+
+```mermaid
+classDiagram
+    Song "1" --> "many" PerformanceVersion
+    PerformanceVersion "1" --> "1" Arrangement
+    Arrangement "1" --> "many" ArrangementExperimentRecord
+    ArrangementExperimentService --> Arrangement
+    ArrangementAnalysisService --> Arrangement
+    ArrangementTimelineService --> Arrangement
+```
+
+`ArrangementExperimentService` provides immutable operations: transpose, simplify accompaniment, alter tempo, shorten introduction, extend ending, remove section, duplicate chorus, change groove, switch primary instrument, and combine. Each operation returns a copied `Arrangement` and appends an `ArrangementExperimentRecord` that names the source arrangement and summarizes the change.
+
+`ArrangementAnalysisService` compares arrangements by explaining differences and tradeoffs rather than selecting a winner. `ArrangementTimelineService` turns structure and tempo into deterministic timing estimates. The lifecycle is: create baseline arrangement, copy through experiments, compare stages, inspect history, then choose the version that best serves the performance context.
+
+Chapter 4 prepares Chapter 5 by establishing that intentional arrangement choices can be observed, discussed, and revised before being tested with an audience.

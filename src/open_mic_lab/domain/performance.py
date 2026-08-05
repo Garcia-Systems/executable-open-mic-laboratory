@@ -76,10 +76,12 @@ class PerformanceVersion:
     preferred_performance_role: PerformanceRole | None = None
     average_confidence: Decimal | None = None
     notes: str = ""
+    arrangement_identifier: str = "unspecified-arrangement"
 
     def __post_init__(self) -> None:
         require_text(self.identifier, "Performance version identifier")
         require_text(self.song_identifier, "Song identifier")
+        require_text(self.arrangement_identifier, "Arrangement identifier")
         require_text(self.performance_key, "Performance key")
         require_positive_int(self.target_tempo_bpm, "Target tempo")
         require_rating(self.vocal_comfort, "Vocal comfort")

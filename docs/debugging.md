@@ -63,3 +63,7 @@ Use VS Code launch configuration **Debug Chapter 2 Repertoire Engineering Lab** 
 ## Chapter 3 Building a Set Debug Lab
 
 Use VS Code launch configuration **Debug Chapter 3 Building a Set Lab** or run `python -m open_mic_lab.debug_labs.chapter_03_building_a_set`. Breakpoint markers expose `candidate_set`, `transitions`, `timeline`, `cumulative_running_time`, `analysis`, `energy_observation`, `comparison`, `swapped_set`, `immutable_original_order`, and `experiment_order`. Step into `SetBuilderService.timeline`, `analyze`, `compare`, and `swap_songs` to observe how complete-set decisions are derived without mutating the original set.
+
+## Chapter 4 Arrangements Debug Lab
+
+Use VS Code launch configuration **Debug Chapter 4 Arrangements Lab** or run `python -m open_mic_lab.debug_labs.chapter_04_arrangements`. Breakpoint markers expose `original`, `source_version`, `transposed`, `immutable_original_key`, `simplified`, `shortened`, `slowed`, `experiment_history`, `comparison`, `timeline`, and `total_timeline_seconds`. Step into `ArrangementExperimentService`, `ArrangementAnalysisService.compare`, and `ArrangementTimelineService.timeline` to observe how arrangement decisions are copied, chained, compared, and timed without mutating the original arrangement.

@@ -36,6 +36,15 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Debug Chapter 4 Arrangements Lab",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "open_mic_lab.debug_labs.chapter_04_arrangements",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true
     }
   ]
 }
