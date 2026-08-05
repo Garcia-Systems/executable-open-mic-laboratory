@@ -14,7 +14,10 @@ from open_mic_lab.sample_data import (
 )
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
 from open_mic_lab.services.readiness_service import calculate_readiness
-from open_mic_lab.services.repertoire_service import describe_repertoire
+from open_mic_lab.services.repertoire_service import (
+    RepertoireEngineeringService,
+    describe_repertoire,
+)
 from open_mic_lab.services.setlist_service import analyze_setlist
 from open_mic_lab.services.suitability_service import SongSuitabilityService
 
@@ -27,6 +30,8 @@ def build_parser() -> argparse.ArgumentParser:
     rep_sub = rep.add_subparsers(dest="repertoire_command", required=True)
     rep_sub.add_parser("list", help="List all sample performance versions")
     rep_sub.add_parser("ready", help="List performance-ready versions")
+    for name in ("summary", "gaps", "health", "priorities", "neglected", "diversity"):
+        rep_sub.add_parser(name, help=f"Show repertoire {name}")
     ready = sub.add_parser("readiness", help="Calculate readiness")
     ready_sub = ready.add_subparsers(dest="readiness_command", required=True)
     show = ready_sub.add_parser("show", help="Show readiness for a version")
@@ -48,6 +53,7 @@ def build_parser() -> argparse.ArgumentParser:
     explain.add_argument("--scenario", required=True)
     songs_sub.add_parser("scenarios", help="List deterministic Chapter 1 scenarios")
     sub.add_parser("chapter-one-demo", help="Run the Chapter 1 song suitability demo")
+    sub.add_parser("chapter-two-demo", help="Run the Chapter 2 repertoire engineering demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -64,6 +70,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             for version in rep.list_ready_versions():
                 song = rep.get_song(version.song_identifier)
                 print(f"{version.identifier}: {song.title} ({version.primary_instrument.value})")
+        else:
+            _run_repertoire_engineering(args.repertoire_command, rep)
     elif args.command == "readiness" and args.readiness_command == "show":
         result = calculate_readiness(rep.get_version(args.version_id), sample_practice_sessions())
         print(f"Readiness for {args.version_id}: {result.score}/100 ({result.category})")
@@ -73,6 +81,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _run_songs(args, rep)
     elif args.command == "chapter-one-demo":
         _run_chapter_one_demo(rep)
+    elif args.command == "chapter-two-demo":
+        _run_chapter_two_demo(rep)
     elif args.command == "setlist":
         set_list = sample_setlist()
         if args.setlist_command == "sample":
@@ -212,6 +222,54 @@ def _run_chapter_one_demo(rep: Repertoire) -> None:
         "Reflection: Would you choose the highest-scoring song, the safest song, "
         "or the song that best introduces you tonight?"
     )
+
+
+def _run_repertoire_engineering(command: str, rep: Repertoire) -> None:
+    service = RepertoireEngineeringService()
+    analysis = service.analyze(rep)
+    if command == "summary":
+        print("Repertoire Engineering Summary")
+        for obs in analysis.observations:
+            print(f"Observation: {obs}")
+        print(service.text_report("Genre Distribution", analysis.genre_distribution))
+        print(service.text_report("Readiness", analysis.readiness_distribution))
+    elif command == "gaps":
+        for gap in service.gaps(rep):
+            print(f"Gap: {gap}")
+    elif command == "health":
+        health = service.health(rep)
+        print(f"Repertoire health: {health.score}/100")
+        print(
+            f"diversity={health.diversity} maintenance={health.maintenance} "
+            f"readiness={health.readiness} balance={health.balance} "
+            f"role_coverage={health.role_coverage}"
+        )
+        print(health.explanation)
+    elif command == "priorities":
+        for item in service.priorities(rep):
+            print(f"{item.version_id}: {item.score}")
+            for reason in item.reasons:
+                print(f"- {reason}")
+    elif command == "neglected":
+        for version_id in analysis.neglected_version_ids:
+            print(version_id)
+    elif command == "diversity":
+        print(f"Diversity score: {analysis.diversity_score}/100")
+        print(service.text_report("Instrument Distribution", analysis.instrument_distribution))
+
+
+def _run_chapter_two_demo(rep: Repertoire) -> None:
+    print("Chapter 2 — Repertoire Engineering")
+    service = RepertoireEngineeringService()
+    _run_repertoire_engineering("summary", rep)
+    print("\nGaps")
+    for gap in service.gaps(rep):
+        print(f"- {gap}")
+    print("\nTop learning priorities")
+    for item in service.priorities(rep)[:3]:
+        print(f"- {item.version_id}: {item.reasons[0]}")
+    health = service.health(rep)
+    print(f"\nHealth formula result: {health.score}/100")
 
 
 if __name__ == "__main__":

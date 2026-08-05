@@ -50,6 +50,11 @@ class PerformanceStatus(StrEnum):
     DEVELOPING = "developing"
     NEARLY_READY = "nearly ready"
     PERFORMANCE_READY = "performance ready"
+    ACTIVE = "active repertoire"
+    SEASONAL = "seasonal repertoire"
+    ORIGINAL = "original repertoire"
+    WORK_IN_PROGRESS = "work in progress"
+    RETIRED = "retired repertoire"
 
 
 class VenueType(StrEnum):
