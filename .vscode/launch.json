@@ -81,6 +81,15 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Debug Chapter 9 Sound Check Lab",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "open_mic_lab.debug_labs.chapter_09_sound_check",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true
     }
   ]
 }

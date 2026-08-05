@@ -117,3 +117,7 @@ Breakpoint markers guide you through communication-plan construction, structured
 ## Chapter 8 Signal Flow Debug Lab
 
 Run `python -m open_mic_lab.debug_labs.chapter_08_signal_flow` or launch **Debug Chapter 8 Signal Flow Lab** in VS Code. The lab pauses well around equipment-template creation, graph construction, signal routing, validation, immutable disconnect experiments, visualization generation, and comparison. Inspect `baseline_analysis`, `disconnected_analysis`, `baseline_diagram`, and `comparison` to see how one cable changes the system.
+
+## Chapter 9 Sound Check Debug Lab
+
+Run `python -m open_mic_lab.debug_labs.chapter_09_sound_check` or launch **Debug Chapter 9 Sound Check Lab** in VS Code. Breakpoint markers guide you through venue-profile loading, sound-check workflow construction, mixer analysis, balance calculations, immutable mixer experiments, and comparison of two mixes. Inspect `baseline_analysis`, `workflow`, `raised_monitor`, `monitor_analysis`, `comparison`, `louder_vocal`, `closer_mic`, and `muted_piano` to see why sound check is a decision process rather than a search for one perfect mix.

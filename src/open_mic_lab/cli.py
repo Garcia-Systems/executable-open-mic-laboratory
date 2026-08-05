@@ -46,11 +46,13 @@ from open_mic_lab.services.repertoire_service import (
 )
 from open_mic_lab.services.set_builder_service import SetBuilderService
 from open_mic_lab.services.setlist_service import analyze_setlist
+from open_mic_lab.services.soundcheck_service import SoundCheckExperimentService, SoundCheckService
 from open_mic_lab.services.stage_service import (
     CommunicationAnalysisService,
     CommunicationExperimentService,
 )
 from open_mic_lab.services.suitability_service import SongSuitabilityService
+from open_mic_lab.soundcheck_templates import sample_soundcheck, venue_profiles
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -170,6 +172,20 @@ def build_parser() -> argparse.ArgumentParser:
     )
     equipment_exp_sub.add_parser("disconnect", help="Disconnect one cable")
     sub.add_parser("chapter-eight-demo", help="Run the Chapter 8 equipment laboratory demo")
+    soundcheck = sub.add_parser("soundcheck", help="Run Chapter 9 sound-check labs")
+    soundcheck_sub = soundcheck.add_subparsers(dest="soundcheck_command", required=True)
+    for name in ("analyze", "workflow", "compare"):
+        soundcheck_sub.add_parser(name, help=f"Soundcheck {name}")
+    soundcheck_exp = soundcheck_sub.add_parser("experiment", help="Run immutable mixer experiments")
+    soundcheck_exp_sub = soundcheck_exp.add_subparsers(
+        dest="soundcheck_experiment_command", required=True
+    )
+    gain = soundcheck_exp_sub.add_parser("gain", help="Increase or reduce channel gain")
+    gain.add_argument("channel_id")
+    gain.add_argument("delta", type=int)
+    monitor = soundcheck_exp_sub.add_parser("monitor", help="Raise or lower monitor level")
+    monitor.add_argument("delta", type=int)
+    sub.add_parser("chapter-nine-demo", help="Run the Chapter 9 sound-check laboratory demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -232,6 +248,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_equipment(args)
     elif args.command == "chapter-eight-demo":
         _run_chapter_eight_demo()
+    elif args.command == "soundcheck":
+        _run_soundcheck(args)
+    elif args.command == "chapter-nine-demo":
+        _run_chapter_nine_demo()
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -898,6 +918,55 @@ def _run_chapter_eight_demo() -> None:
         print(f"Difference: {difference}")
     print("\nReflection: What happened to the audience path when the main-speaker cable changed?")
     print("Reflection: What can the performer still hear, and what cannot reach the room?")
+
+
+def _run_soundcheck(args) -> None:  # type: ignore[no-untyped-def]
+    setup = piano_and_vocal_setup()
+    soundcheck = sample_soundcheck()
+    service = SoundCheckService()
+    experiment = SoundCheckExperimentService()
+    if args.soundcheck_command == "analyze":
+        print(service.text_report(service.analyze(soundcheck, setup)))
+    elif args.soundcheck_command == "workflow":
+        for step in service.workflow(soundcheck, setup):
+            print(f"{step.number}. {step.name}: {step.observation} Action: {step.action}")
+    elif args.soundcheck_command == "compare":
+        changed = experiment.change_monitor(soundcheck, 2)
+        for difference in service.compare(soundcheck, changed, setup).differences:
+            print(f"Difference: {difference}")
+    elif args.soundcheck_command == "experiment":
+        if args.soundcheck_experiment_command == "gain":
+            changed = experiment.change_gain(soundcheck, args.channel_id, args.delta)
+        else:
+            changed = experiment.change_monitor(soundcheck, args.delta)
+        print(f"Original: {soundcheck.identifier}")
+        print(f"Experiment: {changed.identifier}")
+        print(f"Original object unchanged: {soundcheck.mixer_settings != changed.mixer_settings}")
+        print(service.text_report(service.analyze(changed, setup)))
+
+
+def _run_chapter_nine_demo() -> None:
+    print("Chapter 9 — Sound Check Laboratory")
+    setup = piano_and_vocal_setup()
+    venues = venue_profiles()
+    soundcheck = sample_soundcheck("noisy-cafe")
+    print(f"Loaded equipment setup: {setup.name}")
+    print(f"Loaded venue profile: {venues['noisy-cafe'].name}")
+    service = SoundCheckService()
+    experiment = SoundCheckExperimentService()
+    baseline = service.analyze(soundcheck, setup)
+    print(service.text_report(baseline))
+    print("Identified imbalance: monitor needs attention before the performer plays the set.")
+    adjusted = experiment.change_monitor(soundcheck, 2)
+    print("Immutable experiment: raise monitor level by 2")
+    print(f"Before monitor: {soundcheck.mixer_settings.monitor_mix.overall_level}")
+    print(f"After monitor: {adjusted.mixer_settings.monitor_mix.overall_level}")
+    for difference in service.compare(soundcheck, adjusted, setup).differences:
+        print(f"Difference: {difference}")
+    muted = experiment.mute_channel(adjusted, "ch2")
+    print(f"Second experiment id: {muted.identifier}")
+    print("Reflection: What happens if I change the mix?")
+    print("Reflection: Which venue detail changed your first adjustment?")
 
 
 if __name__ == "__main__":

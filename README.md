@@ -204,3 +204,7 @@ python -m open_mic_lab.debug_labs.chapter_08_signal_flow
 ```
 
 Chapter 8 complements repertoire, arrangement, coordination, practice, and stage-presence planning by making the technical path from performer to audience visible. Deferred to Chapter 9: live sound optimization, listening-position decisions, gain staging, feedback mitigation, and room-specific adjustment strategy.
+
+## Chapter 9 — Sound Check Laboratory
+
+Chapter 9 builds on the Equipment Laboratory by asking what happens after the signal path works. It introduces deterministic sound-check models for mixer settings, channel settings, EQ profiles, monitor mixes, venue acoustics, feedback risk, and balance assessment. Run `open-mic-lab soundcheck analyze`, `open-mic-lab soundcheck workflow`, `open-mic-lab soundcheck compare`, or `open-mic-lab chapter-nine-demo` to compare live-mix decisions without pretending there is one perfect mix. The chapter prepares Chapter 10 by separating performer monitoring from audience perception.

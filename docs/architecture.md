@@ -193,3 +193,21 @@ flowchart LR
 ```
 
 Chapter 8 integrates with performance planning by making setup constraints visible before the set starts. It prepares Chapter 9 by separating reliable routing from later live-sound optimization decisions.
+
+## Chapter 9 sound-check architecture
+
+Chapter 9 adds `SoundCheck`, `MixerSettings`, `ChannelSettings`, `EQProfile`, `MonitorMix`, `VenueAcoustics`, `FeedbackRisk`, and `BalanceAssessment`. The model intentionally uses coarse educational values instead of acoustic simulation. `SoundCheckService` combines a verified `SignalPath`, venue profile, performer, and mixer settings to report vocal balance, accompaniment balance, monitor balance, feedback risk, clipping risk, insufficient gain, unused channels, observations, suggested adjustments, warnings, strengths, and an explanation.
+
+`SoundCheckExperimentService` follows the immutable experiment pattern: gain changes, accompaniment reduction, monitor changes, EQ changes, microphone-distance changes, and muting a channel return copied `SoundCheck` values. Venue profiles live in deterministic templates so tests, CLI output, docs, and debug labs stay reproducible.
+
+```mermaid
+flowchart LR
+    SignalPath --> SoundCheckService
+    VenueAcoustics --> SoundCheckService
+    MixerSettings --> SoundCheckService
+    SoundCheckService --> BalanceAssessment
+    SoundCheckExperimentService --> CopiedSoundCheck
+    CopiedSoundCheck --> SoundCheckService
+```
+
+Chapter 9 builds directly on the Equipment Laboratory: a valid route is necessary but not sufficient. It prepares Chapter 10 by distinguishing the performer's monitor comfort from what the audience perceives in the room.
