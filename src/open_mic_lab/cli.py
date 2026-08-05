@@ -22,6 +22,7 @@ from open_mic_lab.sample_data import (
     sample_coordination_profile,
     sample_improvisation_context,
     sample_original_presentation_plan,
+    sample_performance_history,
     sample_practice_sessions,
     sample_recovery_scenario,
     sample_selection_scenarios,
@@ -29,6 +30,10 @@ from open_mic_lab.sample_data import (
     sample_set_scenarios,
     sample_setlist,
     sample_venue,
+)
+from open_mic_lab.services.analytics_service import (
+    ImprovementExperimentService,
+    PerformanceAnalyticsService,
 )
 from open_mic_lab.services.arrangement_service import (
     ArrangementAnalysisService,
@@ -284,6 +289,11 @@ def build_parser() -> argparse.ArgumentParser:
     event_exp = event_sub.add_parser("experiment", help="Run immutable event experiments")
     event_exp.add_argument("name", nargs="?", default="unexpected-recovery-event")
     sub.add_parser("chapter-fourteen-demo", help="Run the Chapter 14 open mic simulator demo")
+    analytics = sub.add_parser("analytics", help="Run Chapter 15 performance analytics")
+    analytics_sub = analytics.add_subparsers(dest="analytics_command", required=True)
+    for name in ("dashboard", "trends", "recommendations", "compare", "improvement-plan"):
+        analytics_sub.add_parser(name, help=f"Analytics {name}")
+    sub.add_parser("chapter-fifteen-demo", help="Run the Chapter 15 performance analytics demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -370,6 +380,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_event(args, rep)
     elif args.command == "chapter-fourteen-demo":
         _run_chapter_fourteen_demo(rep)
+    elif args.command == "analytics":
+        _run_analytics(args)
+    elif args.command == "chapter-fifteen-demo":
+        _run_chapter_fifteen_demo()
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -1496,6 +1510,70 @@ def _run_chapter_fourteen_demo(rep: Repertoire) -> None:
     print("10. final event report")
     _print_event_report(service.report(rep, event))
     print("11. reflection questions: What changed because you prepared? What comes next?")
+
+
+def _run_analytics(args) -> None:  # type: ignore[no-untyped-def]
+    service = PerformanceAnalyticsService()
+    experiments = ImprovementExperimentService()
+    history = sample_performance_history()
+    report = service.report(history)
+    if args.analytics_command == "dashboard":
+        print(report.dashboard.text)
+    elif args.analytics_command == "trends":
+        print("Educational trend report")
+        for trend in report.trends:
+            print(f"- {trend.name}: {trend.direction} — {trend.evidence}")
+    elif args.analytics_command == "recommendations":
+        print("Improvement recommendations (educational, not rankings)")
+        for recommendation in report.recommendations:
+            chapters = ", ".join(recommendation.related_chapters)
+            print(f"- {recommendation.action} Why: {recommendation.reason} Chapters: {chapters}")
+    elif args.analytics_command == "compare":
+        practice = experiments.emphasize_practice(report.improvement_plan)
+        technical = experiments.technical_focus_month(report.improvement_plan)
+        for line in experiments.compare(practice, technical):
+            print(line)
+    elif args.analytics_command == "improvement-plan":
+        plan = experiments.prepare_for_upcoming_performance(report.improvement_plan)
+        print(f"Improvement plan: {plan.identifier}")
+        print(f"Focus: {plan.focus}")
+        for action in plan.actions:
+            print(f"- {action}")
+
+
+def _run_chapter_fifteen_demo() -> None:
+    service = PerformanceAnalyticsService()
+    experiments = ImprovementExperimentService()
+    history = sample_performance_history()
+    report = service.report(history)
+    print("Chapter 15 — Performance Analytics & Continuous Improvement")
+    print(f"Loaded {len(history.snapshots)} simulated performances.")
+    print(report.dashboard.text)
+    print("\nTrends")
+    for trend in report.trends:
+        print(f"- {trend.name}: {trend.direction} — {trend.evidence}")
+    print("\nRecommendations")
+    for recommendation in report.recommendations:
+        print(f"- {recommendation.action} Why: {recommendation.reason}")
+    practice_plan = experiments.emphasize_practice(report.improvement_plan)
+    communication_plan = experiments.emphasize_communication(report.improvement_plan)
+    print("\nPlan comparison")
+    for line in experiments.compare(practice_plan, communication_plan):
+        print(f"- {line}")
+    print("\nImmutable planning experiments")
+    for plan in (
+        experiments.emphasize_new_repertoire(report.improvement_plan),
+        experiments.prepare_for_upcoming_performance(report.improvement_plan),
+        experiments.technical_focus_month(report.improvement_plan),
+        experiments.maintenance_month(report.improvement_plan),
+    ):
+        print(
+            f"- {plan.identifier}: {plan.focus}; "
+            f"baseline unchanged={report.improvement_plan.focus == 'balanced'}"
+        )
+    print("\nVolume I summary")
+    for line in report.volume_summary:
+        print(f"- {line}")
 
 
 if __name__ == "__main__":

@@ -280,3 +280,32 @@ Chapter 13 prepares Chapter 14 by making original artistic identity explicit bef
 ## Chapter 14 orchestration layer
 
 `OpenMicEventService` is an orchestration service. It composes repertoire, set building, arrangement, readiness, coordination, communication, equipment, sound-check, audience, recovery, improvisation, and original-music services. It intentionally avoids duplicating those engines; the event report references their outputs and keeps event experiments immutable.
+
+## Chapter 15 performance analytics architecture
+
+Chapter 15 adds the Volume I capstone. `PerformanceSnapshot` summarizes observations from previous subsystems; `PerformanceHistory` orders those snapshots chronologically; `PerformanceAnalyticsService` generates `PracticeTrend`, `RepertoireTrend`, `TrendObservation`, `PerformanceDashboard`, `ImprovementRecommendation`, and a complete `AnalyticsReport`. `ImprovementExperimentService` follows the immutable experiment pattern established throughout Volume I by returning copied `ImprovementPlan` objects.
+
+```mermaid
+flowchart LR
+    Readiness --> Snapshot[PerformanceSnapshot]
+    Repertoire --> Snapshot
+    Arrangements --> Snapshot
+    Practice --> Snapshot
+    Coordination --> Snapshot
+    Communication --> Snapshot
+    Equipment --> Snapshot
+    SoundCheck --> Snapshot
+    Audience --> Snapshot
+    Recovery --> Snapshot
+    Improvisation --> Snapshot
+    Originals --> Snapshot
+    Events --> Snapshot
+    Snapshot --> History[PerformanceHistory]
+    History --> Analytics[PerformanceAnalyticsService]
+    Analytics --> Dashboard[PerformanceDashboard]
+    Analytics --> Recommendations[ImprovementRecommendation]
+    Recommendations --> Plan[ImprovementPlan]
+    Plan --> Experiments[ImprovementExperimentService]
+```
+
+The analytics service summarizes patterns and recommended next actions. It does not grade performers or evaluate artistic worth.

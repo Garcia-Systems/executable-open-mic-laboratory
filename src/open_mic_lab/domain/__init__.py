@@ -1,5 +1,16 @@
 """Domain model exports."""
 
+from open_mic_lab.domain.analytics import (
+    AnalyticsReport,
+    ImprovementPlan,
+    ImprovementRecommendation,
+    PerformanceDashboard,
+    PerformanceHistory,
+    PerformanceSnapshot,
+    PracticeTrend,
+    RepertoireTrend,
+    TrendObservation,
+)
 from open_mic_lab.domain.arrangement import Arrangement, ArrangementExperimentRecord
 from open_mic_lab.domain.audience import (
     AudienceExpectation,
@@ -138,6 +149,15 @@ from open_mic_lab.domain.stage import (
 from open_mic_lab.domain.venue import Venue
 
 __all__ = [
+    "AnalyticsReport",
+    "ImprovementPlan",
+    "ImprovementRecommendation",
+    "PerformanceDashboard",
+    "PerformanceHistory",
+    "PerformanceSnapshot",
+    "PracticeTrend",
+    "RepertoireTrend",
+    "TrendObservation",
     "EventReport",
     "EventScenario",
     "EventTimeline",

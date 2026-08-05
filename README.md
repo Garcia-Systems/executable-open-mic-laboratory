@@ -251,3 +251,23 @@ Chapter 13 adds an original-music presentation laboratory. It models `OriginalWo
 ## Chapter 14 — Open Mic Simulator
 
 The lab now includes a deterministic Volume I capstone that simulates a full open mic evening from arrival to reflection. Use `open-mic-lab event simulate`, `event timeline`, `event compare`, `event experiment`, `event report`, or `chapter-fourteen-demo` to inspect how the earlier subsystem engines contribute to one event.
+
+## Volume I complete — Chapters 0–15
+
+Volume I is now complete as an executable textbook. It covers readiness, song choice, repertoire engineering, set building, arrangements, coordination, deliberate practice, stage communication, equipment, sound check, audience experience, recovery, improvisation, original music, open mic orchestration, and performance analytics.
+
+Chapter 15 adds Performance Analytics & Continuous Improvement. It asks: **What should I improve before my next performance?** The analytics engine summarizes multiple performances, produces educational trends, renders deterministic text dashboards, generates transparent recommendations, and creates immutable improvement-plan experiments. It never evaluates artistic worth.
+
+Useful Chapter 15 commands:
+
+```bash
+open-mic-lab analytics dashboard
+open-mic-lab analytics trends
+open-mic-lab analytics recommendations
+open-mic-lab analytics compare
+open-mic-lab analytics improvement-plan
+open-mic-lab chapter-fifteen-demo
+python -m open_mic_lab.debug_labs.chapter_15_performance_analytics
+```
+
+See `docs/volume-1-overview.md` for the completed chapter checklist, architecture progression, deterministic simulation approach, debugging workflow, CLI direction, and future extension points.
