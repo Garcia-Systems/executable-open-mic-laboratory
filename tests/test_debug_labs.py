@@ -79,6 +79,7 @@ def test_vscode_debug_configurations_reference_valid_modules() -> None:
             "open_mic_lab.debug_labs.chapter_06_practice_engineering"
         ),
         "Debug Chapter 7 Stage Presence Lab": ("open_mic_lab.debug_labs.chapter_07_stage_presence"),
+        "Debug Chapter 8 Signal Flow Lab": "open_mic_lab.debug_labs.chapter_08_signal_flow",
     }
     for module in modules.values():
         assert import_module(module)
