@@ -121,3 +121,9 @@ Run `python -m open_mic_lab.debug_labs.chapter_08_signal_flow` or launch **Debug
 ## Chapter 9 Sound Check Debug Lab
 
 Run `python -m open_mic_lab.debug_labs.chapter_09_sound_check` or launch **Debug Chapter 9 Sound Check Lab** in VS Code. Breakpoint markers guide you through venue-profile loading, sound-check workflow construction, mixer analysis, balance calculations, immutable mixer experiments, and comparison of two mixes. Inspect `baseline_analysis`, `workflow`, `raised_monitor`, `monitor_analysis`, `comparison`, `louder_vocal`, `closer_mic`, and `muted_piano` to see why sound check is a decision process rather than a search for one perfect mix.
+
+## Chapter 10 — Audience Experience Debug Lab
+
+Run `python -m open_mic_lab.debug_labs.chapter_10_audience_experience` or use **Debug Chapter 10 Audience Experience Lab** in VS Code. Breakpoints are marked for audience-profile loading, coffeehouse response analysis, church response analysis, comparison without a score, an immutable familiarity experiment, and proof that the source performance remains unchanged.
+
+Useful variables: `profiles`, `performance`, `coffeehouse`, `church`, `coffeehouse_response`, `church_response`, `comparison`, `familiarity_experiment`, `original_unchanged`, and `changed_is_copy`.

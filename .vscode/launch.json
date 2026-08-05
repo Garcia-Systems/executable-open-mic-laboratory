@@ -90,6 +90,15 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Debug Chapter 10 Audience Experience Lab",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "open_mic_lab.debug_labs.chapter_10_audience_experience",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true
     }
   ]
 }

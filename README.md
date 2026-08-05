@@ -208,3 +208,21 @@ Chapter 8 complements repertoire, arrangement, coordination, practice, and stage
 ## Chapter 9 — Sound Check Laboratory
 
 Chapter 9 builds on the Equipment Laboratory by asking what happens after the signal path works. It introduces deterministic sound-check models for mixer settings, channel settings, EQ profiles, monitor mixes, venue acoustics, feedback risk, and balance assessment. Run `open-mic-lab soundcheck analyze`, `open-mic-lab soundcheck workflow`, `open-mic-lab soundcheck compare`, or `open-mic-lab chapter-nine-demo` to compare live-mix decisions without pretending there is one perfect mix. The chapter prepares Chapter 10 by separating performer monitoring from audience perception.
+
+## Chapter 10 — Audience Experience Laboratory
+
+Chapter 10 helps learners compare how the same performance plan may need different explanations, pacing, familiarity, participation, and transition choices for different audience contexts. It introduces audience profiles and deterministic response observations without predicting emotions or producing an audience score.
+
+Useful commands:
+
+```bash
+open-mic-lab audience profiles
+open-mic-lab audience analyze
+open-mic-lab audience compare
+open-mic-lab audience experiment participation
+open-mic-lab audience experiment familiarity
+open-mic-lab chapter-ten-demo
+python -m open_mic_lab.debug_labs.chapter_10_audience_experience
+```
+
+The laboratory builds on Chapter 7 stage presence and Chapter 9 sound check by connecting communication and room sound to audience-context reasoning. Deferred to Chapter 11: unexpected events, mistakes, and interruptions during the planned performance.
