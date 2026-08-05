@@ -135,6 +135,13 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Debug Chapter 15 Performance Analytics Lab",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "open_mic_lab.debug_labs.chapter_15_performance_analytics",
+      "justMyCode": false
     }
   ]
 }

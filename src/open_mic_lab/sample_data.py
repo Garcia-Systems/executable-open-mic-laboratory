@@ -1,10 +1,14 @@
 """Deterministic sample repertoire for examples, tests, and CLI demos."""
 
+from __future__ import annotations
+
 # ruff: noqa: E501
 from dataclasses import replace
 from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
+
+from open_mic_lab.domain.analytics import PerformanceHistory
 
 if TYPE_CHECKING:
     from open_mic_lab.services.recovery_service import RecoveryScenario
@@ -1160,7 +1164,7 @@ def sample_audience_performance() -> AudiencePerformance:
     )
 
 
-def sample_recovery_scenario() -> "RecoveryScenario":
+def sample_recovery_scenario() -> RecoveryScenario:
     """Build a deterministic Chapter 11 recovery scenario."""
     from open_mic_lab.domain.recovery import RecoveryStrategy
     from open_mic_lab.services.recovery_service import IncidentCatalogService, RecoveryScenario
@@ -1238,4 +1242,71 @@ def sample_original_presentation_plan() -> OriginalPresentationPlan:
         AudienceContext("supportive-room-originals", "supportive-coffeehouse", 7, 7, 5),
         sample_artistic_identity(),
         "Original is placed between familiar orientation and familiar closer.",
+    )
+
+
+def sample_performance_history() -> PerformanceHistory:
+    """Build deterministic Chapter 15 performance snapshots."""
+    from open_mic_lab.domain import PerformanceHistory, PerformanceSnapshot
+
+    return PerformanceHistory(
+        (
+            PerformanceSnapshot(
+                "first-coffeehouse",
+                date(2026, 7, 1),
+                ("river-guitar-lowered", "harbor-guitar", "window-piano"),
+                76,
+                7,
+                4,
+                70,
+                68,
+                72,
+                1,
+                2,
+                ("Listeners leaned in during the quieter original.",),
+                1,
+                False,
+                1,
+                "First coffeehouse set connected repertoire choices to recovery practice.",
+            ),
+            PerformanceSnapshot(
+                "listening-room-return",
+                date(2026, 7, 15),
+                ("river-guitar-lowered", "lantern-piano", "window-piano"),
+                82,
+                8,
+                5,
+                85,
+                74,
+                78,
+                0,
+                1,
+                ("Audience responded to the brief story before the original.",),
+                1,
+                True,
+                1,
+                "Second event used improvisation and a clearer story arc.",
+            ),
+            PerformanceSnapshot(
+                "open-mic-capstone",
+                date(2026, 7, 29),
+                ("harbor-guitar", "window-piano", "train-guitar-closer"),
+                88,
+                9,
+                5,
+                90,
+                81,
+                84,
+                0,
+                0,
+                (
+                    "Closing song created a confident final memory.",
+                    "Participation cue was easy to follow.",
+                ),
+                0,
+                True,
+                1,
+                "Capstone open mic connected every subsystem into next-action planning.",
+            ),
+        )
     )

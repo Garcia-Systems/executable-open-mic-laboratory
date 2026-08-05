@@ -89,7 +89,10 @@ def test_vscode_debug_configurations_reference_valid_modules() -> None:
         "Debug Chapter 13 Original Music Lab": (
             "open_mic_lab.debug_labs.chapter_13_original_music"
         ),
-        "Debug Chapter 14 Open Mic Simulator Lab": ("open_mic_lab.debug_labs.chapter_14_open_mic"),
+        "Debug Chapter 14 Open Mic Simulator Lab": "open_mic_lab.debug_labs.chapter_14_open_mic",
+        "Debug Chapter 15 Performance Analytics Lab": (
+            "open_mic_lab.debug_labs.chapter_15_performance_analytics"
+        ),
     }
     for module in modules.values():
         assert import_module(module)

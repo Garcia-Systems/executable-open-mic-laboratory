@@ -151,3 +151,7 @@ Run `python -m open_mic_lab.debug_labs.chapter_13_original_music` or launch **De
 ## Chapter 14 Open Mic Simulator debug lab
 
 Use the VS Code launch configuration **Debug Chapter 14 Open Mic Simulator Lab** or run `python -m open_mic_lab.debug_labs.chapter_14_open_mic`. Breakpoints are documented for event creation, orchestration, subsystem-derived report generation, and immutable event experiments.
+
+## Chapter 15 — Performance Analytics & Continuous Improvement
+
+Run `python -m open_mic_lab.debug_labs.chapter_15_performance_analytics` or launch **Debug Chapter 15 Performance Analytics Lab** in VS Code. Breakpoint markers expose `history`, `latest_snapshot`, `trends`, `practice_trend`, `repertoire_trend`, `recommendations`, `dashboard`, `baseline_plan`, `practice_plan`, `technical_plan`, `comparison`, and `baseline_unchanged`. Step into `PerformanceAnalyticsService.report`, `dashboard`, `recommendations`, and `ImprovementExperimentService` methods to trace how Volume I observations become continuous-improvement plans without mutating the baseline.
