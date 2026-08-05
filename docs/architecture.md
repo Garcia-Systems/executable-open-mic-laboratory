@@ -137,3 +137,20 @@ flowchart LR
 ```
 
 Chapter 5 builds on Chapter 4 arrangements by asking how arrangement complexity affects attention. It prepares Chapter 6 deliberate-practice engineering by turning bottlenecks into repeatable experiments.
+
+## Chapter 6 practice engineering architecture
+
+Chapter 6 adds `PracticeGoal`, `PracticeTask`, `PracticeBlock`, `PracticePlan`, `SkillArea`, `PracticePriority`, and `PracticeOutcome` beside the existing `PracticeSession` evidence model. These objects describe designed practice without duplicating song, arrangement, readiness, or coordination facts.
+
+`PracticePlanningService` converts readiness gaps, repertoire maintenance pressure, coordination bottlenecks, learner priorities, and available minutes into an ordered immutable `PracticePlan`. `PracticeAnalyticsService` summarizes distribution, neglected skills, over-practiced skills, readiness trends, and educational observations.
+
+```mermaid
+flowchart LR
+    PracticeSession --> ReadinessService
+    Repertoire --> PracticePlanningService
+    CoordinationProfile --> PracticePlanningService
+    PracticePlanningService --> PracticePlan
+    PracticePlan --> PracticeAnalyticsService
+```
+
+Chapter 6 prepares Chapter 7 by ensuring the learner has a transparent practice plan before studying stage presence.

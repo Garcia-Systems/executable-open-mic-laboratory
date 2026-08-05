@@ -160,3 +160,9 @@ python -m open_mic_lab.debug_labs.chapter_05_coordination
 ```
 
 Chapter 5 builds on arrangement choices from Chapter 4 and prepares Chapter 6 by turning coordination bottlenecks into deliberate-practice experiments.
+
+## Chapter 6 — Deliberate Practice Engineering
+
+Chapter 6 turns practice into a deterministic planning system. Use `open-mic-lab practice plan`, `analyze`, `priorities`, `blocks`, `practice experiment maintenance`, `practice experiment performance`, and `chapter-six-demo` to compare maintenance, improvement, coordination, memorization, exploration, and performance-preparation strategies. The engine builds on readiness, repertoire health, arrangements, and coordination bottlenecks while leaving artistic decisions to the learner.
+
+Deferred to Chapter 7: stage presence, audience connection, between-song delivery under pressure, and live-room recovery behavior.
