@@ -98,3 +98,7 @@ Song rankings have explicit limitations: vocal range is not vocal health, famili
 ## Roadmap status
 
 Implemented: Chapter 0 foundations and Chapter 1 song choice experiments. Deferred to Chapter 2 or later: full repertoire database, persistence, graphical dashboards, audio analysis, AI recommendations, and advanced set-list optimization.
+
+## Chapter 2 — Repertoire Engineering
+
+Chapter 2 turns the sample repertoire into a decision-support system. Use `open-mic-lab repertoire summary`, `gaps`, `health`, `priorities`, `neglected`, and `diversity` to inspect balance, stalled songs, missing set roles, and learning priorities. The chapter builds on Chapter 0 readiness and Chapter 1 suitability, then prepares Chapter 3 to use repertoire evidence in fuller performance planning.

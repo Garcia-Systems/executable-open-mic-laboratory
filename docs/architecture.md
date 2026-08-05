@@ -72,3 +72,7 @@ flowchart LR
 ```
 
 Chapter 1 prepares for Chapter 2 repertoire engineering by making candidate fit explicit before introducing larger repertoire collections, persistence, or optimization. The design intentionally avoids a full database, GUI, audio analysis, or advanced set-list optimizer at this stage.
+
+## Chapter 2 repertoire engineering
+
+Repertoire is now a first-class aggregate around `Song` and `PerformanceVersion`. A performance version has exactly one lifecycle status and may carry repertoire metadata: dates, maintenance interval, practice/performance totals, audience-response totals, target readiness, preferred venues, setup requirements, preferred role, confidence, and notes. `RepertoireEngineeringService` computes deterministic distributions, observations, gap recommendations, learning priorities, text reports, and the health score formula: 25% diversity, 20% maintenance, 25% readiness, 15% balance, and 15% role coverage. The score is educational comparison data, not a musicianship grade.

@@ -10,6 +10,7 @@ from open_mic_lab.domain.enums import (
     Instrument,
     PerformanceRole,
     PerformanceStatus,
+    VenueType,
 )
 from open_mic_lab.domain.pitch import VocalRange
 from open_mic_lab.domain.validation import (
@@ -60,6 +61,18 @@ class PerformanceVersion:
     estimated_duration_seconds: int = 210
     is_available: bool = True
     adaptation_notes: tuple[str, ...] = ()
+    date_added: date | None = None
+    last_practiced: date | None = None
+    last_performed: date | None = None
+    maintenance_interval_days: int = 14
+    total_practice_sessions: int = 0
+    total_performances: int = 0
+    total_audience_responses: int = 0
+    target_readiness: int = 85
+    preferred_venue_types: tuple[VenueType, ...] = ()
+    setup_requirements: tuple[str, ...] = ()
+    preferred_performance_role: PerformanceRole | None = None
+    average_confidence: Decimal | None = None
     notes: str = ""
 
     def __post_init__(self) -> None:
@@ -75,6 +88,13 @@ class PerformanceVersion:
         require_positive_int(self.estimated_duration_seconds, "Estimated duration")
         if self.performer_connection is not None:
             require_rating(self.performer_connection, "Performer connection")
+        require_positive_int(self.maintenance_interval_days, "Maintenance interval")
+        require_non_negative_int(self.total_practice_sessions, "Total practice sessions")
+        require_non_negative_int(self.total_performances, "Total performances")
+        require_non_negative_int(self.total_audience_responses, "Total audience responses")
+        require_rating(Decimal(self.target_readiness) / Decimal("10"), "Target readiness")
+        if self.average_confidence is not None:
+            require_rating(self.average_confidence, "Average confidence")
         if not self.supported_roles:
             raise ValueError("Performance versions need at least one supported role.")
         for note in self.adaptation_notes:

@@ -54,3 +54,7 @@ Every new chapter should normally include:
 10. documentation showing how the debug path connects to the chapter concept.
 
 Name future debug helpers with chapter number plus concept, for example `chapter_02_repertoire_engineering.py`, `chapter_03_set_builder.py`, and `chapter_04_arrangement_experiments.py`. Do not create future chapter files before their chapter work begins.
+
+## Chapter 2 Repertoire Engineering Debug Lab
+
+Use VS Code launch configuration **Debug Chapter 2 Repertoire Engineering Lab** or run `python -m open_mic_lab.debug_labs.chapter_02_repertoire_engineering`. Breakpoint markers expose `repertoire`, `analysis`, `genre_distribution`, `key_distribution`, `neglected_version_ids`, `gaps`, `priorities`, `top_priority`, and `health`. Step into `RepertoireEngineeringService.analyze`, `gaps`, `priorities`, and `health` to see why recommendations are produced.
