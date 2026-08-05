@@ -9,22 +9,32 @@ from open_mic_lab.domain import (
     AccompanimentTask,
     Arrangement,
     ArrangementFlexibility,
+    AudienceFamiliarity,
+    AudienceInteraction,
     Automaticity,
+    CommunicationPlan,
     CoordinationProfile,
     Difficulty,
+    EmotionalTone,
     EnergyLevel,
     Genre,
     Instrument,
+    IntroductionPurpose,
     Mood,
+    PerformanceFlow,
     PerformanceRole,
     PerformanceStatus,
     PerformanceVersion,
+    PerformerBehavior,
     PracticeSession,
     Repertoire,
     SetList,
     SetTransition,
     Song,
     SongSelectionProfile,
+    SpokenIntroduction,
+    StageMoment,
+    StorySegment,
     TransitionEnergyEffect,
     TransitionKind,
     Venue,
@@ -929,4 +939,69 @@ def sample_coordination_profile() -> CoordinationProfile:
         target_tempo_bpm=72,
         hand_voice_independence=4,
         recent_practice_minutes=40,
+    )
+
+
+def sample_communication_plan() -> CommunicationPlan:
+    """Build the deterministic Chapter 7 stage-presence communication plan."""
+    introductions = (
+        SpokenIntroduction(
+            "intro-river",
+            "river-guitar-lowered",
+            IntroductionPurpose.CONTEXT,
+            18,
+            EmotionalTone.WARM,
+            AudienceFamiliarity.MEDIUM,
+            "begin with settled guitar pulse",
+        ),
+        SpokenIntroduction(
+            "intro-window",
+            "window-guitar",
+            IntroductionPurpose.CONNECTION,
+            28,
+            EmotionalTone.VULNERABLE,
+            AudienceFamiliarity.LOW,
+            "name the first chord clearly",
+            StorySegment("writing the song after a difficult week", 35, True, True),
+        ),
+        SpokenIntroduction(
+            "intro-harbor",
+            "harbor-guitar",
+            IntroductionPurpose.PARTICIPATION,
+            16,
+            EmotionalTone.WARM,
+            AudienceFamiliarity.HIGH,
+            "invite gentle final refrain",
+        ),
+    )
+    interactions = (
+        AudienceInteraction(
+            "opening-thanks",
+            StageMoment.BEFORE_SET,
+            "Thank the host and make brief eye contact with the room.",
+            12,
+            2,
+        ),
+    )
+    flow = PerformanceFlow(
+        silence_between_songs_seconds=(10, 32),
+        transition_smoothness=6,
+        confidence_continuity=7,
+        eye_contact_opportunities=4,
+        storytelling_opportunities=2,
+        recovery_plan="Breathe, smile, re-enter at the next lyric or chord change.",
+        behaviors=(
+            PerformerBehavior.GROUNDED_POSTURE,
+            PerformerBehavior.EYE_CONTACT,
+            PerformerBehavior.RECOVERY_BREATH,
+        ),
+    )
+    return CommunicationPlan(
+        "chapter-seven-baseline",
+        "coffeehouse-15",
+        150,
+        introductions,
+        interactions,
+        flow,
+        "Educational sample: suggestions are prompts, not rules.",
     )

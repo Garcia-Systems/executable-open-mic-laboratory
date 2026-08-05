@@ -44,6 +44,18 @@ from open_mic_lab.domain.reflection import Reflection
 from open_mic_lab.domain.repertoire import Repertoire
 from open_mic_lab.domain.selection import SongSelectionProfile
 from open_mic_lab.domain.song import Song
+from open_mic_lab.domain.stage import (
+    AudienceFamiliarity,
+    AudienceInteraction,
+    CommunicationPlan,
+    EmotionalTone,
+    IntroductionPurpose,
+    PerformanceFlow,
+    PerformerBehavior,
+    SpokenIntroduction,
+    StageMoment,
+    StorySegment,
+)
 from open_mic_lab.domain.venue import Venue
 
 __all__ = [
@@ -82,6 +94,16 @@ __all__ = [
     "Song",
     "SongSelectionProfile",
     "Venue",
+    "AudienceFamiliarity",
+    "AudienceInteraction",
+    "CommunicationPlan",
+    "EmotionalTone",
+    "IntroductionPurpose",
+    "PerformanceFlow",
+    "PerformerBehavior",
+    "SpokenIntroduction",
+    "StageMoment",
+    "StorySegment",
     "VenueType",
     "TransitionEnergyEffect",
     "TransitionKind",

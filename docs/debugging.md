@@ -102,3 +102,14 @@ Suggested breakpoints:
 - `analytics` to inspect practice balance observations.
 
 The lab connects Chapter 6 to Chapter 0 readiness, Chapter 2 repertoire maintenance, Chapter 4 arrangement decisions, and Chapter 5 coordination bottlenecks.
+
+
+## Chapter 7 stage-presence debug lab
+
+Use **Debug Chapter 7 Stage Presence Lab** in VS Code or run:
+
+```bash
+python -m open_mic_lab.debug_labs.chapter_07_stage_presence
+```
+
+Breakpoint markers guide you through communication-plan construction, structured introduction analysis, pacing evaluation, audience interaction analysis, immutable communication experiments, and before/after flow comparison. The useful variables are `plan`, `introduction_observations`, `flow_observations`, `shortened_plan`, `participation_plan`, and `comparison`.
