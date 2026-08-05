@@ -142,3 +142,7 @@ python -m open_mic_lab.debug_labs.chapter_12_improvisation
 ```
 
 Open **Debug Chapter 12 Improvisation Lab** in VS Code. Suggested breakpoints are marked in `src/open_mic_lab/debug_labs/chapter_12_improvisation.py` for opportunity detection, planned timeline generation, immutable experiments, and planned/adapted comparison.
+
+## Chapter 13 — Performing Original Music
+
+Run `python -m open_mic_lab.debug_labs.chapter_13_original_music` or launch **Debug Chapter 13 Original Music Lab** in VS Code. Breakpoint markers expose `plan`, `baseline_analysis`, `original_positions`, `moved_earlier`, `shortened_story`, `participation_plan`, `comparison`, and `identity_observations`. Step into `OriginalMusicAnalysisService.analyze`, `compare`, and `OriginalPresentationExperimentService` methods to inspect deterministic original-song placement without mutating the baseline plan.

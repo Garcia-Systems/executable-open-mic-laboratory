@@ -241,3 +241,8 @@ The Improvisation Laboratory models adaptive musical decision-making when a perf
 Try `open-mic-lab improv analyze`, `open-mic-lab improv opportunities`, `open-mic-lab improv experiment chorus`, `open-mic-lab improv experiment ending`, `open-mic-lab improv compare`, and `open-mic-lab chapter-twelve-demo`.
 
 Chapter 12 builds on Chapter 11 recovery strategies by turning surprise into structured musical choices. It prepares Chapter 13, where learners begin presenting their own original musical identity.
+
+
+## Chapter 13 — Performing Original Music
+
+Chapter 13 adds an original-music presentation laboratory. It models `OriginalWork`, `OriginalPresentationPlan`, `FamiliarityStrategy`, and `ArtisticIdentity` as educational tools for introducing unfamiliar songs while maintaining audience connection. Run `open-mic-lab originals analyze`, `open-mic-lab originals compare`, `open-mic-lab originals experiment placement`, `open-mic-lab originals experiment story`, `open-mic-lab originals identity`, and `open-mic-lab chapter-thirteen-demo`. This chapter prepares Chapter 14, the complete Open Mic Simulator, where every subsystem works together.

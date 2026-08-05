@@ -86,6 +86,9 @@ def test_vscode_debug_configurations_reference_valid_modules() -> None:
         ),
         "Debug Chapter 11 Recovery Lab": "open_mic_lab.debug_labs.chapter_11_recovery",
         "Debug Chapter 12 Improvisation Lab": ("open_mic_lab.debug_labs.chapter_12_improvisation"),
+        "Debug Chapter 13 Original Music Lab": (
+            "open_mic_lab.debug_labs.chapter_13_original_music"
+        ),
     }
     for module in modules.values():
         assert import_module(module)
