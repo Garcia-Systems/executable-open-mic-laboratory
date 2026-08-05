@@ -74,6 +74,7 @@ def test_vscode_debug_configurations_reference_valid_modules() -> None:
         ),
         "Debug Chapter 3 Building a Set Lab": ("open_mic_lab.debug_labs.chapter_03_building_a_set"),
         "Debug Chapter 4 Arrangements Lab": ("open_mic_lab.debug_labs.chapter_04_arrangements"),
+        "Debug Chapter 5 Coordination Lab": "open_mic_lab.debug_labs.chapter_05_coordination",
     }
     for module in modules.values():
         assert import_module(module)

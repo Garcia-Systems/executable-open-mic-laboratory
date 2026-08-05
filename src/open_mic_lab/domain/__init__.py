@@ -1,6 +1,15 @@
 """Domain model exports."""
 
 from open_mic_lab.domain.arrangement import Arrangement, ArrangementExperimentRecord
+from open_mic_lab.domain.coordination import (
+    AccompanimentTask,
+    Automaticity,
+    CognitiveLoad,
+    CoordinationExperiment,
+    CoordinationExperimentRecord,
+    CoordinationProfile,
+    VocalTask,
+)
 from open_mic_lab.domain.enums import (
     Difficulty,
     EnergyLevel,
@@ -29,6 +38,13 @@ from open_mic_lab.domain.song import Song
 from open_mic_lab.domain.venue import Venue
 
 __all__ = [
+    "AccompanimentTask",
+    "Automaticity",
+    "CognitiveLoad",
+    "CoordinationExperiment",
+    "CoordinationExperimentRecord",
+    "CoordinationProfile",
+    "VocalTask",
     "Difficulty",
     "Genre",
     "Instrument",

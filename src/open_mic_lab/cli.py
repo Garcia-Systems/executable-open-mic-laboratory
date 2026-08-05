@@ -3,9 +3,10 @@
 import argparse
 from collections.abc import Sequence
 
-from open_mic_lab.domain import Arrangement, Repertoire, SetList
+from open_mic_lab.domain import Arrangement, CoordinationExperiment, Repertoire, SetList
 from open_mic_lab.sample_data import (
     build_sample_repertoire,
+    sample_coordination_profile,
     sample_practice_sessions,
     sample_selection_scenarios,
     sample_selection_venue,
@@ -17,6 +18,11 @@ from open_mic_lab.services.arrangement_service import (
     ArrangementAnalysisService,
     ArrangementExperimentService,
     ArrangementTimelineService,
+)
+from open_mic_lab.services.coordination_service import (
+    CoordinationAnalysisService,
+    CoordinationExperimentService,
+    TempoLadderService,
 )
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
 from open_mic_lab.services.readiness_service import calculate_readiness
@@ -95,7 +101,17 @@ def build_parser() -> argparse.ArgumentParser:
     groove.add_argument("arrangement_id")
     groove.add_argument("groove_style")
     sub.add_parser("chapter-three-demo", help="Run the Chapter 3 set-building demo")
+    coord = sub.add_parser("coordination", help="Run Chapter 5 coordination labs")
+    coord_sub = coord.add_subparsers(dest="coordination_command", required=True)
+    for name in ("analyze", "bottlenecks", "ladder"):
+        coord_sub.add_parser(name, help=f"Coordination {name}")
+    coord_exp = coord_sub.add_parser("experiment", help="Run immutable coordination experiments")
+    coord_exp_sub = coord_exp.add_subparsers(dest="coordination_experiment_command", required=True)
+    coord_exp_sub.add_parser("simplify", help="Simplify accompaniment")
+    coord_tempo = coord_exp_sub.add_parser("tempo", help="Reduce to a practice tempo")
+    coord_tempo.add_argument("bpm", type=int)
     sub.add_parser("chapter-four-demo", help="Run the Chapter 4 arrangement demo")
+    sub.add_parser("chapter-five-demo", help="Run the Chapter 5 singing while playing demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -129,6 +145,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_chapter_three_demo(rep)
     elif args.command == "chapter-four-demo":
         _run_chapter_four_demo(rep)
+    elif args.command == "chapter-five-demo":
+        _run_chapter_five_demo(rep)
+    elif args.command == "coordination":
+        _run_coordination(args)
     elif args.command == "arrangement":
         _run_arrangement(args, rep)
     elif args.command == "set":
@@ -511,6 +531,75 @@ def _run_chapter_four_demo(rep: Repertoire) -> None:
         print(f"{entry.start_time}  {entry.section} ({entry.duration_seconds}s)")
     print("\nReflection: What did this arrangement make easier, and what did it cost?")
     print("Reflection: Does this version serve tonight's room better than the baseline?")
+
+
+def _run_coordination(args) -> None:  # type: ignore[no-untyped-def]
+    profile = sample_coordination_profile()
+    service = CoordinationAnalysisService()
+    experiment = CoordinationExperimentService()
+    if args.coordination_command == "analyze":
+        _print_coordination_analysis(service.analyze(profile))
+    elif args.coordination_command == "bottlenecks":
+        for item in service.bottlenecks(profile):
+            print(f"Bottleneck: {item}")
+            print(f"Suggested experiment: {service._focus_for(item)}")
+    elif args.coordination_command == "ladder":
+        ladder = TempoLadderService().generate(60, profile.target_tempo_bpm, 6)
+        print("Tempo ladder:", ", ".join(f"{bpm} BPM" for bpm in ladder.tempos))
+        print(ladder.explanation)
+    elif args.coordination_command == "experiment":
+        original = CoordinationExperiment(profile)
+        if args.coordination_experiment_command == "simplify":
+            changed = experiment.simplify_accompaniment(original)
+        else:
+            changed = experiment.reduce_tempo(original, args.bpm)
+        before = service.analyze(original.profile)
+        after = service.analyze(changed.profile)
+        print(f"Before: {before.coordination_score}/100 load {before.cognitive_load.score}")
+        print(f"After: {after.coordination_score}/100 load {after.cognitive_load.score}")
+        print(f"Original object unchanged: {original.profile.identifier == profile.identifier}")
+
+
+def _print_coordination_analysis(result) -> None:  # type: ignore[no-untyped-def]
+    print(f"Coordination score: {result.coordination_score}/100")
+    print(f"Cognitive load: {result.cognitive_load.score}/100 ({result.cognitive_load.category})")
+    for bottleneck in result.primary_bottlenecks:
+        print(f"Bottleneck: {bottleneck}")
+    for focus in result.suggested_practice_focus:
+        print(f"Practice focus: {focus}")
+    for factor in result.contributing_factors:
+        print(f"Factor: {factor}")
+    print(result.model_note)
+
+
+def _run_chapter_five_demo(rep: Repertoire) -> None:
+    print("Chapter 5 — Singing While Playing")
+    arrangement = rep.get_arrangement("window-piano-arrangement")
+    print(f"Performance version: {arrangement.source_performance_version_identifier}")
+    profile = sample_coordination_profile()
+    analysis = CoordinationAnalysisService()
+    experiments = CoordinationExperimentService()
+    baseline = CoordinationExperiment(profile)
+    print("\nBaseline analysis")
+    _print_coordination_analysis(analysis.analyze(baseline.profile))
+    print("\nBottlenecks")
+    for item in analysis.bottlenecks(baseline.profile):
+        print(f"- {item}")
+    simplified = experiments.simplify_accompaniment(baseline)
+    print("\nSimplify accompaniment experiment")
+    print(f"Before load: {analysis.analyze(baseline.profile).cognitive_load.score}")
+    print(f"After load: {analysis.analyze(simplified.profile).cognitive_load.score}")
+    ladder = TempoLadderService().generate(60, profile.target_tempo_bpm, 6)
+    print("\nTempo ladder")
+    for bpm in ladder.tempos:
+        print(f"- {bpm} BPM")
+    print(ladder.explanation)
+    print(
+        "Automaticity reduces cognitive load because a stable accompaniment "
+        "consumes less attention."
+    )
+    print("Reflection: Which task fails first when attention is crowded?")
+    print("Reflection: What could become automatic before the next full-speed run?")
 
 
 if __name__ == "__main__":
