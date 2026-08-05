@@ -211,3 +211,23 @@ flowchart LR
 ```
 
 Chapter 9 builds directly on the Equipment Laboratory: a valid route is necessary but not sufficient. It prepares Chapter 10 by distinguishing the performer's monitor comfort from what the audience perceives in the room.
+
+## Chapter 10 audience-experience architecture
+
+Chapter 10 adds `AudienceProfile`, `AudienceExpectation`, `AudienceResponse`, `PerformanceMoment`, `EngagementObservation`, `ParticipationOpportunity`, and `AudienceFeedbackSummary`. These concepts stay separate from performer confidence and stage presence: Chapter 7 models intentional communication, Chapter 9 models what the room can hear, and Chapter 10 models how different audience contexts change educational observations about the same planned performance.
+
+`AudienceResponseService` analyzes familiarity, pacing, communication clarity, variety, transition quality, performance length, participation opportunities, storytelling, and energy progression. Results include strengths, friction points, adaptation ideas, explanations, and Mermaid diagrams. There is no audience score because the system does not predict emotions or optimize audiences.
+
+`AudienceExperimentService` follows the immutable experiment pattern with increased interaction, reduced storytelling, replacing one unfamiliar song, adding a familiar closer, shortening the performance, and simplifying transitions.
+
+```mermaid
+flowchart LR
+    PerformanceMoments --> AudienceResponseService
+    AudienceProfile --> AudienceResponseService
+    AudienceResponseService --> Observations
+    AudienceExperimentService --> CopiedPerformance
+    CopiedPerformance --> AudienceResponseService
+    Observations --> Reflection
+```
+
+Chapter 10 prepares Chapter 11 by establishing the planned audience-facing model before mistakes, interruptions, and unexpected events interrupt that plan.

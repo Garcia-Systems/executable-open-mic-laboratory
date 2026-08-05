@@ -9,8 +9,12 @@ from open_mic_lab.domain import (
     AccompanimentTask,
     Arrangement,
     ArrangementFlexibility,
+    AudienceExpectation,
     AudienceFamiliarity,
     AudienceInteraction,
+    AudiencePerformance,
+    AudiencePerformanceMoment,
+    AudienceProfile,
     Automaticity,
     CommunicationPlan,
     CoordinationProfile,
@@ -21,7 +25,9 @@ from open_mic_lab.domain import (
     Instrument,
     IntroductionPurpose,
     Mood,
+    ParticipationOpportunity,
     PerformanceFlow,
+    PerformanceMoment,
     PerformanceRole,
     PerformanceStatus,
     PerformanceVersion,
@@ -1004,4 +1010,139 @@ def sample_communication_plan() -> CommunicationPlan:
         interactions,
         flow,
         "Educational sample: suggestions are prompts, not rules.",
+    )
+
+
+def sample_audience_profiles() -> dict[str, AudienceProfile]:
+    """Return deterministic Chapter 10 audience profiles described as tendencies."""
+    return {
+        "first-time-open-mic": AudienceProfile(
+            "first-time-open-mic",
+            "First-time open mic audience",
+            "Listeners may be curious, mixed in attention, and still learning the room's norms.",
+            (AudienceExpectation.FAMILIARITY, AudienceExpectation.INFORMAL_SUPPORT),
+            7,
+            5,
+            4,
+            5,
+            6,
+            ("Tendencies vary by host, room noise, and how many performers are present.",),
+        ),
+        "supportive-coffeehouse": AudienceProfile(
+            "supportive-coffeehouse",
+            "Supportive coffeehouse audience",
+            "A warm informal audience that may appreciate context and accessible pacing.",
+            (AudienceExpectation.CONCISE_STORYTELLING, AudienceExpectation.INFORMAL_SUPPORT),
+            6,
+            6,
+            7,
+            6,
+            6,
+        ),
+        "attentive-listening-room": AudienceProfile(
+            "attentive-listening-room",
+            "Attentive listening room",
+            "Listeners tend to offer focused attention and may welcome unfamiliar originals.",
+            (AudienceExpectation.LISTENING_ATTENTION, AudienceExpectation.EXPERIMENTAL_PATIENCE),
+            4,
+            4,
+            8,
+            8,
+            7,
+        ),
+        "church-congregation": AudienceProfile(
+            "church-congregation",
+            "Church congregation",
+            "A gathered community where purpose, clarity, and shared participation may matter.",
+            (AudienceExpectation.WORSHIP_CONTEXT, AudienceExpectation.PARTICIPATION),
+            8,
+            7,
+            5,
+            6,
+            4,
+        ),
+        "neighborhood-festival": AudienceProfile(
+            "neighborhood-festival",
+            "Neighborhood festival",
+            "A moving outdoor audience with mixed ages, distractions, and appetite for clear energy.",
+            (AudienceExpectation.OUTDOOR_ENERGY, AudienceExpectation.FAMILIARITY),
+            8,
+            7,
+            3,
+            4,
+            7,
+        ),
+        "rehearsal-with-friends": AudienceProfile(
+            "rehearsal-with-friends",
+            "Rehearsal with friends",
+            "Trusted listeners can help observe experiments without representing all audiences.",
+            (AudienceExpectation.INFORMAL_SUPPORT, AudienceExpectation.EXPERIMENTAL_PATIENCE),
+            3,
+            5,
+            8,
+            9,
+            5,
+        ),
+    }
+
+
+def sample_audience_performance() -> AudiencePerformance:
+    """Return a completed Chapter 10 performance sequence."""
+    return AudiencePerformance(
+        "chapter-10-sample-set",
+        "Completed sample set for audience analysis",
+        (
+            AudiencePerformanceMoment(
+                "opening-greeting",
+                PerformanceMoment.OPENING_GREETING,
+                "Opening greeting",
+                25,
+                5,
+                6,
+                8,
+                8,
+            ),
+            AudiencePerformanceMoment(
+                "harbor", PerformanceMoment.SONG, "Harbor Bell", 190, 6, 8, 8, 8
+            ),
+            AudiencePerformanceMoment(
+                "window-story",
+                PerformanceMoment.STORY,
+                "Story about Window Light",
+                65,
+                3,
+                3,
+                8,
+                7,
+                storytelling=True,
+            ),
+            AudiencePerformanceMoment(
+                "window", PerformanceMoment.SONG, "Window Light", 240, 3, 2, 7, 6
+            ),
+            AudiencePerformanceMoment(
+                "quiet", PerformanceMoment.QUIET_REFLECTION, "Quiet reflection", 30, 2, 2, 7, 6
+            ),
+            AudiencePerformanceMoment(
+                "river", PerformanceMoment.SONG, "River Road at Dusk", 215, 4, 3, 7, 7
+            ),
+            AudiencePerformanceMoment(
+                "closing-participation",
+                PerformanceMoment.PARTICIPATION,
+                "Invite final refrain",
+                20,
+                6,
+                7,
+                8,
+                8,
+                participation=ParticipationOpportunity(
+                    "Optional clap on the closing chorus.", "closing-participation", 7
+                ),
+            ),
+            AudiencePerformanceMoment(
+                "train", PerformanceMoment.SONG, "Last Train Home", 205, 9, 7, 8, 8
+            ),
+            AudiencePerformanceMoment(
+                "closing", PerformanceMoment.CLOSING_REMARKS, "Closing thanks", 20, 4, 6, 8, 8
+            ),
+        ),
     )

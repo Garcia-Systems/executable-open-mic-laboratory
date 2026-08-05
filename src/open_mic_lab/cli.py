@@ -13,6 +13,8 @@ from open_mic_lab.domain import (
 from open_mic_lab.equipment_templates import equipment_templates, piano_and_vocal_setup
 from open_mic_lab.sample_data import (
     build_sample_repertoire,
+    sample_audience_performance,
+    sample_audience_profiles,
     sample_communication_plan,
     sample_coordination_profile,
     sample_practice_sessions,
@@ -26,6 +28,10 @@ from open_mic_lab.services.arrangement_service import (
     ArrangementAnalysisService,
     ArrangementExperimentService,
     ArrangementTimelineService,
+)
+from open_mic_lab.services.audience_service import (
+    AudienceExperimentService,
+    AudienceResponseService,
 )
 from open_mic_lab.services.coordination_service import (
     CoordinationAnalysisService,
@@ -186,6 +192,20 @@ def build_parser() -> argparse.ArgumentParser:
     monitor = soundcheck_exp_sub.add_parser("monitor", help="Raise or lower monitor level")
     monitor.add_argument("delta", type=int)
     sub.add_parser("chapter-nine-demo", help="Run the Chapter 9 sound-check laboratory demo")
+    audience = sub.add_parser("audience", help="Run Chapter 10 audience-experience labs")
+    audience_sub = audience.add_subparsers(dest="audience_command", required=True)
+    for name in ("profiles", "analyze", "compare"):
+        audience_sub.add_parser(name, help=f"Audience {name}")
+    audience_exp = audience_sub.add_parser("experiment", help="Run immutable audience experiments")
+    audience_exp_sub = audience_exp.add_subparsers(
+        dest="audience_experiment_command", required=True
+    )
+    audience_exp_sub.add_parser("participation", help="Increase participation opportunities")
+    audience_exp_sub.add_parser("familiarity", help="Replace one unfamiliar song")
+    audience_exp_sub.add_parser("storytelling", help="Reduce storytelling")
+    audience_exp_sub.add_parser("shorten", help="Shorten the performance")
+    audience_exp_sub.add_parser("transitions", help="Simplify transitions")
+    sub.add_parser("chapter-ten-demo", help="Run the Chapter 10 audience-experience demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -252,6 +272,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_soundcheck(args)
     elif args.command == "chapter-nine-demo":
         _run_chapter_nine_demo()
+    elif args.command == "audience":
+        _run_audience(args)
+    elif args.command == "chapter-ten-demo":
+        _run_chapter_ten_demo()
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -967,6 +991,92 @@ def _run_chapter_nine_demo() -> None:
     print(f"Second experiment id: {muted.identifier}")
     print("Reflection: What happens if I change the mix?")
     print("Reflection: Which venue detail changed your first adjustment?")
+
+
+def _print_audience_response(response) -> None:  # type: ignore[no-untyped-def]
+    print("Audience Experience Summary")
+    print(f"Profile: {response.profile_identifier}")
+    print("Strengths")
+    for strength in response.strengths:
+        print(f"✓ {strength}")
+    print("Observations")
+    for point in response.friction_points:
+        print(f"• {point}")
+    for explanation in response.explanations:
+        print(f"• {explanation.factor}: {explanation.explanation}")
+    print("Suggested Experiments")
+    for idea in response.adaptation_ideas:
+        print(f"• {idea}")
+
+
+def _run_audience(args) -> None:  # type: ignore[no-untyped-def]
+    profiles = sample_audience_profiles()
+    performance = sample_audience_performance()
+    service = AudienceResponseService()
+    experiments = AudienceExperimentService(service)
+    coffeehouse = profiles["supportive-coffeehouse"]
+    church = profiles["church-congregation"]
+    if args.audience_command == "profiles":
+        for key, profile in profiles.items():
+            print(f"{key}: {profile.name} — {profile.description}")
+    elif args.audience_command == "analyze":
+        _print_audience_response(service.analyze(performance, coffeehouse))
+    elif args.audience_command == "compare":
+        comparison = service.compare(performance, coffeehouse, church)
+        print(f"Comparing {comparison.left_profile} vs {comparison.right_profile}")
+        for strength in comparison.shared_strengths:
+            print(f"Shared strength: {strength}")
+        for difference in comparison.different_observations:
+            print(f"Difference: {difference}")
+        for prompt in comparison.reflection_prompts:
+            print(f"Reflection: {prompt}")
+    elif args.audience_command == "experiment":
+        if args.audience_experiment_command == "participation":
+            result = experiments.increase_interaction(performance, coffeehouse)
+        elif args.audience_experiment_command == "familiarity":
+            result = experiments.replace_one_unfamiliar_song(performance, coffeehouse)
+        elif args.audience_experiment_command == "storytelling":
+            result = experiments.reduce_storytelling(performance, coffeehouse)
+        elif args.audience_experiment_command == "shorten":
+            result = experiments.shorten_performance(performance, coffeehouse)
+        else:
+            result = experiments.simplify_transitions(performance, coffeehouse)
+        print(f"Experiment: {result.experiment_name}")
+        print(f"Original: {result.original_performance.identifier}")
+        print(f"Changed: {result.changed_performance.identifier}")
+        print(f"Original object unchanged: {result.original_performance is performance}")
+        _print_audience_response(result.changed_response)
+
+
+def _run_chapter_ten_demo() -> None:
+    print("Chapter 10 — Audience Experience Laboratory")
+    profiles = sample_audience_profiles()
+    performance = sample_audience_performance()
+    service = AudienceResponseService()
+    experiments = AudienceExperimentService(service)
+    coffeehouse = profiles["supportive-coffeehouse"]
+    church = profiles["church-congregation"]
+    print("1. Loaded completed set")
+    print(f"{performance.name}: {len(performance.moments)} moments")
+    print("2. Coffeehouse analysis")
+    coffeehouse_response = service.analyze(performance, coffeehouse)
+    _print_audience_response(coffeehouse_response)
+    print("3. Church audience analysis")
+    church_response = service.analyze(performance, church)
+    _print_audience_response(church_response)
+    print("4. Compare observations")
+    comparison = service.compare(performance, coffeehouse, church)
+    for difference in comparison.different_observations:
+        print(f"Difference: {difference}")
+    print("5. Adaptation experiment")
+    adapted = experiments.replace_one_unfamiliar_song(performance, church)
+    print(f"Changed performance: {adapted.changed_performance.identifier}")
+    print("6. Updated analysis")
+    _print_audience_response(adapted.changed_response)
+    print("7. Reflection questions")
+    for prompt in comparison.reflection_prompts:
+        print(f"Reflection: {prompt}")
+    print("Deferred to Chapter 11: interruptions, mistakes, and unexpected live events.")
 
 
 if __name__ == "__main__":

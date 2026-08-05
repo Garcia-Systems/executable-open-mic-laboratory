@@ -1,6 +1,17 @@
 """Domain model exports."""
 
 from open_mic_lab.domain.arrangement import Arrangement, ArrangementExperimentRecord
+from open_mic_lab.domain.audience import (
+    AudienceExpectation,
+    AudienceFeedbackSummary,
+    AudiencePerformance,
+    AudiencePerformanceMoment,
+    AudienceProfile,
+    AudienceResponse,
+    EngagementObservation,
+    ParticipationOpportunity,
+    PerformanceMoment,
+)
 from open_mic_lab.domain.coordination import (
     AccompanimentTask,
     Automaticity,
@@ -78,6 +89,15 @@ from open_mic_lab.domain.stage import (
 from open_mic_lab.domain.venue import Venue
 
 __all__ = [
+    "AudienceExpectation",
+    "AudienceFeedbackSummary",
+    "AudiencePerformance",
+    "AudiencePerformanceMoment",
+    "AudienceProfile",
+    "AudienceResponse",
+    "EngagementObservation",
+    "ParticipationOpportunity",
+    "PerformanceMoment",
     "AccompanimentTask",
     "Automaticity",
     "CognitiveLoad",
