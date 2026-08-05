@@ -52,3 +52,25 @@ def test_cli_song_invalid_inputs() -> None:  # type: ignore[no-untyped-def]
         main(["songs", "evaluate", "missing", "--scenario", "coffeehouse"])
     with pytest.raises(SystemExit):
         main(["songs", "compare", "--scenario", "missing"])
+
+
+def test_cli_set_builder_commands(capsys) -> None:  # type: ignore[no-untyped-def]
+    assert main(["set", "summary"]) == 0
+    assert "Three-song contrast set" in capsys.readouterr().out
+    assert main(["set", "timeline"]) == 0
+    assert "00:30" in capsys.readouterr().out
+    assert main(["set", "analyze"]) == 0
+    output = capsys.readouterr().out
+    assert "Suggested experiment" in output or "Strength" in output
+    assert main(["set", "compare"]) == 0
+    assert "Audience tradeoff" in capsys.readouterr().out
+    assert main(["set", "experiment", "swap", "harbor-guitar", "window-piano"]) == 0
+    assert "Original object unchanged" in capsys.readouterr().out
+    assert main(["set", "experiment", "opener", "window-piano"]) == 0
+    assert "Experiment order" in capsys.readouterr().out
+    assert main(["set", "experiment", "closer", "harbor-guitar"]) == 0
+    assert "Experiment order" in capsys.readouterr().out
+    assert main(["set", "experiment", "transition", "harbor-guitar"]) == 0
+    assert "Original object unchanged" in capsys.readouterr().out
+    assert main(["chapter-three-demo"]) == 0
+    assert "Chapter 3" in capsys.readouterr().out

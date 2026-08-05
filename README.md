@@ -102,3 +102,22 @@ Implemented: Chapter 0 foundations and Chapter 1 song choice experiments. Deferr
 ## Chapter 2 — Repertoire Engineering
 
 Chapter 2 turns the sample repertoire into a decision-support system. Use `open-mic-lab repertoire summary`, `gaps`, `health`, `priorities`, `neglected`, and `diversity` to inspect balance, stalled songs, missing set roles, and learning priorities. The chapter builds on Chapter 0 readiness and Chapter 1 suitability, then prepares Chapter 3 to use repertoire evidence in fuller performance planning.
+
+
+## Chapter 3 — Building a Set
+
+Chapter 3 extends the lab from individual songs and repertoire health to complete performance flow. It introduces first-class transitions, deterministic timeline generation, set analysis, neutral set comparison, immutable set experiments, sample scenarios, a CLI demo, and a debug lab.
+
+Useful commands:
+
+```bash
+open-mic-lab set summary
+open-mic-lab set timeline
+open-mic-lab set analyze
+open-mic-lab set compare
+open-mic-lab set experiment swap harbor-guitar window-piano
+open-mic-lab chapter-three-demo
+python -m open_mic_lab.debug_labs.chapter_03_building_a_set
+```
+
+Set construction builds on Chapter 2 repertoire engineering by sequencing prepared songs for a venue, and prepares Chapter 4 by making arrangement tradeoffs easier to hear in context.

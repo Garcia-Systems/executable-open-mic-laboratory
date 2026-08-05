@@ -88,3 +88,24 @@ class PerformanceRole(StrEnum):
     CLOSER = "closer"
     ENCORE = "encore"
     FLEXIBLE = "flexible"
+
+
+class TransitionKind(StrEnum):
+    """First-class transition types between performed songs."""
+
+    SPOKEN_INTRODUCTION = "spoken introduction"
+    STORY = "story"
+    TUNING_BREAK = "tuning break"
+    INSTRUMENT_CHANGE = "instrument change"
+    SILENCE = "silence"
+    AUDIENCE_PARTICIPATION = "audience participation"
+    QUICK_SEGUE = "quick segue"
+
+
+class TransitionEnergyEffect(StrEnum):
+    """How a transition changes perceived set momentum."""
+
+    LIFT = "lift"
+    HOLD = "hold"
+    RESET = "reset"
+    DROP = "drop"

@@ -9,6 +9,7 @@ from open_mic_lab.sample_data import (
     sample_practice_sessions,
     sample_selection_scenarios,
     sample_selection_venue,
+    sample_set_scenarios,
     sample_setlist,
     sample_venue,
 )
@@ -18,6 +19,7 @@ from open_mic_lab.services.repertoire_service import (
     RepertoireEngineeringService,
     describe_repertoire,
 )
+from open_mic_lab.services.set_builder_service import SetBuilderService
 from open_mic_lab.services.setlist_service import analyze_setlist
 from open_mic_lab.services.suitability_service import SongSuitabilityService
 
@@ -36,6 +38,21 @@ def build_parser() -> argparse.ArgumentParser:
     ready_sub = ready.add_subparsers(dest="readiness_command", required=True)
     show = ready_sub.add_parser("show", help="Show readiness for a version")
     show.add_argument("version_id")
+    set_builder = sub.add_parser("set", help="Engineer complete Chapter 3 sets")
+    set_builder_sub = set_builder.add_subparsers(dest="set_command", required=True)
+    for name in ("summary", "timeline", "analyze", "compare"):
+        set_builder_sub.add_parser(name, help=f"Set {name}")
+    exp = set_builder_sub.add_parser("experiment", help="Run immutable set experiments")
+    exp_sub = exp.add_subparsers(dest="experiment_command", required=True)
+    swap = exp_sub.add_parser("swap", help="Swap two songs")
+    swap.add_argument("first")
+    swap.add_argument("second")
+    opener = exp_sub.add_parser("opener", help="Move a song to opener")
+    opener.add_argument("version_id")
+    closer = exp_sub.add_parser("closer", help="Move a song to closer")
+    closer.add_argument("version_id")
+    transition = exp_sub.add_parser("transition", help="Insert a short transition")
+    transition.add_argument("after_version_id")
     setlist = sub.add_parser("setlist", help="Work with sample set lists")
     set_sub = setlist.add_subparsers(dest="setlist_command", required=True)
     set_sub.add_parser("sample", help="Print the sample set list")
@@ -54,6 +71,7 @@ def build_parser() -> argparse.ArgumentParser:
     songs_sub.add_parser("scenarios", help="List deterministic Chapter 1 scenarios")
     sub.add_parser("chapter-one-demo", help="Run the Chapter 1 song suitability demo")
     sub.add_parser("chapter-two-demo", help="Run the Chapter 2 repertoire engineering demo")
+    sub.add_parser("chapter-three-demo", help="Run the Chapter 3 set-building demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -83,6 +101,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_chapter_one_demo(rep)
     elif args.command == "chapter-two-demo":
         _run_chapter_two_demo(rep)
+    elif args.command == "chapter-three-demo":
+        _run_chapter_three_demo(rep)
+    elif args.command == "set":
+        _run_set_builder(args, rep)
     elif args.command == "setlist":
         set_list = sample_setlist()
         if args.setlist_command == "sample":
@@ -95,6 +117,80 @@ def main(argv: Sequence[str] | None = None) -> int:
     elif args.command == "demo":
         _run_demo(rep)
     return 0
+
+
+def _run_set_builder(args, rep: Repertoire) -> None:  # type: ignore[no-untyped-def]
+    service = SetBuilderService()
+    set_list = sample_setlist()
+    venue = sample_venue()
+    if args.set_command == "summary":
+        print(f"{set_list.name} ({set_list.target_duration_minutes} minutes)")
+        for index, version_id in enumerate(set_list.ordered_version_identifiers, start=1):
+            song = rep.get_song(rep.get_version(version_id).song_identifier)
+            print(f"{index}. {song.title} — {version_id}")
+    elif args.set_command == "timeline":
+        for entry in service.timeline(set_list, rep):
+            print(f"{entry.start_time}  {entry.label}")
+    elif args.set_command == "analyze":
+        analysis = service.analyze(set_list, rep, venue)
+        print(analysis.overall_assessment)
+        print(f"Total duration: {service.format_seconds(analysis.total_duration_seconds)}")
+        for strength in analysis.strengths:
+            print(f"Strength: {strength}")
+        for warning in analysis.warnings:
+            print(f"Warning: {warning}")
+        for experiment in analysis.suggested_experiments:
+            print(f"Suggested experiment: {experiment}")
+    elif args.set_command == "compare":
+        scenarios = sample_set_scenarios()
+        comparison = service.compare(
+            scenarios["coffeehouse-15"], scenarios["listening-room"], rep, venue
+        )
+        _print_set_comparison(comparison)
+    elif args.set_command == "experiment":
+        if args.experiment_command == "swap":
+            changed = service.swap_songs(set_list, args.first, args.second)
+        elif args.experiment_command == "opener":
+            changed = service.change_opener(set_list, args.version_id)
+        elif args.experiment_command == "closer":
+            changed = service.change_closer(set_list, args.version_id)
+        else:
+            from open_mic_lab.domain import SetTransition, TransitionEnergyEffect, TransitionKind
+
+            changed = service.insert_transition(
+                set_list,
+                SetTransition(
+                    "learner-transition",
+                    TransitionKind.QUICK_SEGUE,
+                    15,
+                    TransitionEnergyEffect.LIFT,
+                    "Learner-added quick segue",
+                    args.after_version_id,
+                ),
+            )
+        print("Original order:", ", ".join(set_list.ordered_version_identifiers))
+        print("Experiment order:", ", ".join(changed.ordered_version_identifiers))
+        unchanged = (
+            set_list.ordered_version_identifiers != changed.ordered_version_identifiers
+            or set_list.transitions != changed.transitions
+        )
+        print(f"Original object unchanged: {unchanged}")
+
+
+def _print_set_comparison(comparison) -> None:  # type: ignore[no-untyped-def]
+    print(f"Comparing {comparison.left_name} vs {comparison.right_name}")
+    for difference in comparison.differences:
+        print(f"Difference: {difference}")
+    for strength in comparison.left_strengths:
+        print(f"Left strength: {strength}")
+    for strength in comparison.right_strengths:
+        print(f"Right strength: {strength}")
+    for weakness in comparison.left_weaknesses:
+        print(f"Left tradeoff: {weakness}")
+    for weakness in comparison.right_weaknesses:
+        print(f"Right tradeoff: {weakness}")
+    for tradeoff in comparison.audience_tradeoffs:
+        print(f"Audience tradeoff: {tradeoff}")
 
 
 def _print_analysis(set_list: SetList, rep: Repertoire) -> None:
@@ -256,6 +352,30 @@ def _run_repertoire_engineering(command: str, rep: Repertoire) -> None:
     elif command == "diversity":
         print(f"Diversity score: {analysis.diversity_score}/100")
         print(service.text_report("Instrument Distribution", analysis.instrument_distribution))
+
+
+def _run_chapter_three_demo(rep: Repertoire) -> None:
+    print("Chapter 3 — Building a Set")
+    service = SetBuilderService()
+    original = sample_setlist()
+    print("\nTimeline")
+    for entry in service.timeline(original, rep):
+        print(f"{entry.start_time}  {entry.label}")
+    print("\nAnalysis")
+    analysis = service.analyze(original, rep, sample_venue())
+    print(analysis.overall_assessment)
+    for strength in analysis.strengths:
+        print(f"Strength: {strength}")
+    for warning in analysis.warnings:
+        print(f"Weakness: {warning}")
+    changed = service.swap_songs(original, "harbor-guitar", "window-piano")
+    print("\nImmutable experiment: swap two songs")
+    print(f"Before: {original.ordered_version_identifiers}")
+    print(f"After:  {changed.ordered_version_identifiers}")
+    print("\nComparison")
+    _print_set_comparison(service.compare(original, changed, rep, sample_venue()))
+    print("\nReflection: What happens if I change the order?")
+    print("Reflection: Which transition protects momentum, and which one costs time?")
 
 
 def _run_chapter_two_demo(rep: Repertoire) -> None:

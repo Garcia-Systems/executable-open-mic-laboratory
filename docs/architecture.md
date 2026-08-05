@@ -76,3 +76,25 @@ Chapter 1 prepares for Chapter 2 repertoire engineering by making candidate fit 
 ## Chapter 2 repertoire engineering
 
 Repertoire is now a first-class aggregate around `Song` and `PerformanceVersion`. A performance version has exactly one lifecycle status and may carry repertoire metadata: dates, maintenance interval, practice/performance totals, audience-response totals, target readiness, preferred venues, setup requirements, preferred role, confidence, and notes. `RepertoireEngineeringService` computes deterministic distributions, observations, gap recommendations, learning priorities, text reports, and the health score formula: 25% diversity, 20% maintenance, 25% readiness, 15% balance, and 15% role coverage. The score is educational comparison data, not a musicianship grade.
+
+
+## Chapter 3 set-building architecture
+
+Chapter 3 adds first-class `SetTransition` objects and `SetBuilderService`. `SetList` remains focused on sequencing: ordered performance-version identifiers, target venue and duration, and planned transitions. Song facts and arrangement facts remain on `Song` and `PerformanceVersion`; the set model does not duplicate duration, key, instrument, mood, or readiness data.
+
+`SetBuilderService` creates deterministic timelines by walking opening transitions, songs, and after-song transitions in order. The same service analyzes total duration, venue fit, energy progression, mood balance, genre diversity, key repetition, instrument changes, audience familiarity, original-versus-cover balance, transition timing, opener suitability, and closer suitability. Results contain observations, warnings, strengths, and suggested experiments rather than a single perfect score.
+
+Set experiments are immutable: swap, remove, replace, insert transition, shorten transition, change opener, change closer, reorder by energy, and manual reorder all return copied set lists. This preserves the original candidate set so learners can compare before and after.
+
+```mermaid
+flowchart LR
+    Repertoire --> SetList
+    SetTransition --> SetList
+    SetList --> Timeline
+    SetList --> Analysis
+    SetList --> Experiment
+    Experiment --> CandidateSet
+    CandidateSet --> Comparison
+```
+
+Chapter 3 prepares for Chapter 4 arrangement experiments by making the whole performance flow visible before changing the internal arrangement of individual songs.
