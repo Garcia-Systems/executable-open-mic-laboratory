@@ -257,3 +257,21 @@ flowchart LR
 ```
 
 This prepares Chapter 13 by showing how transparent constraints can support, rather than replace, a performer's original musical identity.
+
+## Chapter 13 original-music architecture
+
+Chapter 13 adds `OriginalWork`, `PerformanceContext`, `SongIntroduction`, `AudienceContext`, `OriginalPresentationPlan`, `FamiliarityStrategy`, and `ArtisticIdentity`. These models intentionally describe live presentation and reflective identity rather than songwriting craft or artistic quality.
+
+`OriginalMusicAnalysisService` analyzes placement, introduction timing, familiar anchors, accessibility, storytelling, transitions, confidence, and pacing. It returns observations, opportunities, tradeoffs, suggestions, explanations, and deterministic flow summaries; it never produces a success probability. `OriginalPresentationExperimentService` follows the immutable experiment pattern by moving originals, changing stories, pairing participation, and replacing familiar material without mutating the source plan.
+
+```mermaid
+flowchart LR
+    SetList --> OriginalPresentationPlan
+    Repertoire --> OriginalMusicAnalysisService
+    CommunicationPlan --> OriginalPresentationPlan
+    AudienceProfile --> AudienceContext
+    OriginalPresentationPlan --> Experiments[Immutable Experiments]
+    Experiments --> Comparison
+```
+
+Chapter 13 prepares Chapter 14 by making original artistic identity explicit before the complete Open Mic Simulator combines every subsystem.

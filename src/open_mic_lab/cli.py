@@ -20,6 +20,7 @@ from open_mic_lab.sample_data import (
     sample_communication_plan,
     sample_coordination_profile,
     sample_improvisation_context,
+    sample_original_presentation_plan,
     sample_practice_sessions,
     sample_recovery_scenario,
     sample_selection_scenarios,
@@ -47,6 +48,10 @@ from open_mic_lab.services.experiment_service import PerformanceVersionExperimen
 from open_mic_lab.services.improvisation_service import (
     ImprovisationAnalysisService,
     ImprovisationExperimentService,
+)
+from open_mic_lab.services.originals_service import (
+    OriginalMusicAnalysisService,
+    OriginalPresentationExperimentService,
 )
 from open_mic_lab.services.practice_service import (
     PracticeAnalyticsService,
@@ -257,6 +262,19 @@ def build_parser() -> argparse.ArgumentParser:
     ):
         improv_exp_sub.add_parser(name, help=f"Improvisation experiment {name}")
     sub.add_parser("chapter-twelve-demo", help="Run the Chapter 12 improvisation laboratory demo")
+    originals = sub.add_parser("originals", help="Run Chapter 13 original-music labs")
+    originals_sub = originals.add_subparsers(dest="originals_command", required=True)
+    for name in ("analyze", "compare", "identity"):
+        originals_sub.add_parser(name, help=f"Original music {name}")
+    originals_exp = originals_sub.add_parser(
+        "experiment", help="Run immutable original-music experiments"
+    )
+    originals_exp_sub = originals_exp.add_subparsers(
+        dest="originals_experiment_command", required=True
+    )
+    for name in ("placement", "story"):
+        originals_exp_sub.add_parser(name, help=f"Original music experiment {name}")
+    sub.add_parser("chapter-thirteen-demo", help="Run the Chapter 13 original-music demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -335,6 +353,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_improv(args, rep)
     elif args.command == "chapter-twelve-demo":
         _run_chapter_twelve_demo(rep)
+    elif args.command == "originals":
+        _run_originals(args, rep)
+    elif args.command == "chapter-thirteen-demo":
+        _run_chapter_thirteen_demo(rep)
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -1319,6 +1341,89 @@ def _run_chapter_twelve_demo(rep: Repertoire) -> None:
         print(f"Observation: {observation}")
     print("\nReflection: What happens when the performance cannot follow the original plan?")
     print("Reflection: Which constraint influenced your decision without deciding it for you?")
+
+
+def _print_original_analysis(analysis) -> None:  # type: ignore[no-untyped-def]
+    print(analysis.summary)
+    for observation in analysis.observations:
+        print(f"Observation: {observation}")
+    for opportunity in analysis.opportunities:
+        print(f"Opportunity: {opportunity}")
+    for tradeoff in analysis.tradeoffs:
+        print(f"Tradeoff: {tradeoff}")
+    for suggestion in analysis.adaptation_suggestions:
+        print(f"Suggested experiment: {suggestion}")
+    for explanation in analysis.educational_explanations:
+        print(f"Explanation: {explanation}")
+    print(analysis.mermaid_diagram)
+
+
+def _run_originals(args, rep: Repertoire) -> None:  # type: ignore[no-untyped-def]
+    plan = sample_original_presentation_plan()
+    service = OriginalMusicAnalysisService()
+    experiments = OriginalPresentationExperimentService()
+    if args.originals_command == "analyze":
+        _print_original_analysis(service.analyze(plan, sample_setlist(), rep))
+    elif args.originals_command == "compare":
+        changed = experiments.place_original_before_familiar_closer(plan)
+        comparison = service.compare(plan, changed, rep)
+        print(f"Compare: {comparison.left_identifier} vs {comparison.right_identifier}")
+        for difference in comparison.differences:
+            print(f"Difference: {difference}")
+        for prompt in comparison.reflection_prompts:
+            print(f"Reflection: {prompt}")
+    elif args.originals_command == "identity":
+        identity = plan.artistic_identity
+        print("Artistic identity is a reflective tool, not a creativity measurement.")
+        print(f"Themes: {', '.join(identity.musical_themes)}")
+        print(f"Styles: {', '.join(identity.recurring_styles)}")
+        print(f"Expectations: {', '.join(identity.audience_expectations)}")
+        print(identity.repertoire_consistency_notes)
+    elif args.originals_command == "experiment":
+        if args.originals_experiment_command == "placement":
+            changed = experiments.move_original_earlier(plan)
+        else:
+            changed = experiments.lengthen_story(plan)
+        print(f"Original: {plan.identifier} {plan.ordered_version_identifiers}")
+        print(f"Experiment: {changed.identifier} {changed.ordered_version_identifiers}")
+        print(f"Original object unchanged: {plan is not changed}")
+        _print_original_analysis(service.analyze(changed, sample_setlist(), rep))
+
+
+def _run_chapter_thirteen_demo(rep: Repertoire) -> None:
+    print("Chapter 13 — Performing Original Music")
+    service = OriginalMusicAnalysisService()
+    experiments = OriginalPresentationExperimentService()
+    plan = sample_original_presentation_plan()
+    print("1. Loaded a completed set")
+    print(plan.ordered_version_identifiers)
+    print("2. Inserted an original song")
+    print(plan.original_version_identifiers)
+    print("3. Analyze placement")
+    _print_original_analysis(service.analyze(plan, sample_setlist(), rep))
+    moved = experiments.move_original_earlier(plan)
+    print("4. Move the song to another location")
+    print(moved.ordered_version_identifiers)
+    print("5. Compare both versions")
+    comparison = service.compare(plan, moved, rep)
+    for difference in comparison.differences:
+        print(f"Difference: {difference}")
+    print("6. Demonstrate immutable experiments")
+    shorter = experiments.shorten_introduction(plan)
+    participation = experiments.pair_with_audience_participation(plan)
+    print(f"Original intro: {plan.introductions[0].duration_seconds}s")
+    print(f"Shorter intro: {shorter.introductions[0].duration_seconds}s")
+    print(f"Participation strategy: {participation.introductions[0].strategy.value}")
+    print(f"Original object unchanged: {plan is not shorter and plan is not participation}")
+    print("7. Educational observations")
+    for explanation in service.analyze(
+        participation, sample_setlist(), rep
+    ).educational_explanations:
+        print(f"Explanation: {explanation}")
+    print("8. Reflection questions")
+    for prompt in comparison.reflection_prompts:
+        print(f"Reflection: {prompt}")
+    print("Deferred to Chapter 14: the complete Open Mic Simulator integrates every subsystem.")
 
 
 if __name__ == "__main__":

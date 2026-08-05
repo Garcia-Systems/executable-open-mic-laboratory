@@ -13,6 +13,8 @@ from open_mic_lab.domain import (
     AccompanimentTask,
     Arrangement,
     ArrangementFlexibility,
+    ArtisticIdentity,
+    AudienceContext,
     AudienceExpectation,
     AudienceFamiliarity,
     AudienceInteraction,
@@ -25,12 +27,16 @@ from open_mic_lab.domain import (
     Difficulty,
     EmotionalTone,
     EnergyLevel,
+    FamiliarityStrategy,
     Genre,
     ImprovisationContext,
     Instrument,
     IntroductionPurpose,
     Mood,
+    OriginalPresentationPlan,
+    OriginalWork,
     ParticipationOpportunity,
+    PerformanceContext,
     PerformanceFlow,
     PerformanceMoment,
     PerformanceRole,
@@ -42,6 +48,7 @@ from open_mic_lab.domain import (
     SetList,
     SetTransition,
     Song,
+    SongIntroduction,
     SongSelectionProfile,
     SpokenIntroduction,
     StageMoment,
@@ -1179,4 +1186,56 @@ def sample_improvisation_context() -> ImprovisationContext:
         6,
         "supportive open mic with flexible pacing",
         True,
+    )
+
+
+def sample_original_work() -> OriginalWork:
+    """Return a deterministic Chapter 13 original work."""
+    return OriginalWork(
+        "window-light-work",
+        "Window Light",
+        ("resilience", "home", "quiet courage"),
+        "The chorus image is easy to explain before listeners hear the song.",
+        8,
+        5,
+    )
+
+
+def sample_artistic_identity() -> ArtisticIdentity:
+    """Return reflective identity prompts for Chapter 13."""
+    return ArtisticIdentity(
+        "learner-identity",
+        ("resilience", "ordinary places", "hopeful endings"),
+        ("coffeehouse folk", "reflective piano", "warm guitar"),
+        ("brief stories", "clear choruses", "gentle audience invitations"),
+        "These notes help the learner notice patterns; they do not measure creativity.",
+    )
+
+
+def sample_original_presentation_plan() -> OriginalPresentationPlan:
+    """Return a completed set with one original inserted for Chapter 13."""
+    return OriginalPresentationPlan(
+        "chapter-13-original-plan",
+        sample_setlist().identifier,
+        ("harbor-guitar", "window-piano", "train-guitar-closer"),
+        ("window-piano",),
+        (
+            SongIntroduction(
+                "intro-window-original",
+                "window-light-work",
+                FamiliarityStrategy.BRIEF_CONTEXT,
+                35,
+                "how evening light can change a room",
+            ),
+        ),
+        PerformanceContext(
+            "corner-cafe-context",
+            "Corner Cafe Open Mic",
+            sample_setlist().identifier,
+            "Introduce one original while keeping the room oriented.",
+            7,
+        ),
+        AudienceContext("supportive-room-originals", "supportive-coffeehouse", 7, 7, 5),
+        sample_artistic_identity(),
+        "Original is placed between familiar orientation and familiar closer.",
     )

@@ -66,6 +66,15 @@ from open_mic_lab.domain.improvisation import (
     TimelineSection,
     TransitionExtension,
 )
+from open_mic_lab.domain.originals import (
+    ArtisticIdentity,
+    AudienceContext,
+    FamiliarityStrategy,
+    OriginalPresentationPlan,
+    OriginalWork,
+    PerformanceContext,
+    SongIntroduction,
+)
 from open_mic_lab.domain.performance import (
     ArrangementFlexibility,
     Performance,
@@ -164,6 +173,13 @@ __all__ = [
     "TimelineComparison",
     "TimelineSection",
     "TransitionExtension",
+    "ArtisticIdentity",
+    "AudienceContext",
+    "FamiliarityStrategy",
+    "OriginalPresentationPlan",
+    "OriginalWork",
+    "PerformanceContext",
+    "SongIntroduction",
     "Arrangement",
     "ArrangementExperimentRecord",
     "ArrangementFlexibility",
