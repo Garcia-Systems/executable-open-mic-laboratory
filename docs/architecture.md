@@ -231,3 +231,10 @@ flowchart LR
 ```
 
 Chapter 10 prepares Chapter 11 by establishing the planned audience-facing model before mistakes, interruptions, and unexpected events interrupt that plan.
+
+
+## Chapter 11 recovery architecture
+
+Chapter 11 introduces `open_mic_lab.domain.recovery` and `open_mic_lab.services.recovery_service`. Incidents are independent of repertoire and arrangements so forgotten lyrics, wrong chords, missed entrances, tempo drift, skipped verses, microphone failure, cable disconnection, broken strings, monitor problems, page-turn issues, and audience interruptions can be reused across contexts. `RecoveryAnalysisService` returns observations, strengths, timelines, actions, reflection prompts, and non-scored outcomes. `RecoveryExperimentService` uses immutable copies to compare strategies without mutating the original scenario.
+
+The recovery lab depends conceptually on Chapter 7 communication, Chapter 9 sound check, and Chapter 10 audience experience, while remaining deterministic and non-predictive. It prepares Chapter 12 by making adaptive decisions inspectable.

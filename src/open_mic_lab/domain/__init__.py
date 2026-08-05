@@ -70,6 +70,18 @@ from open_mic_lab.domain.practice import (
     PracticeTask,
     SkillArea,
 )
+from open_mic_lab.domain.recovery import (
+    INCIDENT_CATALOG,
+    IncidentReport,
+    IncidentType,
+    PerformanceIncident,
+    RecoveryAction,
+    RecoveryOutcome,
+    RecoveryStage,
+    RecoveryStrategy,
+    RecoveryTimeline,
+    RecoveryTimelineEvent,
+)
 from open_mic_lab.domain.reflection import Reflection
 from open_mic_lab.domain.repertoire import Repertoire
 from open_mic_lab.domain.selection import SongSelectionProfile
@@ -144,6 +156,16 @@ __all__ = [
     "SkillArea",
     "VocalNote",
     "VocalRange",
+    "INCIDENT_CATALOG",
+    "IncidentReport",
+    "IncidentType",
+    "PerformanceIncident",
+    "RecoveryAction",
+    "RecoveryOutcome",
+    "RecoveryStage",
+    "RecoveryStrategy",
+    "RecoveryTimeline",
+    "RecoveryTimelineEvent",
     "Reflection",
     "Repertoire",
     "SetList",

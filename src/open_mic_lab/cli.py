@@ -7,6 +7,7 @@ from open_mic_lab.domain import (
     Arrangement,
     CoordinationExperiment,
     PracticeGoal,
+    RecoveryStrategy,
     Repertoire,
     SetList,
 )
@@ -18,6 +19,7 @@ from open_mic_lab.sample_data import (
     sample_communication_plan,
     sample_coordination_profile,
     sample_practice_sessions,
+    sample_recovery_scenario,
     sample_selection_scenarios,
     sample_selection_venue,
     sample_set_scenarios,
@@ -46,6 +48,11 @@ from open_mic_lab.services.practice_service import (
     PracticePlanningService,
 )
 from open_mic_lab.services.readiness_service import calculate_readiness
+from open_mic_lab.services.recovery_service import (
+    IncidentCatalogService,
+    RecoveryAnalysisService,
+    RecoveryExperimentService,
+)
 from open_mic_lab.services.repertoire_service import (
     RepertoireEngineeringService,
     describe_repertoire,
@@ -206,6 +213,26 @@ def build_parser() -> argparse.ArgumentParser:
     audience_exp_sub.add_parser("shorten", help="Shorten the performance")
     audience_exp_sub.add_parser("transitions", help="Simplify transitions")
     sub.add_parser("chapter-ten-demo", help="Run the Chapter 10 audience-experience demo")
+    recovery = sub.add_parser("recovery", help="Run Chapter 11 recovery labs")
+    recovery_sub = recovery.add_subparsers(dest="recovery_command", required=True)
+    for name in ("incidents", "analyze", "timeline", "compare"):
+        recovery_sub.add_parser(name, help=f"Recovery {name}")
+    recovery_exp = recovery_sub.add_parser("experiment", help="Run immutable recovery experiments")
+    recovery_exp_sub = recovery_exp.add_subparsers(
+        dest="recovery_experiment_command", required=True
+    )
+    for name in (
+        "continue",
+        "restart",
+        "simplify",
+        "participation",
+        "skip",
+        "explain",
+        "instrumental",
+        "tempo",
+    ):
+        recovery_exp_sub.add_parser(name, help=f"Recovery experiment {name}")
+    sub.add_parser("chapter-eleven-demo", help="Run the Chapter 11 recovery demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -276,6 +303,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_audience(args)
     elif args.command == "chapter-ten-demo":
         _run_chapter_ten_demo()
+    elif args.command == "recovery":
+        _run_recovery(args)
+    elif args.command == "chapter-eleven-demo":
+        _run_chapter_eleven_demo()
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -1077,6 +1108,95 @@ def _run_chapter_ten_demo() -> None:
     for prompt in comparison.reflection_prompts:
         print(f"Reflection: {prompt}")
     print("Deferred to Chapter 11: interruptions, mistakes, and unexpected live events.")
+
+
+def _run_recovery(args) -> None:  # type: ignore[no-untyped-def]
+    catalog = IncidentCatalogService()
+    analyzer = RecoveryAnalysisService()
+    experiments = RecoveryExperimentService()
+    scenario = sample_recovery_scenario()
+    if args.recovery_command == "incidents":
+        print("Educational incident catalog — scenarios, not predictions")
+        for incident in catalog.list_incidents():
+            kind = "technical" if incident.technical else "performance"
+            print(f"{incident.identifier}: {incident.incident_type.value} ({kind})")
+    elif args.recovery_command == "analyze":
+        _print_recovery_report(analyzer.analyze(scenario))
+    elif args.recovery_command == "timeline":
+        _print_recovery_timeline(analyzer.timeline(scenario))
+    elif args.recovery_command == "compare":
+        left = experiments.with_strategy(scenario, RecoveryStrategy.CONTINUE_IMMEDIATELY)
+        right = experiments.with_strategy(scenario, RecoveryStrategy.RESTART_SECTION)
+        comparison = analyzer.compare(left, right)
+        print(f"Compare: {comparison.left_strategy.value} vs {comparison.right_strategy.value}")
+        for tradeoff in comparison.different_tradeoffs:
+            print(f"Tradeoff: {tradeoff}")
+        for prompt in comparison.reflection_prompts:
+            print(f"Reflection: {prompt}")
+    elif args.recovery_command == "experiment":
+        mapping = {
+            "continue": RecoveryStrategy.CONTINUE_IMMEDIATELY,
+            "restart": RecoveryStrategy.RESTART_SECTION,
+            "simplify": RecoveryStrategy.SIMPLIFY_ACCOMPANIMENT,
+            "participation": RecoveryStrategy.INVITE_AUDIENCE_PARTICIPATION,
+            "skip": RecoveryStrategy.SKIP_VERSE,
+            "explain": RecoveryStrategy.STOP_AND_EXPLAIN,
+            "instrumental": RecoveryStrategy.INSTRUMENTAL_RECOVERY,
+            "tempo": RecoveryStrategy.TEMPO_RESET,
+        }
+        changed = experiments.with_strategy(scenario, mapping[args.recovery_experiment_command])
+        print(f"Original strategy: {scenario.preferred_strategy.value}")
+        print(f"Experiment strategy: {changed.preferred_strategy.value}")
+        original_unchanged = scenario.preferred_strategy is not changed.preferred_strategy
+        print(f"Original object unchanged: {original_unchanged}")
+        _print_recovery_report(analyzer.analyze(changed))
+
+
+def _print_recovery_report(report) -> None:  # type: ignore[no-untyped-def]
+    print(f"Incident: {report.incident.incident_type.value}")
+    print(f"Context: {report.context}")
+    for observation in report.observations:
+        print(f"Observation: {observation}")
+    for strength in report.strengths:
+        print(f"Strength: {strength}")
+    for action in report.suggested_actions:
+        print(f"Action: {action.strategy.value} — {action.description}")
+    for prompt in report.reflection_prompts:
+        print(f"Reflection: {prompt}")
+
+
+def _print_recovery_timeline(timeline) -> None:  # type: ignore[no-untyped-def]
+    print(f"Recovery timeline for {timeline.incident_identifier} using {timeline.strategy.value}")
+    for event in timeline.events:
+        print(f"+{event.elapsed_seconds:02d}s {event.stage.value}: {event.note}")
+
+
+def _run_chapter_eleven_demo() -> None:
+    print("Chapter 11 — Recovering From Mistakes")
+    scenario = sample_recovery_scenario()
+    analyzer = RecoveryAnalysisService()
+    experiments = RecoveryExperimentService()
+    print("1. Loaded sample performance context.")
+    print(f"2. Injected deterministic incident: {scenario.incident.incident_type.value}")
+    for strategy in (
+        RecoveryStrategy.CONTINUE_IMMEDIATELY,
+        RecoveryStrategy.RESTART_SECTION,
+        RecoveryStrategy.SIMPLIFY_ACCOMPANIMENT,
+        RecoveryStrategy.INVITE_AUDIENCE_PARTICIPATION,
+    ):
+        changed = experiments.with_strategy(scenario, strategy)
+        report = analyzer.analyze(changed)
+        print(f"Strategy: {strategy.value}")
+        print(f"- {report.observations[-1]}")
+    comparison = analyzer.compare(
+        experiments.with_strategy(scenario, RecoveryStrategy.CONTINUE_IMMEDIATELY),
+        experiments.with_strategy(scenario, RecoveryStrategy.RESTART_SECTION),
+    )
+    print(f"Compared {comparison.left_strategy.value} with {comparison.right_strategy.value}.")
+    print("Immutable experiment preserved original:", scenario.preferred_strategy.value)
+    _print_recovery_timeline(analyzer.timeline(scenario))
+    print("Reflection: What happens after something goes wrong?")
+    print("Reflection: Which recovery choice helps the performance continue?")
 
 
 if __name__ == "__main__":
