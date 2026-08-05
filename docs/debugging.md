@@ -113,3 +113,7 @@ python -m open_mic_lab.debug_labs.chapter_07_stage_presence
 ```
 
 Breakpoint markers guide you through communication-plan construction, structured introduction analysis, pacing evaluation, audience interaction analysis, immutable communication experiments, and before/after flow comparison. The useful variables are `plan`, `introduction_observations`, `flow_observations`, `shortened_plan`, `participation_plan`, and `comparison`.
+
+## Chapter 8 Signal Flow Debug Lab
+
+Run `python -m open_mic_lab.debug_labs.chapter_08_signal_flow` or launch **Debug Chapter 8 Signal Flow Lab** in VS Code. The lab pauses well around equipment-template creation, graph construction, signal routing, validation, immutable disconnect experiments, visualization generation, and comparison. Inspect `baseline_analysis`, `disconnected_analysis`, `baseline_diagram`, and `comparison` to see how one cable changes the system.

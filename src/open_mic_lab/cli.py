@@ -10,6 +10,7 @@ from open_mic_lab.domain import (
     Repertoire,
     SetList,
 )
+from open_mic_lab.equipment_templates import equipment_templates, piano_and_vocal_setup
 from open_mic_lab.sample_data import (
     build_sample_repertoire,
     sample_communication_plan,
@@ -31,6 +32,7 @@ from open_mic_lab.services.coordination_service import (
     CoordinationExperimentService,
     TempoLadderService,
 )
+from open_mic_lab.services.equipment_service import EquipmentExperimentService, SignalFlowService
 from open_mic_lab.services.experiment_service import PerformanceVersionExperimentService
 from open_mic_lab.services.practice_service import (
     PracticeAnalyticsService,
@@ -156,6 +158,18 @@ def build_parser() -> argparse.ArgumentParser:
         stage_exp_sub.add_parser(name, help=f"Stage experiment {name}")
     sub.add_parser("chapter-six-demo", help="Run the Chapter 6 deliberate practice demo")
     sub.add_parser("chapter-seven-demo", help="Run the Chapter 7 stage presence demo")
+    equipment = sub.add_parser("equipment", help="Run Chapter 8 equipment labs")
+    equipment_sub = equipment.add_subparsers(dest="equipment_command", required=True)
+    for name in ("templates", "analyze", "visualize", "compare"):
+        equipment_sub.add_parser(name, help=f"Equipment {name}")
+    equipment_exp = equipment_sub.add_parser(
+        "experiment", help="Run immutable equipment experiments"
+    )
+    equipment_exp_sub = equipment_exp.add_subparsers(
+        dest="equipment_experiment_command", required=True
+    )
+    equipment_exp_sub.add_parser("disconnect", help="Disconnect one cable")
+    sub.add_parser("chapter-eight-demo", help="Run the Chapter 8 equipment laboratory demo")
     sub.add_parser("demo", help="Run a deterministic educational walkthrough")
     return parser
 
@@ -214,6 +228,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_stage(args)
     elif args.command == "chapter-seven-demo":
         _run_chapter_seven_demo()
+    elif args.command == "equipment":
+        _run_equipment(args)
+    elif args.command == "chapter-eight-demo":
+        _run_chapter_eight_demo()
     elif args.command == "demo":
         _run_demo(rep)
     return 0
@@ -821,6 +839,65 @@ def _run_chapter_seven_demo() -> None:
     _print_stage_analysis(analysis.analyze(participation))
     print("\nReflection: What changed in what the audience receives?")
     print("Reflection: Which communication choice supports the songs without crowding them?")
+
+
+def _run_equipment(args) -> None:  # type: ignore[no-untyped-def]
+    templates = equipment_templates()
+    setup = templates["piano-and-vocal"]
+    flow = SignalFlowService()
+    experiments = EquipmentExperimentService()
+    if args.equipment_command == "templates":
+        for key, template in templates.items():
+            print(
+                f"{key}: {template.name} "
+                f"({len(template.nodes)} components, "
+                f"{len(template.connections)} connections)"
+            )
+    elif args.equipment_command == "analyze":
+        _print_equipment_analysis(flow.analyze(setup))
+    elif args.equipment_command == "visualize":
+        print(flow.visualize(setup))
+    elif args.equipment_command == "experiment":
+        changed = experiments.disconnect_cable(setup, "mixer-to-mains")
+        print("Disconnected: mixer-to-mains")
+        _print_equipment_analysis(flow.analyze(changed))
+    elif args.equipment_command == "compare":
+        changed = experiments.disconnect_cable(setup, "mixer-to-mains")
+        comparison = flow.compare(setup, changed)
+        for difference in comparison.differences:
+            print(f"Difference: {difference}")
+
+
+def _print_equipment_analysis(analysis) -> None:  # type: ignore[no-untyped-def]
+    print(f"Signal path: {analysis.path_identifier}")
+    print(f"Audience outputs: {', '.join(analysis.audience_outputs) or 'none'}")
+    print(f"Performer outputs: {', '.join(analysis.performer_outputs) or 'none'}")
+    for path in analysis.end_to_end_paths:
+        print("Path: " + " -> ".join(path))
+    for observation in analysis.observations:
+        print(f"{observation.severity}: {observation.code} — {observation.message}")
+
+
+def _run_chapter_eight_demo() -> None:
+    print("Chapter 8 — Equipment Laboratory")
+    setup = piano_and_vocal_setup()
+    flow = SignalFlowService()
+    experiments = EquipmentExperimentService()
+    print("\nSignal path")
+    print(flow.visualize(setup))
+    print("\nValidation")
+    before = flow.analyze(setup)
+    _print_equipment_analysis(before)
+    print("\nImmutable experiment: disconnect one cable")
+    changed = experiments.disconnect_cable(setup, "mixer-to-mains")
+    after = flow.analyze(changed)
+    _print_equipment_analysis(after)
+    print("\nRestore and compare")
+    comparison = flow.compare(changed, setup)
+    for difference in comparison.differences:
+        print(f"Difference: {difference}")
+    print("\nReflection: What happened to the audience path when the main-speaker cable changed?")
+    print("Reflection: What can the performer still hear, and what cannot reach the room?")
 
 
 if __name__ == "__main__":

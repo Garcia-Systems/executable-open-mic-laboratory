@@ -175,3 +175,21 @@ flowchart LR
 ```
 
 Chapter 7 prepares Chapter 8 by making the audience-facing communication layer explicit before introducing microphones, monitors, cables, and other technical performance constraints.
+
+## Chapter 8 equipment-laboratory architecture
+
+Chapter 8 adds `SignalPath`, `SignalNode`, `SignalPort`, `Connection`, `Cable`, signal-type enums, power requirements, and output roles. `SignalFlowService` walks directed equipment graphs to report end-to-end paths, disconnected components, missing connections, incompatible signal types, unused equipment, monitor routing, performer outputs, audience outputs, and structured observations. `EquipmentExperimentService` follows the immutable experiment pattern by returning copied signal paths for disconnected cables, added monitors, bypassed processors, and replaced nodes.
+
+```mermaid
+flowchart LR
+    AudioSource --> Connection
+    Microphone --> Connection
+    Pickup --> Connection
+    Connection --> MixerChannel
+    MixerChannel --> MonitorMix
+    MixerChannel --> SpeakerSystem
+    SignalFlowService --> Observations
+    EquipmentExperimentService --> CopiedSignalPath
+```
+
+Chapter 8 integrates with performance planning by making setup constraints visible before the set starts. It prepares Chapter 9 by separating reliable routing from later live-sound optimization decisions.

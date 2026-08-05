@@ -186,3 +186,21 @@ python -m open_mic_lab.debug_labs.chapter_07_stage_presence
 ```
 
 This prepares Chapter 8 by connecting prepared songs to the human signals an audience receives before adding the technical performance environment.
+
+## Chapter 8 — Equipment Laboratory
+
+Chapter 8 models live performance as a deterministic signal-processing system. It introduces reusable equipment concepts including `AudioSource`, `SignalPath`, `SignalNode`, `Cable`, `Microphone`, `Pickup`, `InstrumentOutput`, `MixerChannel`, `MonitorMix`, `SpeakerSystem`, `EffectsProcessor`, and `Connection`. The signal-flow engine reports audience outputs, performer outputs, monitor routes, missing connections, incompatible signal types, disconnected components, unused equipment, and learner-friendly observations.
+
+Try:
+
+```bash
+open-mic-lab equipment templates
+open-mic-lab equipment analyze
+open-mic-lab equipment visualize
+open-mic-lab equipment experiment disconnect
+open-mic-lab equipment compare
+open-mic-lab chapter-eight-demo
+python -m open_mic_lab.debug_labs.chapter_08_signal_flow
+```
+
+Chapter 8 complements repertoire, arrangement, coordination, practice, and stage-presence planning by making the technical path from performer to audience visible. Deferred to Chapter 9: live sound optimization, listening-position decisions, gain staging, feedback mitigation, and room-specific adjustment strategy.
