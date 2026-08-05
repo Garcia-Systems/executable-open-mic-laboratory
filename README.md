@@ -38,14 +38,22 @@ open-mic-lab demo
 python -m open_mic_lab.cli demo
 ```
 
-## Quality checks
+## Continuous integration
+
+The `CI` GitHub Actions workflow verifies every pull request targeting `main`, every push to `main`, and manual runs started with `workflow_dispatch`. It installs the package with development dependencies, then runs the automated test suite, Ruff linting, Ruff formatting checks, and mypy type checking on the supported Python versions.
+
+Run the same checks locally with:
 
 ```bash
-pytest
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+python -m pytest
 ruff check .
 ruff format --check .
 mypy src
 ```
+
+GitHub Actions creates status checks, but repository settings decide whether those checks are required before merging. To require CI for `main`, a repository owner can open GitHub repository **Settings**, open **Branches** or **Rules**, create a ruleset or branch-protection rule for `main`, require pull requests before merging, require status checks to pass, select the `Verification (Python 3.12)` and `Verification (Python 3.14)` checks from the `CI` workflow, and optionally require branches to be up to date before merging.
 
 ## Project structure
 
