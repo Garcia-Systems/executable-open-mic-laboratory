@@ -1,5 +1,6 @@
 # Chapter 7 — Stage Presence
 
+![Chapter illustration showing stage presence communicating through posture, eye contact, movement, and audience connection.](../../images/chapters/chapter-07-stage-presence.png)
 
 ## Research Foundations
 

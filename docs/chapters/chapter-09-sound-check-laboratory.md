@@ -1,5 +1,6 @@
 # Chapter 9 — Sound Check Laboratory
 
+![Chapter illustration showing a structured sound check balancing gain, equalization, monitors, and room acoustics.](../../images/chapters/chapter-09-sound-check-laboratory.png)
 
 ## Research Foundations
 

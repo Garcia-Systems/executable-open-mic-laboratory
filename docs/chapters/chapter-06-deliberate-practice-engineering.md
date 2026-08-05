@@ -1,5 +1,6 @@
 # Chapter 6 — Deliberate Practice Engineering
 
+![Chapter illustration showing deliberate practice divided into focused goals, feedback, repetition, and reflection.](../../images/chapters/chapter-06-deliberate-practice-engineering.png)
 
 ## Research Foundations
 

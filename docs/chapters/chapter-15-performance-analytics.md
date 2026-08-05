@@ -1,5 +1,6 @@
 # Chapter 15 — Performance Analytics & Continuous Improvement
 
+![Chapter illustration showing performance observations becoming analytics, improvement priorities, and a new practice cycle.](../../images/chapters/chapter-15-performance-analytics.png)
 
 ## Research Foundations
 

@@ -1,5 +1,6 @@
 # Chapter 14 — Open Mic Simulator
 
+![Chapter illustration showing the complete open mic journey from arrival and sound check to performance and reflection.](../../images/chapters/chapter-14-open-mic-simulator.png)
 
 ## Research Foundations
 

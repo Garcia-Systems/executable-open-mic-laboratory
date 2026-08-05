@@ -1,5 +1,6 @@
 # Chapter 8 — Equipment Laboratory
 
+![Chapter illustration showing microphones, instruments, mixers, monitors, and speakers connected in a live signal path.](../../images/chapters/chapter-08-equipment-laboratory.png)
 
 ## Research Foundations
 

@@ -1,5 +1,6 @@
 # Chapter 0: Why Perform?
 
+![Chapter illustration showing a performer connecting private practice, live music, and audience reflection.](../../images/chapters/chapter-00-why-perform.png)
 
 ## Research Foundations
 

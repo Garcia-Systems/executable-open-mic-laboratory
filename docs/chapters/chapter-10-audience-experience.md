@@ -1,5 +1,6 @@
 # Chapter 10 — Audience Experience Laboratory
 
+![Chapter illustration showing performers adapting repertoire, pacing, stories, and participation for an audience.](../../images/chapters/chapter-10-audience-experience.png)
 
 ## Research Foundations
 

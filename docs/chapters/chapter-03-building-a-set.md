@@ -1,5 +1,6 @@
 # Chapter 3 — Building a Set
 
+![Chapter illustration showing songs arranged into an intentional set with pacing, contrast, and momentum.](../../images/chapters/chapter-03-building-a-set.png)
 
 ## Research Foundations
 
