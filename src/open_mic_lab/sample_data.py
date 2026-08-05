@@ -4,23 +4,28 @@ from datetime import date
 from decimal import Decimal
 
 from open_mic_lab.domain import (
+    ArrangementFlexibility,
     Difficulty,
+    EnergyLevel,
     Genre,
     Instrument,
     Mood,
+    PerformanceRole,
     PerformanceStatus,
     PerformanceVersion,
     PracticeSession,
     Repertoire,
     SetList,
     Song,
+    SongSelectionProfile,
     Venue,
     VenueType,
+    VocalRange,
 )
 
 
 def build_sample_repertoire() -> Repertoire:
-    """Build six songs and seven performance versions with deterministic ordering."""
+    """Build seven songs and ten performance versions with deterministic ordering."""
     rep = Repertoire()
     songs = (
         Song(
@@ -101,6 +106,19 @@ def build_sample_repertoire() -> Repertoire:
             Decimal("5"),
             Decimal("9"),
         ),
+        Song(
+            "paper-kite",
+            "Paper Kite Parade",
+            "Public Domain Style",
+            Genre.POP,
+            "Bb",
+            116,
+            "4/4",
+            Mood.PLAYFUL,
+            Decimal("6"),
+            Decimal("3"),
+            Decimal("8"),
+        ),
     )
     for song in songs:
         rep.add_song(song)
@@ -118,7 +136,7 @@ def build_sample_repertoire() -> Repertoire:
             Decimal("5"),
             PerformanceStatus.DEVELOPING,
             20,
-            "Original key and tempo.",
+            notes="Original key and tempo.",
         ),
         PerformanceVersion(
             "river-guitar-lowered",
@@ -133,7 +151,7 @@ def build_sample_repertoire() -> Repertoire:
             Decimal("7"),
             PerformanceStatus.NEARLY_READY,
             15,
-            "Lowered key for vocal comfort.",
+            notes="Lowered key for vocal comfort.",
         ),
         PerformanceVersion(
             "lantern-piano",
@@ -204,6 +222,72 @@ def build_sample_repertoire() -> Repertoire:
             Decimal("8"),
             PerformanceStatus.PERFORMANCE_READY,
             12,
+            VocalRange.from_strings("A2", "C#4"),
+            EnergyLevel.VERY_HIGH,
+            (PerformanceRole.CLOSER, PerformanceRole.ENCORE),
+            Decimal("6"),
+            _flex(Instrument.GUITAR_VOCAL),
+            205,
+        ),
+        PerformanceVersion(
+            "paper-ukulele-opener",
+            "paper-kite",
+            "Bb",
+            112,
+            Instrument.UKULELE_VOCAL,
+            Difficulty.SIMPLE,
+            Decimal("9"),
+            Decimal("9"),
+            Decimal("8"),
+            Decimal("8"),
+            PerformanceStatus.NEARLY_READY,
+            8,
+            VocalRange.from_strings("Bb2", "D4"),
+            EnergyLevel.MEDIUM,
+            (PerformanceRole.OPENER, PerformanceRole.AUDIENCE_PARTICIPATION),
+            Decimal("3"),
+            _flex(Instrument.UKULELE_VOCAL, Instrument.GUITAR_VOCAL),
+            180,
+        ),
+        PerformanceVersion(
+            "lantern-piano-simpler",
+            "lantern-swing",
+            "E",
+            116,
+            Instrument.PIANO_VOCAL,
+            Difficulty.MODERATE,
+            Decimal("7"),
+            Decimal("8"),
+            Decimal("7"),
+            Decimal("7"),
+            PerformanceStatus.NEARLY_READY,
+            12,
+            VocalRange.from_strings("B2", "E4"),
+            EnergyLevel.HIGH,
+            (PerformanceRole.CONTRAST, PerformanceRole.EARLY_SET),
+            Decimal("5"),
+            _flex(Instrument.PIANO_VOCAL),
+            190,
+        ),
+        PerformanceVersion(
+            "window-guitar-original-feature",
+            "window-original",
+            "G",
+            76,
+            Instrument.GUITAR_VOCAL,
+            Difficulty.CHALLENGING,
+            Decimal("5"),
+            Decimal("5"),
+            Decimal("6"),
+            Decimal("5"),
+            PerformanceStatus.DEVELOPING,
+            35,
+            VocalRange.from_strings("B2", "F4"),
+            EnergyLevel.LOW,
+            (PerformanceRole.ORIGINAL_FEATURE, PerformanceRole.CENTERPIECE),
+            Decimal("10"),
+            _flex(Instrument.GUITAR_VOCAL, Instrument.PIANO_VOCAL),
+            240,
         ),
     )
     for version in versions:
@@ -269,3 +353,121 @@ def sample_setlist() -> SetList:
         15,
         "corner-cafe",
     )
+
+
+# Chapter 1 deterministic song-selection scenarios and expanded repertoire.
+
+
+def _flex(
+    *instruments: Instrument, transpose: bool = True, simplify: bool = True
+) -> ArrangementFlexibility:
+    return ArrangementFlexibility(transpose, simplify, True, instruments, True, True)
+
+
+def sample_selection_scenarios() -> dict[str, SongSelectionProfile]:
+    """Return named Chapter 1 song-selection scenarios."""
+    return {
+        "coffeehouse": SongSelectionProfile(
+            "coffeehouse",
+            "Familiar coffeehouse audience",
+            "developing",
+            Instrument.GUITAR_VOCAL,
+            VocalRange.from_strings("A2", "D4"),
+            Difficulty.MODERATE,
+            Mood.WARM,
+            EnergyLevel.MEDIUM,
+            (Decimal("5"), Decimal("9")),
+            True,
+            Decimal("6"),
+            Decimal("5"),
+            True,
+            True,
+            PerformanceRole.OPENER,
+            "corner-cafe",
+            15,
+            VocalRange.from_strings("G2", "E4"),
+            (Instrument.GUITAR_VOCAL, Instrument.UKULELE_VOCAL, Instrument.A_CAPPELLA),
+        ),
+        "listening-room": SongSelectionProfile(
+            "listening-room",
+            "Quiet listening room",
+            "intermediate",
+            Instrument.PIANO_VOCAL,
+            VocalRange.from_strings("G2", "F4"),
+            Difficulty.CHALLENGING,
+            Mood.REFLECTIVE,
+            EnergyLevel.LOW,
+            (Decimal("1"), Decimal("7")),
+            False,
+            Decimal("2"),
+            Decimal("9"),
+            True,
+            True,
+            PerformanceRole.CENTERPIECE,
+            "listening-room",
+            20,
+            available_instruments=(Instrument.PIANO_VOCAL, Instrument.GUITAR_VOCAL),
+            weights={
+                **DEFAULT_SCENARIO_WEIGHTS,
+                "connection": Decimal("0.18"),
+                "audience": Decimal("0.06"),
+            },
+        ),
+        "first-performance": SongSelectionProfile(
+            "first-performance",
+            "First-time performer",
+            "beginner",
+            Instrument.GUITAR_VOCAL,
+            VocalRange.from_strings("A2", "C#4"),
+            Difficulty.SIMPLE,
+            Mood.WARM,
+            EnergyLevel.MEDIUM,
+            (Decimal("5"), Decimal("10")),
+            True,
+            Decimal("5"),
+            Decimal("4"),
+            True,
+            True,
+            PerformanceRole.OPENER,
+            "corner-cafe",
+            10,
+            VocalRange.from_strings("A2", "D4"),
+            (Instrument.GUITAR_VOCAL, Instrument.UKULELE_VOCAL),
+            weights={
+                **DEFAULT_SCENARIO_WEIGHTS,
+                "vocal": Decimal("0.24"),
+                "readiness": Decimal("0.22"),
+                "accompaniment": Decimal("0.16"),
+            },
+        ),
+    }
+
+
+DEFAULT_SCENARIO_WEIGHTS = {
+    "vocal": Decimal("0.18"),
+    "accompaniment": Decimal("0.12"),
+    "readiness": Decimal("0.16"),
+    "audience": Decimal("0.10"),
+    "connection": Decimal("0.12"),
+    "venue": Decimal("0.08"),
+    "role": Decimal("0.08"),
+    "energy": Decimal("0.07"),
+    "flexibility": Decimal("0.05"),
+    "preference": Decimal("0.04"),
+}
+
+
+def sample_selection_venue(identifier: str) -> Venue:
+    """Return the venue for a Chapter 1 scenario."""
+    if identifier == "listening-room":
+        return Venue(
+            "listening-room",
+            "Quiet Listening Room",
+            VenueType.HOUSE_CONCERT,
+            30,
+            Decimal("3"),
+            True,
+            True,
+            20,
+        )
+    return sample_venue()

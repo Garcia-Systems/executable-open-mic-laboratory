@@ -4,13 +4,36 @@ from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
 
-from open_mic_lab.domain.enums import Difficulty, Instrument, PerformanceStatus
+from open_mic_lab.domain.enums import (
+    Difficulty,
+    EnergyLevel,
+    Instrument,
+    PerformanceRole,
+    PerformanceStatus,
+)
+from open_mic_lab.domain.pitch import VocalRange
 from open_mic_lab.domain.validation import (
     require_non_negative_int,
     require_positive_int,
     require_rating,
     require_text,
 )
+
+
+@dataclass(frozen=True, slots=True)
+class ArrangementFlexibility:
+    """How readily an arrangement can be adapted for learning experiments."""
+
+    can_transpose: bool
+    can_simplify: bool
+    can_shorten: bool
+    adaptable_instruments: tuple[Instrument, ...]
+    supports_solo: bool
+    supports_group: bool
+
+    def __post_init__(self) -> None:
+        if not self.adaptable_instruments:
+            raise ValueError("Arrangement flexibility needs at least one adaptable instrument.")
 
 
 @dataclass(frozen=True, slots=True)
@@ -29,6 +52,14 @@ class PerformanceVersion:
     recovery_confidence: Decimal
     performance_status: PerformanceStatus
     introduction_length_seconds: int
+    required_vocal_range: VocalRange | None = None
+    energy_level: EnergyLevel = EnergyLevel.MEDIUM
+    supported_roles: tuple[PerformanceRole, ...] = (PerformanceRole.FLEXIBLE,)
+    performer_connection: Decimal | None = None
+    arrangement_flexibility: ArrangementFlexibility | None = None
+    estimated_duration_seconds: int = 210
+    is_available: bool = True
+    adaptation_notes: tuple[str, ...] = ()
     notes: str = ""
 
     def __post_init__(self) -> None:
@@ -41,6 +72,13 @@ class PerformanceVersion:
         require_rating(self.memory_confidence, "Memory confidence")
         require_rating(self.recovery_confidence, "Recovery confidence")
         require_non_negative_int(self.introduction_length_seconds, "Introduction length")
+        require_positive_int(self.estimated_duration_seconds, "Estimated duration")
+        if self.performer_connection is not None:
+            require_rating(self.performer_connection, "Performer connection")
+        if not self.supported_roles:
+            raise ValueError("Performance versions need at least one supported role.")
+        for note in self.adaptation_notes:
+            require_text(note, "Adaptation note")
 
 
 @dataclass(frozen=True, slots=True)

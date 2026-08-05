@@ -59,3 +59,27 @@ class VenueType(StrEnum):
     HOUSE_CONCERT = "house concert"
     CAFE = "cafe"
     COMMUNITY_EVENT = "community event"
+
+
+class EnergyLevel(StrEnum):
+    """Perceived performance energy; not inferred solely from tempo."""
+
+    VERY_LOW = "very low"
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    VERY_HIGH = "very high"
+
+
+class PerformanceRole(StrEnum):
+    """Practical roles a performance version can serve in a set."""
+
+    OPENER = "opener"
+    EARLY_SET = "early-set song"
+    CONTRAST = "contrast song"
+    CENTERPIECE = "centerpiece"
+    AUDIENCE_PARTICIPATION = "audience-participation song"
+    ORIGINAL_FEATURE = "original-song feature"
+    CLOSER = "closer"
+    ENCORE = "encore"
+    FLEXIBLE = "flexible"
