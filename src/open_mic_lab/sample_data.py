@@ -4,6 +4,10 @@
 from dataclasses import replace
 from datetime import date
 from decimal import Decimal
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from open_mic_lab.services.recovery_service import RecoveryScenario
 
 from open_mic_lab.domain import (
     AccompanimentTask,
@@ -1145,4 +1149,18 @@ def sample_audience_performance() -> AudiencePerformance:
                 "closing", PerformanceMoment.CLOSING_REMARKS, "Closing thanks", 20, 4, 6, 8, 8
             ),
         ),
+    )
+
+
+def sample_recovery_scenario() -> "RecoveryScenario":
+    """Build a deterministic Chapter 11 recovery scenario."""
+    from open_mic_lab.domain.recovery import RecoveryStrategy
+    from open_mic_lab.services.recovery_service import IncidentCatalogService, RecoveryScenario
+
+    return RecoveryScenario(
+        IncidentCatalogService().get("forgotten-lyrics"),
+        "Coffeehouse open mic, second song after a clear sound check.",
+        "The performer practiced lyric cue points and one instrumental safety loop.",
+        "Thank the room briefly if a reset is needed; keep transitions calm.",
+        RecoveryStrategy.CONTINUE_IMMEDIATELY,
     )

@@ -127,3 +127,8 @@ Run `python -m open_mic_lab.debug_labs.chapter_09_sound_check` or launch **Debug
 Run `python -m open_mic_lab.debug_labs.chapter_10_audience_experience` or use **Debug Chapter 10 Audience Experience Lab** in VS Code. Breakpoints are marked for audience-profile loading, coffeehouse response analysis, church response analysis, comparison without a score, an immutable familiarity experiment, and proof that the source performance remains unchanged.
 
 Useful variables: `profiles`, `performance`, `coffeehouse`, `church`, `coffeehouse_response`, `church_response`, `comparison`, `familiarity_experiment`, `original_unchanged`, and `changed_is_copy`.
+
+
+## Chapter 11 Recovery Debug Lab
+
+Run `python -m open_mic_lab.debug_labs.chapter_11_recovery` or use **Debug Chapter 11 Recovery Lab** in VS Code. Suggested breakpoints inspect incident creation, recovery analysis, immutable strategy experiments, comparison tradeoffs, and deterministic timeline generation. The helper is designed to show that the report contains educational observations rather than a mistake score.

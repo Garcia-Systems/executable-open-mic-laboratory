@@ -226,3 +226,10 @@ python -m open_mic_lab.debug_labs.chapter_10_audience_experience
 ```
 
 The laboratory builds on Chapter 7 stage presence and Chapter 9 sound check by connecting communication and room sound to audience-context reasoning. Deferred to Chapter 11: unexpected events, mistakes, and interruptions during the planned performance.
+
+
+## Chapter 11 — Recovering From Mistakes
+
+The Recovery Laboratory models unexpected performance incidents as educational scenarios rather than predictions. It adds an incident catalog, deterministic recovery analysis, immutable recovery experiments, strategy comparison, and timelines from mistake through reflection. It builds on performance planning, stage presence, audience experience, sound check, and technical signal thinking so learners can practice resilience before Chapter 12 adaptive musicianship.
+
+Try `open-mic-lab recovery incidents`, `open-mic-lab recovery analyze`, `open-mic-lab recovery timeline`, `open-mic-lab recovery experiment continue`, `open-mic-lab recovery compare`, and `open-mic-lab chapter-eleven-demo`.
