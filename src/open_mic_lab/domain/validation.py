@@ -28,3 +28,9 @@ def require_rating(value: Decimal, field_name: str) -> None:
     """Require a 0-10 learner rating."""
     if value < RATING_MIN or value > RATING_MAX:
         raise ValueError(f"{field_name} must be between 0 and 10.")
+
+
+def require_int_between(value: int, field_name: str, minimum: int, maximum: int) -> None:
+    """Require an integer within an inclusive range."""
+    if value < minimum or value > maximum:
+        raise ValueError(f"{field_name} must be between {minimum} and {maximum}.")

@@ -118,3 +118,22 @@ classDiagram
 `ArrangementAnalysisService` compares arrangements by explaining differences and tradeoffs rather than selecting a winner. `ArrangementTimelineService` turns structure and tempo into deterministic timing estimates. The lifecycle is: create baseline arrangement, copy through experiments, compare stages, inspect history, then choose the version that best serves the performance context.
 
 Chapter 4 prepares Chapter 5 by establishing that intentional arrangement choices can be observed, discussed, and revised before being tested with an audience.
+
+## Chapter 5 coordination architecture
+
+Chapter 5 adds a coordination model for singing while playing. `CoordinationProfile` composes a `VocalTask`, an `AccompanimentTask`, and `Automaticity` rather than scattering calculations through CLI commands or demos. `CoordinationAnalysisService` owns the deterministic educational formula and returns a `CognitiveLoad`, coordination score, bottlenecks, practice focus, and factor explanations. The service explicitly describes the result as an educational model, not a measurement of neurological ability.
+
+`CoordinationExperimentService` follows the existing immutable experiment pattern from performance versions, set lists, and arrangements. Simplifying accompaniment, reducing tempo, isolating rhythm, practicing lyrics only, practicing accompaniment only, combining voice with accompaniment, and raising tempo gradually all return copied profiles with experiment history. `TempoLadderService` generates deterministic gradual BPM sequences.
+
+```mermaid
+flowchart LR
+    Arrangement --> CoordinationProfile
+    VocalTask --> CoordinationAnalysisService
+    AccompanimentTask --> CoordinationAnalysisService
+    Automaticity --> CoordinationAnalysisService
+    CoordinationAnalysisService --> CognitiveLoad
+    CoordinationExperimentService --> CopiedProfile
+    TempoLadderService --> Ladder
+```
+
+Chapter 5 builds on Chapter 4 arrangements by asking how arrangement complexity affects attention. It prepares Chapter 6 deliberate-practice engineering by turning bottlenecks into repeatable experiments.

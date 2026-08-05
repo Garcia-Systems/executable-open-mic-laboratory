@@ -6,8 +6,11 @@ from datetime import date
 from decimal import Decimal
 
 from open_mic_lab.domain import (
+    AccompanimentTask,
     Arrangement,
     ArrangementFlexibility,
+    Automaticity,
+    CoordinationProfile,
     Difficulty,
     EnergyLevel,
     Genre,
@@ -27,6 +30,7 @@ from open_mic_lab.domain import (
     Venue,
     VenueType,
     VocalRange,
+    VocalTask,
 )
 
 
@@ -907,3 +911,22 @@ def sample_selection_venue(identifier: str) -> Venue:
             20,
         )
     return sample_venue()
+
+
+def sample_coordination_profile() -> CoordinationProfile:
+    """Return a deterministic Chapter 5 singing-while-playing profile."""
+    return CoordinationProfile(
+        "window-piano-coordination",
+        VocalTask(lyric_familiarity=5, vocal_confidence=6, breathing_complexity=6),
+        AccompanimentTask(
+            accompaniment_difficulty=7,
+            arrangement_complexity=8,
+            chord_transition_security=5,
+            rhythm_consistency=6,
+        ),
+        Automaticity(accompaniment=3, lyrics=4, coordination=2),
+        tempo_bpm=72,
+        target_tempo_bpm=72,
+        hand_voice_independence=4,
+        recent_practice_minutes=40,
+    )

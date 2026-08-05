@@ -142,3 +142,21 @@ python -m open_mic_lab.debug_labs.chapter_04_arrangements
 ```
 
 Chapter 4 prepares Chapter 5 by making intentional arrangement choices observable before the learner studies how those choices land with an audience.
+
+## Chapter 5 — Singing While Playing
+
+Chapter 5 models singing and accompaniment as competing attention demands. New coordination domain objects describe vocal tasks, accompaniment tasks, automaticity, and cognitive load. The coordination engine returns a deterministic score, bottlenecks, suggested practice focus, and factor explanations as an educational model rather than a measurement of innate ability.
+
+Try:
+
+```bash
+open-mic-lab coordination analyze
+open-mic-lab coordination bottlenecks
+open-mic-lab coordination ladder
+open-mic-lab coordination experiment simplify
+open-mic-lab coordination experiment tempo 60
+open-mic-lab chapter-five-demo
+python -m open_mic_lab.debug_labs.chapter_05_coordination
+```
+
+Chapter 5 builds on arrangement choices from Chapter 4 and prepares Chapter 6 by turning coordination bottlenecks into deliberate-practice experiments.
